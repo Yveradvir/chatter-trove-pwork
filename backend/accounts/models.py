@@ -4,8 +4,7 @@ from django.core.validators import EmailValidator
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from random import randint
 
-# Function to generate a 4-digit tag
-generate_tag = lambda: f"{randint(0, 9999):04}"
+def generate_tag(): return f"{randint(0, 9999):04}"
 
 class UserManager(BaseUserManager):
     """Custom manager for the User model"""
@@ -38,34 +37,6 @@ class User(AbstractBaseUser):
         if not self.tag:
             self.tag = generate_tag()
         super().save(*args, **kwargs)
-
-class ProfilePicture(models.Model):
-    """Model to store user's profile picture as binary data"""
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    image = models.BinaryField() 
-
-    def post_into(self, image_b64: str, user):
-        """
-        Convert a base64 encoded image to binary data and save it
-        Args:
-            image_b64 (str): Base64 encoded image string
-            user (User): Associated user
-        """
-        image_data = base64.b64decode(image_b64)  
-        
-        self.user = user
-        self.image = image_data
-        
-        self.save() 
-
-    def get_as_b64(self):
-        """
-        Convert the stored binary image data to a base64 encoded string
-        Returns:
-            str: Base64 encoded image string
-        """
-        return base64.b64encode(self.image).decode()  
 
 class UserAdditionals(models.Model):
     """Model to store additional user details"""

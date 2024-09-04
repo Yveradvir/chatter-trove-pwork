@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenBlacklistView
@@ -8,10 +9,13 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 s = settings.SIMPLE_JWT
 
 class HTTPOnlyCookieTokenObtainPairView(TokenObtainPairView):
+    permission_classes = [AllowAny]
+    
     def post(self, request: Request, *args, **kwargs) -> Response:
         response = super().post(request, *args, **kwargs)
         
         for key in response.data.keys():
+            print(s[f"{key.upper()}_TOKEN_LIFETIME"].seconds)
             response.set_cookie(
                 key, response.data[key], httponly=True,
                 max_age=s[f"{key.upper()}_TOKEN_LIFETIME"].seconds
@@ -19,8 +23,9 @@ class HTTPOnlyCookieTokenObtainPairView(TokenObtainPairView):
         
         return response
         
-        
 class HTTPOnlyCookieTokenRefreshView(TokenRefreshView):
+    permission_classes = [AllowAny]
+    
     def post(self, request: Request, *args, **kwargs) -> Response:
         response = super().post(request, *args, **kwargs)
         

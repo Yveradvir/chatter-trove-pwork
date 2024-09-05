@@ -49,7 +49,6 @@ class OptionsUserView(generics.GenericAPIView):
         Retrieve a user instance by its primary key (pk).
         """
         try:
-            print(pk)
             return User.objects.get(id=pk)
         except User.DoesNotExist:
             raise NotFound(detail="User not found")
@@ -68,7 +67,8 @@ class OptionsUserView(generics.GenericAPIView):
 
     def check_confirmation_password(self, request, user):
         """Authenticate the user by checking the provided confirmation password"""
-        confirmation_password = request.data.get('confirmation_password')
+        confirmation_password = request.data.pop('cpassword')
+        
         if not confirmation_password:
             raise PermissionDenied(detail="Confirmation password is required for this operation")
         
@@ -86,7 +86,7 @@ class OptionsUserView(generics.GenericAPIView):
     
     def patch(self, request, pk, *args, **kwargs):
         """Update a user partially by ID. Requires the user to be the owner"""
-        allowed_fields = {'email', 'username', 'nickname'}
+        allowed_fields = {'email', 'username', 'nickname', 'cpassword'}
         
         # Check if any of the provided fields are not in the whitelist
         invalid_fields = set(request.data.keys()) - allowed_fields

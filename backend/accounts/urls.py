@@ -9,7 +9,7 @@ from .views import (
 
 urlpatterns = [
     path('register/', CreateUserView.as_view(), name='register'),
-    path('user/<int:pk>/', OptionsUserView.as_view(), name='user-options'),
+    path('single/<int:pk>/', OptionsUserView.as_view(), name='user-options'),
     path('jwt/token/', HTTPOnlyCookieTokenObtainPairView.as_view(), name='token'),
     path('jwt/token/refresh/', HTTPOnlyCookieTokenRefreshView.as_view(), name='refresh'),
     path('jwt/token/blacklist/', HTTPOnlyTokenBlacklistView.as_view(), name='blacklist'),

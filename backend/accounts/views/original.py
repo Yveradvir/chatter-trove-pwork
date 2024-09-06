@@ -45,9 +45,7 @@ class OptionsUserView(generics.GenericAPIView):
         return super().get_permissions()
 
     def get_object(self, pk):
-        """
-        Retrieve a user instance by its primary key (pk).
-        """
+        """Retrieve a user instance by its primary key (pk)"""
         try:
             return User.objects.get(id=pk)
         except User.DoesNotExist:
@@ -64,6 +62,7 @@ class OptionsUserView(generics.GenericAPIView):
         
         if request.user != obj:
             raise PermissionDenied(detail="You do not have permission to modify this user")
+
 
     def check_confirmation_password(self, request, user):
         """Authenticate the user by checking the provided confirmation password"""

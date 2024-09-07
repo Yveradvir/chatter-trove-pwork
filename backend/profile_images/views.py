@@ -18,6 +18,7 @@ class CreateProfilePictureView(generics.CreateAPIView):
         user = self.request.user
         if ProfilePicture.objects.filter(user=user).exists():
             raise APIException(detail="Your profile picture already exists", code=409)
+        
         serializer.save(user=user)
         
     def post(self, request, *args, **kwargs):

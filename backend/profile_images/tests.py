@@ -64,21 +64,21 @@ class ProfilePictureTest(APITestCase):
         
         return get_profile_picture.json()
     
-    # def test_create_profile_picture(self):
-    #     payload, response = self.create_profile_picture() 
-    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    def test_create_profile_picture(self):
+        payload, response = self.create_profile_picture() 
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         
-    #     json = response.json()
-    #     self.assertEqual(json['image'], payload['image_base64'])
+        json = response.json()
+        self.assertEqual(json['image'], payload['image_base64'])
         
-    #     json['image'] = f"{json['image'][:30]}..."
-    #     pprint(json)
+        json['image'] = f"{json['image'][:30]}..."
+        pprint(json)
 
-    # def test_options_get_profile_picture(self):
-    #     profile_picture = self.create_profile_picture()[1].json()
-    #     get_profile_picture = self.get_profile_picture(profile_picture['id'])
+    def test_options_get_profile_picture(self):
+        profile_picture = self.create_profile_picture()[1].json()
+        get_profile_picture = self.get_profile_picture(profile_picture['id'])
         
-    #     save_base64_to_file(get_profile_picture['image'], 'get/test_options_get_profile_picture')
+        save_base64_to_file(get_profile_picture['image'], 'get/test_options_get_profile_picture')
 
     def test_options_patch_profile_picture(self):
         before = self.create_profile_picture()[1].json()
@@ -95,11 +95,9 @@ class ProfilePictureTest(APITestCase):
         )
         
         self.assertEqual(patch_pfp.status_code, status.HTTP_200_OK)
-        print(patch_pfp.detail)
         get_after = self.get_profile_picture(before['id'])
         
         save_base64_to_file(get_after['image'], 'patch/after')
-        
 
     def tearDown(self):
         self.client.logout()

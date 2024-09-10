@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # apps
     'accounts',
     'profile_images',
+    'planets', # aka forums
 ]
 
 MIDDLEWARE = [

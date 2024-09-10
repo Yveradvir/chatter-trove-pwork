@@ -1,12 +1,25 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, UserAdditionals
+
+class UserAdditionalsSerializer(serializers.ModelSerializer):
+    """Serializer for reading additionals of user"""
+
+    class Meta:
+        model = UserAdditionals
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for creating and updating users"""
+    additionals = UserAdditionalsSerializer(source='useradditionals', read_only=True)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'nickname']
+        fields = [
+            'username', 
+            'email', 
+            'password', 
+            'nickname', 
+            'additionals'
+        ]
 
     def create(self, validated_data):
         """Create a new user with encrypted password"""
@@ -18,5 +31,8 @@ class UserSerializer(serializers.ModelSerializer):
         
         user.set_password(validated_data['password'])
         user.save()
+        
+        additionals = UserAdditionals(user=user)
+        additionals.save()
         
         return user

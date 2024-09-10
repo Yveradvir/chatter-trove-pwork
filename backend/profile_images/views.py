@@ -78,7 +78,7 @@ class OptionsProfilePictureView(generics.RetrieveUpdateAPIView):
     
     def patch(self, request, *args, **kwargs):
         """Update a ProfilePicture. Requires the user to be the owner"""
-        allowed_fields = {'image_base64', 'cpassword'}
+        allowed_fields = {'image_base64', 'password', 'cpassword'}
 
         # Check if any of the provided fields are not in the whitelist
         invalid_fields = set(request.data.keys()) - allowed_fields

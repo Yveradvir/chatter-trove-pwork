@@ -69,3 +69,6 @@ class UserAdditionals(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     is_verified = models.BooleanField(default=False)  # Indicates if the user email is verified
+    password_for_pfp_changing = models.BooleanField(default=True) # requires password for pfp changing if it's true
+    
+    

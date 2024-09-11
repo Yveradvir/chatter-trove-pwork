@@ -6,10 +6,13 @@ class UserAdditionalsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserAdditionals
+        fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for creating and updating users"""
     additionals = UserAdditionalsSerializer(source='useradditionals', read_only=True)
+    password = serializers.CharField(write_only=True)
+    
 
     class Meta:
         model = User

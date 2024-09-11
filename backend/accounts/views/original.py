@@ -8,30 +8,22 @@ from rest_framework.exceptions import NotFound, PermissionDenied
 from ..models import User
 from ..serializers import UserSerializer
 
-class CreateUserView(generics.CreateAPIView):
-    """API view to create a new user"""
+from planets.models import PlanetMembership
+from planets.serializers import PlanetMembershipSerializer
+
+
+class UserListCreateView(generics.ListCreateAPIView):
+    """API view to list all users or create a new user."""
 
     permission_classes = [AllowAny]
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    def post(self, request: Request, *args, **kwargs) -> Response:
-        """Handle POST requests for creating a user"""
-        serializer = self.get_serializer(data=request.data)
-        
-        if serializer.is_valid():
-            self.perform_create(serializer)
-            headers = self.get_success_headers(serializer.data)
-        
-            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
     def perform_create(self, serializer):
-        """Save the new user instance"""
-        serializer.save()
+        """Save the new user instance."""
+        serializer.save()        
 
-
-class OptionsUserView(generics.GenericAPIView):
+class OptionsUserView(generics.RetrieveAPIView):
     """The API view that provide GET, DELETE, PATCH functional"""
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -117,3 +109,19 @@ class OptionsUserView(generics.GenericAPIView):
 
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class UserPlanetMembershipsView(generics.ListAPIView):
+    """API view to list all PlanetMemberships of a specific user."""
+
+    serializer_class = PlanetMembershipSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        """Return all PlanetMemberships for the user with the given ID."""
+        user_id = self.kwargs.get('pk')
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            raise NotFound(detail="User not found")
+        
+        return PlanetMembership.objects.filter(user=user)

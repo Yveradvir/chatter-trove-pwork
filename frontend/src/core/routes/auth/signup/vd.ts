@@ -6,6 +6,7 @@ export interface SignUpValues {
     email: string;
     password: string;
     cpassword: string;
+    pfp: string;
 }
 
 export const SignUpSchema = Yup.object({
@@ -26,4 +27,7 @@ export const SignUpSchema = Yup.object({
     cpassword: Yup.string()
         .oneOf([Yup.ref('password')], 'Passwords must match')
         .required('Field is required'),
+    pfp: Yup.string()
+        .nullable()
+        .notRequired()
 })

@@ -3,24 +3,28 @@ import ProfilePopover from "./popover.header";
 
 const routes = [
     { url: "/", title: "Home" },
-    { url: "/somethinh", title: "Something" },
+    { url: "/something", title: "Something" },
 ];
 
 const Header = () => {
     const location = useLocation();
 
     return (
-        <header className="bg-white shadow-sm">
-            <nav className="container mx-auto flex items-center justify-between p-6">
-                <Link
-                    to="/"
-                    className="text-4xl flex items-center -m-1.5 p-1.5"
-                >
-                    <span className="bg-gradient-to-t from-teal-600 to-cyan-800 bg-clip-text text-transparent rounded-2xl">
-                        Chatter
-                    </span>
-                    Trove
-                </Link>
+        <header className="sticky top-4 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full">
+            <nav
+                className="backdrop-blur-sm bg-opacity-70 relative max-w-5xl w-full bg-neutral-800 rounded-2xl py-3 px-5 md:flex md:items-center md:justify-between mx-2 lg:mx-auto"
+                aria-label="Global"
+            >
+                <div className="flex items-center justify-between">
+                    <Link
+                        to="/"
+                        className="flex-none rounded-md text-xl font-semibold focus:outline-none focus:opacity-80"
+                        aria-label="Home"
+                    >
+                        <span className="bg-gradient-to-t from-teal-300 to-cyan-300 bg-clip-text text-transparent">Chatter</span>Trove
+                    </Link>
+                </div>
+
                 <div className="flex items-center space-x-10 mr-10">
                     <div className="flex space-x-8 items-center">
                         {routes.map(({ url, title }) => {
@@ -31,13 +35,15 @@ const Header = () => {
                                     to={url}
                                     className={`relative text-sm font-medium p-2 rounded-md transition duration-300 ease-in-out ${
                                         isActive
-                                            ? "text-white"
-                                            : "text-gray-700 hover:text-teal-600"
+                                            ? "text-neutral-900"
+                                            : "text-teal-300 hover:text-cyan-300"
                                     }`}
                                 >
-                                    <span className="relative z-10">{title}</span>
+                                    <span className="relative z-10">
+                                        {title}
+                                    </span>
                                     {isActive && (
-                                        <span className="absolute inset-0 rounded-md bg-gradient-to-r from-teal-600 to-cyan-800"></span>
+                                        <span className="absolute inset-0 rounded-md bg-gradient-to-r from-teal-300 to-cyan-300"></span>
                                     )}
                                 </Link>
                             );

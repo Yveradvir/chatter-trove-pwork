@@ -4,6 +4,8 @@ import IndexPage from "@core/routes/index.page";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const App = () => {
+    console.log(import.meta.env);
+    
     return (
         <BrowserRouter>
             <Routes>

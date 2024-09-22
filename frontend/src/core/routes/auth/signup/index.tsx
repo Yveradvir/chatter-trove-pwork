@@ -10,6 +10,7 @@ import { useState } from "react";
 import { check_error } from "@core/utils/check_fn";
 
 import onSubmit from "./fn";
+import SpinnerButton from "@core/components/spinnerButton";
 
 const SignUpPage = () => {
     const navigate = useNavigate();
@@ -256,21 +257,11 @@ const SignUpPage = () => {
                                         </Field>
                                     </div>
 
-                                    <button
-                                        type="submit"
-                                        className={`w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-cyan-600 text-white hover:bg-cyan-700 focus:outline-none focus:bg-cyan-700 ${
-                                            !formik.isValid ||
-                                            formik.isSubmitting
-                                                ? "opacity-50 cursor-not-allowed"
-                                                : ""
-                                        }`}
-                                        disabled={
-                                            !formik.isValid ||
-                                            formik.isSubmitting
-                                        }
-                                    >
-                                        Sign up
-                                    </button>
+                                    <SpinnerButton
+                                        text="Sign Up"
+                                        isValid={formik.isValid}
+                                        isSubmitting={formik.isSubmitting}
+                                    />
                                     {globalError && (
                                         <p className="text-red-500 text-xs mt-1">
                                             {globalError}

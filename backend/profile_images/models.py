@@ -3,7 +3,7 @@ from accounts.models import User
 import base64
 
 
-class ProfilePicture(models.Model):
+class ProfileImage(models.Model):
     """Model to store user's profile picture"""
 
     id = models.AutoField(primary_key=True) 

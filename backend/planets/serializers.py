@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Planet, PlanetMembership
+from .models import Planet
 
 class PlanetSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,8 +15,3 @@ class PlanetSerializer(serializers.ModelSerializer):
         
         instance.save()
         return instance
-    
-class PlanetMembershipSerializer(serializers.ModelField):
-    class Meta:
-        model = PlanetMembership
-        fields = '__all__'

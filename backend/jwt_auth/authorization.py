@@ -24,6 +24,8 @@ class JWTAuthenticationMiddleware(MiddlewareMixin):
             request.user = user
         except (InvalidToken, AuthenticationFailed):
             request.user = None
+        except Exception as e:
+            print(e)
 
     def process_response(self, request, response):
         """Ensure the CSRF token is set in cookies."""

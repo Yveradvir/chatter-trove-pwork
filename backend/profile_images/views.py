@@ -3,26 +3,26 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, PermissionDenied, APIException
 
-from .models import ProfilePicture
-from .serializers import ProfilePictureSerializer
+from .models import ProfileImage
+from .serializers import ProfileImageSerializer
 
-class CreateProfilePictureView(generics.CreateAPIView):
-    """API view to create a ProfilePicture record."""
+class CreateProfileImageView(generics.CreateAPIView):
+    """API view to create a ProfileImage record."""
 
     permission_classes = [IsAuthenticated]
-    queryset = ProfilePicture.objects.all()
-    serializer_class = ProfilePictureSerializer
+    queryset = ProfileImage.objects.all()
+    serializer_class = ProfileImageSerializer
 
     def perform_create(self, serializer):
         """Ensure the image is associated with the correct user"""
         user = self.request.user
-        if ProfilePicture.objects.filter(user=user).exists():
+        if ProfileImage.objects.filter(user=user).exists():
             raise APIException(detail="Your profile picture already exists", code=409)
         
         serializer.save(user=user)
         
     def post(self, request, *args, **kwargs):
-        """Handle POST requests to create a ProfilePicture record."""
+        """Handle POST requests to create a ProfileImage record."""
         serializer = self.get_serializer(data=request.data)
         
         if serializer.is_valid():
@@ -32,11 +32,11 @@ class CreateProfilePictureView(generics.CreateAPIView):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class OptionsProfilePictureView(generics.RetrieveUpdateAPIView):
+class OptionsProfileImageView(generics.RetrieveUpdateAPIView):
     """The API view that provides GET, PATCH functionality"""
 
-    queryset = ProfilePicture.objects.all()
-    serializer_class = ProfilePictureSerializer
+    queryset = ProfileImage.objects.all()
+    serializer_class = ProfileImageSerializer
 
     def get_permissions(self):
         """Allow GET requests for everyone, and PATCH only for authenticated users"""
@@ -47,12 +47,12 @@ class OptionsProfilePictureView(generics.RetrieveUpdateAPIView):
         return super().get_permissions()
 
     def get_object(self):
-        """Retrieve a ProfilePicture instance by its primary key (pk)"""
+        """Retrieve a ProfileImage instance by its primary key (pk)"""
         pk = self.kwargs.get('pk')
         try:
-            return ProfilePicture.objects.get(id=pk)
-        except ProfilePicture.DoesNotExist:
-            raise NotFound(detail="ProfilePicture not found")
+            return ProfileImage.objects.get(id=pk)
+        except ProfileImage.DoesNotExist:
+            raise NotFound(detail="ProfileImage not found")
 
     def check_object_permissions(self, request, obj):
         """Ensure the current user is the owner of the object."""
@@ -70,14 +70,14 @@ class OptionsProfilePictureView(generics.RetrieveUpdateAPIView):
             raise PermissionDenied(detail="Incorrect confirmation password")
 
     def get(self, request, *args, **kwargs):
-        """Retrieve a ProfilePicture by ID. Available for everyone"""
+        """Retrieve a ProfileImage by ID. Available for everyone"""
         profile_picture = self.get_object()
         serializer = self.get_serializer(profile_picture)
                 
         return Response(serializer.data)
     
     def patch(self, request, *args, **kwargs):
-        """Update a ProfilePicture. Requires the user to be the owner"""
+        """Update a ProfileImage. Requires the user to be the owner"""
         allowed_fields = {'image_base64', 'password', 'cpassword'}
 
         # Check if any of the provided fields are not in the whitelist

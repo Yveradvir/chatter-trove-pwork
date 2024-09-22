@@ -13,23 +13,15 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from dotenv import get_key
 from datetime import timedelta
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = get_key(BASE_DIR.parent / ".env", "SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -45,8 +37,10 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     # apps
     'accounts',
+    'jwt_auth',
     'profile_images',
-    'planets', # aka forums
+    'planets',
+    'planetmemberships',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +52,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'accounts.backends.JWTAuthenticationMiddleware',
+    'jwt_auth.authorization.JWTAuthenticationMiddleware',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -68,11 +62,12 @@ CORS_ALLOWED_ORIGINS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'accounts.backends.CustomJWTAuthentication',
+        'jwt_auth.authorization.CustomJWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated', 
     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10 
 }
 
@@ -91,6 +86,8 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken', 'rest_framework_simplejwt.tokens.RefreshToken'),
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
+
+
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
@@ -109,12 +106,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
 ASGI_APPLICATION = 'backend.asgi.application'
+WSGI_APPLICATION = 'backend.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
     'default': {

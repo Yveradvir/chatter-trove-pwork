@@ -19,7 +19,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('accounts.urls')),
-    path('', include('profile_images.urls')),
-    path('', include('planets.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('jwt/', include('jwt_auth.urls')),
+    path('profile_images/', include('profile_images.urls')),
+    path('planets/', include('planets.urls')),
+    path('planetmemberships/', include('planetmemberships.urls')),
 ]

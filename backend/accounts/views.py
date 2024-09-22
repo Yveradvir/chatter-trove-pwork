@@ -5,12 +5,8 @@ from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.exceptions import NotFound, PermissionDenied
 
-from ..models import User
-from ..serializers import UserSerializer
-
-from planets.models import PlanetMembership
-from planets.serializers import PlanetMembershipSerializer
-
+from .models import User
+from .serializers import UserSerializer
 
 class UserListCreateView(generics.ListCreateAPIView):
     """API view to list all users or create a new user."""
@@ -110,18 +106,3 @@ class OptionsUserView(generics.RetrieveAPIView):
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-class UserPlanetMembershipsView(generics.ListAPIView):
-    """API view to list all PlanetMemberships of a specific user."""
-
-    serializer_class = PlanetMembershipSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        """Return all PlanetMemberships for the user with the given ID."""
-        user_id = self.kwargs.get('pk')
-        try:
-            user = User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            raise NotFound(detail="User not found")
-        
-        return PlanetMembership.objects.filter(user=user)

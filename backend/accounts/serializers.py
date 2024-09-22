@@ -12,16 +12,19 @@ class UserSerializer(serializers.ModelSerializer):
     """Serializer for creating and updating users"""
     additionals = UserAdditionalsSerializer(source='useradditionals', read_only=True)
     password = serializers.CharField(write_only=True)
+    cpassword = serializers.CharField(write_only=True, required=False)
     
-
     class Meta:
         model = User
         fields = [
-            'username', 
-            'email', 
-            'password', 
-            'nickname', 
-            'additionals'
+            'id',
+            'username',
+            'nickname',
+            'password',
+            'cpassword',
+            'email',
+            'tag',
+            'additionals',
         ]
 
     def create(self, validated_data):

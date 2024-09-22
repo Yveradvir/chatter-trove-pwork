@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import ProfilePicture
+from .models import ProfileImage
 import base64
 import binascii
 
-class ProfilePictureSerializer(serializers.ModelSerializer):
-    """Serializer for the ProfilePicture model"""
+class ProfileImageSerializer(serializers.ModelSerializer):
+    """Serializer for the ProfileImage model"""
     image_base64 = serializers.CharField(write_only=True)
 
     id = serializers.CharField(read_only=True)
@@ -12,8 +12,14 @@ class ProfilePictureSerializer(serializers.ModelSerializer):
     mime_type = serializers.CharField(read_only=True)
 
     class Meta:
-        model = ProfilePicture
-        fields = ['id', 'user', 'image', 'image_base64', 'mime_type']
+        model = ProfileImage
+        fields = [
+            'id', 
+            'user', 
+            'image', 
+            'image_base64', 
+            'mime_type'
+        ]
 
     def validate_image_base64(self, value):
         """Validate and decode the base64 image string."""
@@ -35,10 +41,10 @@ class ProfilePictureSerializer(serializers.ModelSerializer):
         return decoded_file
 
     def create(self, validated_data):
-        """Create a new ProfilePicture instance and store the binary image data."""
+        """Create a new ProfileImage instance and store the binary image data."""
         image_data = validated_data.pop('image_base64')
         
-        profile_picture = ProfilePicture.objects.create(**validated_data)
+        profile_picture = ProfileImage.objects.create(**validated_data)
         profile_picture.image = image_data['image']
         profile_picture.mime_type = image_data['mime_type']
         profile_picture.save()
@@ -46,7 +52,7 @@ class ProfilePictureSerializer(serializers.ModelSerializer):
         return profile_picture
 
     def update(self, instance, validated_data):
-        """Update an existing ProfilePicture instance with new binary image data if provided."""
+        """Update an existing ProfileImage instance with new binary image data if provided."""
         if 'image_base64' in validated_data:
             image_data = validated_data.pop('image_base64')
             instance.image = image_data['image']
@@ -62,7 +68,7 @@ class ProfilePictureSerializer(serializers.ModelSerializer):
         return None
 
     def to_representation(self, instance):
-        """Convert the ProfilePicture instance to a dictionary."""
+        """Convert the ProfileImage instance to a dictionary."""
         representation = super().to_representation(instance)
         if instance.image:
             base64_image = instance.get_as_b64()

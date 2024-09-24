@@ -11,7 +11,7 @@ const SpinnerButton: FC<ButtonProps> = ({ isSubmitting, isValid, text }) => {
     return (
         <button
             type="submit"
-            className={`w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-cyan-600 text-white hover:bg-cyan-700 focus:outline-none focus:bg-cyan-700 ${
+            className={`w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-teal-300 text-white hover:bg-teal-400 focus:outline-none focus:bg-teal-400 ${
                 !isValid || isSubmitting
                     ? "opacity-50 cursor-not-allowed"
                     : ""

@@ -54,9 +54,9 @@ const ProfilePopover = () => {
                                             {
                                                 title: "Sign Up",
                                                 description:
-                                                    "Create a new account if you're new here.",
+                                                "Create a new account if you're new here.",
                                                 to: "/auth/signup",
-                                            },
+                                            }
                                         ].map(({ title, description, to }) => (
                                             <Link
                                                 key={title}

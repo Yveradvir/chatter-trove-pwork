@@ -1,5 +1,6 @@
 from rest_framework import generics, status
 
+from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.request import Request
@@ -106,3 +107,12 @@ class OptionsUserView(generics.RetrieveAPIView):
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+class GetMeAsUserView(APIView):
+    """View for redirecting the authenticated user to their account URL."""
+
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        """Redirect the authenticated user to /accounts/{user_id}."""
+        user_id = request.user.id
+        return Response({'detail': 'Redirecting...'}, status=302, headers={'Location': f'/accounts/{user_id}'})

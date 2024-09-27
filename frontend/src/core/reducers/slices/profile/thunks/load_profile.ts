@@ -10,7 +10,7 @@ export const loadProfile = createAsyncThunk<
     { rejectValue: ApiError }
 >("profile/load", async (_, thunkAPI) => {
     try {
-        const response = await ApiService.get("/accounts/me/");
+        const response = await ApiService.get("/mine/");
 
         if (response.status === 200) {
             return response.data as ProfileEntity;

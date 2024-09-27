@@ -41,24 +41,26 @@ INSTALLED_APPS = [
     'profile_images',
     'planets',
     'planetmemberships',
+    'mine',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'jwt_auth.authorization.JWTAuthenticationMiddleware',
 ]
 
+CORS_ALLOWED_ORIGINS = ["http://localhost:4200"]
+CORS_ORIGIN_WHITELIST = ["http://localhost:4200"]
+
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4200",
-]
+CORS_URLS_REGEX = r'^/.*$'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -107,7 +109,7 @@ TEMPLATES = [
 ]
 
 ASGI_APPLICATION = 'backend.asgi.application'
-WSGI_APPLICATION = 'backend.wsgi.application'
+# WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 DATABASES = {

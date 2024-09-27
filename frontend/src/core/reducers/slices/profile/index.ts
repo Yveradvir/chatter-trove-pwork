@@ -5,7 +5,7 @@ import { loadProfile, loadProfile__Fulfilled, loadProfile__Pending, loadProfile_
 export const PROFILE_FEATURE_KEY = "profile";
 
 
-export const ProfileSlice = createSlice({
+export const profileSlice = createSlice({
     name: PROFILE_FEATURE_KEY,
     initialState: profileInitialState,
     reducers: {
@@ -18,3 +18,6 @@ export const ProfileSlice = createSlice({
             .addCase(loadProfile.rejected, loadProfile__Rejected)
     }
 });
+
+export const profileReducer = profileSlice.reducer;
+export const profileActions = profileSlice.actions;

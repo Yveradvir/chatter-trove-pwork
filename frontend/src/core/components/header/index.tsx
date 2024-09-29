@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import ProfilePopover from "./popover.header";
+import ProfilePopover from "./profilepopover.header";
 
 const routes = [
     { url: "/", title: "Home" },

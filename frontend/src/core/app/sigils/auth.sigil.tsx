@@ -13,8 +13,8 @@ const AuthSigil = () => {
         if (state.profile.loadingStatus === LoadingStatus.ANotLoaded) {
             store.dispatch(loadProfile());
         }
-
-        console.log("[ Auth Sigil ]: ", store.getState().profile);
+        
+        console.log("[ Auth Sigil ]: ", state.profile);
         console.groupEnd();
     }, []);
 

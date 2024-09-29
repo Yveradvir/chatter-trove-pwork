@@ -1,10 +1,12 @@
 from django.conf import settings
-from django.views.decorators.csrf import csrf_exempt
 
-from rest_framework.permissions import AllowAny
+from rest_framework import status, generics
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.request import Request
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenBlacklistView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+from .serializers import HTTPOnlyTokenBlacklistSerializer
 
 s = settings.SIMPLE_JWT
 
@@ -36,12 +38,16 @@ class HTTPOnlyCookieTokenRefreshView(TokenRefreshView):
             
         return response
 
-class HTTPOnlyTokenBlacklistView(TokenBlacklistView):
-    @csrf_exempt
-    def post(self, request: Request, *args, **kwargs) -> Response:
-        response = super().post(request, *args, **kwargs)
+class HTTPOnlyTokenBlacklistView(generics.DestroyAPIView):
+    serializer_class = HTTPOnlyTokenBlacklistSerializer
+    permission_classes = [IsAuthenticated] 
+    
+    def delete(self, request: Request, *args, **kwargs) -> Response:
+        response = Response({}, status=status.HTTP_204_NO_CONTENT)
         
         response.delete_cookie("access")
         response.delete_cookie("refresh")
-        
+
+        request.user = None
+
         return response

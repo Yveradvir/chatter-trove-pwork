@@ -33,6 +33,7 @@ export const loadProfile__Fulfilled: CaseReducer<
     state.entity = action.payload;
     state.loadingStatus = LoadingStatus.Loaded;
     state.error = null;
+    state.isAuthenticated = true;
 };
 
 export const loadProfile__Rejected: CaseReducer<
@@ -41,4 +42,5 @@ export const loadProfile__Rejected: CaseReducer<
 > = (state, action) => {
     state.error = action.payload ?? Rejector.standartReject();
     state.loadingStatus = LoadingStatus.Error;
+    state.isAuthenticated = false;
 };

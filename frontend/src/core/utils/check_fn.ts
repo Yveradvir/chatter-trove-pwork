@@ -1,3 +1,4 @@
+import { store } from "@core/reducers";
 import { AxiosError } from "axios";
 
 interface ErrorResponse {
@@ -54,4 +55,8 @@ export function check_error(error: AxiosError<ErrorResponse> | unknown): string 
     }
 
     return "Something went wrong.";
+}
+
+export function check_auth() {
+    return store.getState().profile.isAuthenticated
 }

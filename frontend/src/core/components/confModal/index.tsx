@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import neverCheckboxFunction from "./fn";
 import { check_error } from "@core/utils/check_fn";
+import ReactDOM from "react-dom";
 
 interface ConfModalI {
     open: boolean;
@@ -62,7 +63,7 @@ const ConfModal: React.FC<ConfModalI> = ({
         },
     });
 
-    return (
+    return ReactDOM.createPortal(
         <Transition
             show={open}
             enter="transition-opacity duration-300"
@@ -72,7 +73,7 @@ const ConfModal: React.FC<ConfModalI> = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
         >
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60">
                 <div className="bg-neutral-900 p-6 rounded-xl shadow-lg w-full max-w-md">
                     <h2 className="text-2xl font-bold text-neutral-50 mb-4">
                         Confirm Action
@@ -87,8 +88,7 @@ const ConfModal: React.FC<ConfModalI> = ({
                                     Password
                                 </Label>
                                 <Description className="text-xs text-neutral-400">
-                                    Your account password (minimum 8
-                                    characters).
+                                    Your account password (minimum 8 characters).
                                 </Description>
                                 <Input
                                     type="password"
@@ -105,12 +105,11 @@ const ConfModal: React.FC<ConfModalI> = ({
                                     onBlur={formik.handleBlur}
                                     value={formik.values.password}
                                 />
-                                {formik.touched.password &&
-                                    formik.errors.password && (
-                                        <Description className="text-red-500 text-xs mt-1">
-                                            {formik.errors.password}
-                                        </Description>
-                                    )}
+                                {formik.touched.password && formik.errors.password && (
+                                    <Description className="text-red-500 text-xs mt-1">
+                                        {formik.errors.password}
+                                    </Description>
+                                )}
                             </Field>
 
                             <Field>
@@ -138,12 +137,11 @@ const ConfModal: React.FC<ConfModalI> = ({
                                     onBlur={formik.handleBlur}
                                     value={formik.values.cpassword}
                                 />
-                                {formik.touched.cpassword &&
-                                    formik.errors.cpassword && (
-                                        <Description className="text-red-500 text-xs mt-1">
-                                            {formik.errors.cpassword}
-                                        </Description>
-                                    )}
+                                {formik.touched.cpassword && formik.errors.cpassword && (
+                                    <Description className="text-red-500 text-xs mt-1">
+                                        {formik.errors.cpassword}
+                                    </Description>
+                                )}
                             </Field>
 
                             {neverCheckbox && (
@@ -189,7 +187,8 @@ const ConfModal: React.FC<ConfModalI> = ({
                     </form>
                 </div>
             </div>
-        </Transition>
+        </Transition>,
+        document.body 
     );
 };
 

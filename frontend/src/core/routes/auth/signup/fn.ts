@@ -1,6 +1,8 @@
 import { FormikHelpers } from "formik";
 import { SignUpValues } from "./vd";
 import ApiService from "@core/utils/api";
+import { store } from "@core/reducers";
+import { loadProfile } from "@core/reducers/slices/profile/thunks/load_profile";
 
 const onSubmit = async (
     values: SignUpValues,
@@ -20,6 +22,7 @@ const onSubmit = async (
         });
 
         if (token_obtain_response.status === 200 && values.pfp) {
+            await store.dispatch(loadProfile());
             const pfp_match = values.pfp.match(/^data:(.+);base64,(.*)$/);
 
             if (pfp_match) {

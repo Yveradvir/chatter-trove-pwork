@@ -6,7 +6,7 @@ from .views import (
 )
 
 urlpatterns = [
-    path('token/', HTTPOnlyCookieTokenObtainPairView.as_view(), name='token'),
-    path('token/refresh/', HTTPOnlyCookieTokenRefreshView.as_view(), name='refresh'),
-    path('token/blacklist/', HTTPOnlyTokenBlacklistView.as_view(), name='blacklist'),
+    path('token/', HTTPOnlyCookieTokenObtainPairView.as_view(), name='token-obtain'),
+    path('token/refresh/', HTTPOnlyCookieTokenRefreshView.as_view(), name='token-refresh'),
+    path('token/blacklist/', HTTPOnlyTokenBlacklistView.as_view(), name='token-blacklist'),
 ]

@@ -1,9 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 import ProfilePopover from "./profilepopover.header";
+import PlanetPopover from "./planetpopover.header";
+import { check_auth } from "@core/utils/check_fn";
 
 const routes = [
-    { url: "/", title: "Home" },
-    { url: "/something", title: "Something" },
+    { url: "/", title: "Index", auth: false },
+    { url: "/profile/", title: "My Profile", auth: true },
 ];
 
 const Header = () => {
@@ -27,28 +29,39 @@ const Header = () => {
 
                 <div className="flex items-center space-x-10 mr-10">
                     <div className="flex space-x-8 items-center">
-                        {routes.map(({ url, title }) => {
+                        {routes.map(({ url, title, auth }) => {
                             const isActive = location.pathname === url;
-                            return (
-                                <Link
-                                    key={title}
-                                    to={url}
-                                    className={`relative text-sm font-medium p-2 rounded-md transition duration-300 ease-in-out ${
-                                        isActive
-                                            ? "text-neutral-900"
-                                            : "text-teal-300 hover:text-cyan-300"
-                                    }`}
-                                >
-                                    <span className="relative z-10">
-                                        {title}
-                                    </span>
-                                    {isActive && (
-                                        <span className="absolute inset-0 rounded-md bg-gradient-to-r from-teal-300 to-cyan-300"></span>
-                                    )}
-                                </Link>
-                            );
+                            const render = () => {
+                                return (
+                                    <Link
+                                        key={title}
+                                        to={url}
+                                        className={`relative text-sm font-medium p-2 rounded-md transition duration-300 ease-in-out ${
+                                            isActive
+                                                ? "text-neutral-900"
+                                                : "text-teal-300 hover:text-cyan-300"
+                                        }`}
+                                    >
+                                        <span className="relative z-10">
+                                            {title}
+                                        </span>
+                                        {isActive && (
+                                            <span className="absolute inset-0 rounded-md bg-gradient-to-r from-teal-300 to-cyan-300"></span>
+                                        )}
+                                    </Link>
+                                );
+                            }
+                            if (auth) {
+                                if (check_auth())
+                                    return render()
+                                
+                                return null
+                            } else {
+                                return render()
+                            }
                         })}
 
+                        <PlanetPopover />
                         <ProfilePopover />
                     </div>
                 </div>

@@ -6,6 +6,8 @@ from rest_framework.exceptions import NotFound, APIException
 from .models import Planet
 from .serializers import PlanetSerializer
 
+from planetmemberships.models import PlanetMembership
+
 class PlanetListCreateView(generics.ListCreateAPIView):
     """API view to list all planets or create a new planet."""
 
@@ -16,10 +18,17 @@ class PlanetListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         """Ensure the planet is created with unique planetname."""
         planetname = serializer.validated_data.get('planetname')
+        
         if Planet.objects.filter(planetname=planetname).exists():
             raise APIException(detail="Planet with this name already exists", code=409)
         
-        serializer.save()
+        planet = serializer.save()
+        PlanetMembership.objects.create(
+            user=self.request.user,
+            planet=planet,
+            user_role=2  # Owner
+        )
+        
 
 class OptionsPlanetView(generics.RetrieveAPIView):
     """API view that provides GET, PATCH functionality for Planet records."""

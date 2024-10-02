@@ -14,8 +14,10 @@ import { createPlanetSchema, CreatePlanetValues } from "./vd";
 import onSubmit from "./fn";
 import SpinnerButton from "@core/components/spinnerButton";
 import { check_error } from "@core/utils/check_fn";
+import { useNavigate } from "react-router-dom";
 
 const NewPlanetPage = () => {
+    const navigate = useNavigate();
     const [globalError, setGlobalError] = useState("");
 
     const formik = useFormik({
@@ -28,8 +30,9 @@ const NewPlanetPage = () => {
         validationSchema: createPlanetSchema,
         onSubmit: async (values, actions) => {
             try {
-                console.log(values);
-                await onSubmit(values, actions);
+                const planet_id = await onSubmit(values, actions);
+
+                navigate(`/planets/${planet_id}`)
             } catch (e) {
                 setGlobalError(check_error(e));
             }

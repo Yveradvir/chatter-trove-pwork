@@ -2,33 +2,31 @@ from rest_framework import serializers
 from .models import User, UserAdditionals
 
 class UserAdditionalsSerializer(serializers.ModelSerializer):
-    """Serializer for reading additionals of user"""
-
     class Meta:
         model = UserAdditionals
         fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
-    """Serializer for creating and updating users"""
     additionals = UserAdditionalsSerializer(source='useradditionals', read_only=True)
     password = serializers.CharField(write_only=True)
     cpassword = serializers.CharField(write_only=True, required=False)
-    
+
     class Meta:
         model = User
-        fields = [
-            'id',
-            'username',
-            'nickname',
-            'password',
-            'cpassword',
-            'email',
-            'tag',
-            'additionals',
-        ]
+        fields = '__all__'
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'created_at': {'read_only': True},
+            'password': {'write_only': True},
+        }
+
+    def validate(self, attrs):
+        if attrs.get('password') != attrs.get('cpassword'):
+            raise serializers.ValidationError({"cpassword": "Passwords do not match."})
+        return attrs
 
     def create(self, validated_data):
-        """Create a new user with encrypted password"""
+        validated_data.pop('cpassword', None)
         user = User(
             username=validated_data['username'],
             email=validated_data['email'],
@@ -42,3 +40,14 @@ class UserSerializer(serializers.ModelSerializer):
         additionals.save()
         
         return user
+    
+    def update(self, instance, validated_data):
+        password = validated_data.pop('password', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        if password:
+            instance.set_password(password)
+        instance.save()
+        
+        return instance

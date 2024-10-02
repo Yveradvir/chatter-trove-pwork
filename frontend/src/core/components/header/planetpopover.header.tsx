@@ -49,7 +49,7 @@ const PlanetPopover = () => {
                                                 {
                                                     title: "Create new planet",
                                                     description: "Start a new discussion space on the platform. A 'planet' functions like a forum where you can share posts, interact with others, and explore various topics with your community.",
-                                                    to: "/planet/",
+                                                    to: "/planets/",
                                                 },
                                                 {
                                                     title: "Search planets",

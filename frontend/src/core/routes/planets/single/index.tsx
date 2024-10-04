@@ -3,12 +3,13 @@ import { store, useAppSelector } from "@core/reducers";
 import { useEffect } from "react";
 import { loadCurrentPlanet } from "@core/reducers/slices/current_planet/thunks/load_current_planet";
 import { useParams } from "react-router-dom";
-import SinglePlanetSidebar from "./components/SinglePlanetSidebar";
+import SinglePlanetSidebar from "./components/signlePlanetSidebar";
+import ErrorPage from "@core/components/errorPage";
 
 const SinglePlanetPage: React.FC = () => {
     const { planet_id } = useParams<{ planet_id: string }>();
 
-    const { error, loadingStatus } = useAppSelector(
+    const { error } = useAppSelector(
         (state) => state.currentPlanet
     );
     
@@ -23,6 +24,9 @@ const SinglePlanetPage: React.FC = () => {
         fetchData();
     }, [planet_id]);
 
+    if (error) 
+        return <ErrorPage detail={error.detail} status_code={error.status_code} />
+    
     return (
         <Layout>
             <div className="flex min-h-screen">

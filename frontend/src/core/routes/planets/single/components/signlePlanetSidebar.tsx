@@ -1,52 +1,55 @@
-import { Menu, MenuButton, Transition } from "@headlessui/react";
-import { Fragment } from "react/jsx-runtime";
+import { useAppSelector } from "@core/reducers";
+import { Fragment, useState } from "react";
 
 const SignlePlanetSidebar = () => {
+    const { entity } = useAppSelector(state => state.currentPlanet);
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    if (!entity) {
+        return null;
+    }
+
+    const handleToggleDescription = () => {
+        setIsExpanded(!isExpanded);
+    };
+
+    const truncatedDescription =
+        entity.description.length > 200
+            ? entity.description.slice(0, 200) + "..."
+            : entity.description;
+
     return (
-        <aside className="w-80 pl-8 flex-shrink-1">
-            <div className="p-4">
-                <h2 className="text-lg font-semibold">Sidebar</h2>
-                <Menu as="div" className="relative mt-6">
-                    <MenuButton className="w-full bg-gray-700 p-2 rounded-md">
-                        Menu
-                    </MenuButton>
-                    <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
-                    >
-                        <Menu.Items className="absolute mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                            <Menu.Item>
-                                {({ active }) => (
-                                    <a
-                                        className={`${
-                                            active ? "bg-gray-100" : ""
-                                        } block px-4 py-2 text-gray-700`}
-                                        href="/#"
-                                    >
-                                        Dashboard
-                                    </a>
-                                )}
-                            </Menu.Item>
-                            <Menu.Item>
-                                {({ active }) => (
-                                    <a
-                                        className={`${
-                                            active ? "bg-gray-100" : ""
-                                        } block px-4 py-2 text-gray-700`}
-                                        href="/#"
-                                    >
-                                        Settings
-                                    </a>
-                                )}
-                            </Menu.Item>
-                        </Menu.Items>
-                    </Transition>
-                </Menu>
+        <aside className="w-80 ml-8 flex-shrink-0">
+            <div className="h-screen fixed top-36">
+                <div className="p-6 bg-neutral-800 shadow-lg rounded-lg">
+                    <h2 className="text-xl font-bold text-white mb-4">Planet Details</h2>
+                    <div className="mb-4">
+                        <h3 className="font-medium text-gray-300">Planet Name:</h3>
+                        <p className="text-gray-200 break-words">{entity.planetname}</p>
+                    </div>
+                    <div className="mb-4">
+                        <h3 className="font-medium text-gray-300">Nickname:</h3>
+                        <p className="text-gray-200 break-words">{entity.nickname}</p>
+                    </div>
+                    <div className="mb-4">
+                        <h3 className="font-medium text-gray-300">Description:</h3>
+                        <p className="text-gray-200 break-words">
+                            {isExpanded ? entity.description : truncatedDescription}
+                            {entity.description.length > 200 && (
+                                <button
+                                    className="text-blue-400 font-semibold ml-2 hover:underline"
+                                    onClick={handleToggleDescription}
+                                >
+                                    {isExpanded ? "Show less" : "Show more"}
+                                </button>
+                            )}
+                        </p>
+                    </div>
+                    <div className="mb-4">
+                        <h3 className="font-medium text-gray-300">Created At:</h3>
+                        <p className="text-gray-200 break-words">{new Date(entity.created_at).toLocaleDateString()}</p>
+                    </div>
+                </div>
             </div>
         </aside>
     );

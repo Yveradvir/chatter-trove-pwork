@@ -5,6 +5,7 @@ import IndexPage from "@core/routes/index.page";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AuthSigil from "./sigils/auth.sigil";
 import NewPlanetPage from "@core/routes/planets/new";
+import SinglePlanetPage from "@core/routes/planets/single";
 
 const App = () => {
 
@@ -17,6 +18,7 @@ const App = () => {
                     <Route path="/auth/signup" element={<SignUpPage />} />
                     <Route path="/auth/signin" element={<SignInPage />} />
                     <Route path="/planets/" element={<NewPlanetPage />} />
+                    <Route path="/planets/:planet_id" element={<SinglePlanetPage />} />
                 </Routes>
             </BrowserRouter>
         </>

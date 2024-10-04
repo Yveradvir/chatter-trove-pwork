@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { PROFILE_FEATURE_KEY, profileReducer } from "./slices/profile";
+import { CURRENT_PLANET_FEATURE_KEY, currentPlanetReducer } from "./slices/current_planet";
 
 export const store = configureStore({
     reducer: {
-        [PROFILE_FEATURE_KEY]: profileReducer
+        [PROFILE_FEATURE_KEY]: profileReducer,
+        [CURRENT_PLANET_FEATURE_KEY]: currentPlanetReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
     devTools: import.meta.env.DEV

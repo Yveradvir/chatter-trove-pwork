@@ -1,56 +1,57 @@
 import { useAppSelector } from "@core/reducers";
-import { Fragment, useState } from "react";
+import { useState } from "react";
+import DescriptionModal from "./descriptionModal";
 
 const SignlePlanetSidebar = () => {
-    const { entity } = useAppSelector(state => state.currentPlanet);
-    const [isExpanded, setIsExpanded] = useState(false);
+    const { entity } = useAppSelector((state) => state.currentPlanet);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     if (!entity) {
         return null;
     }
 
-    const handleToggleDescription = () => {
-        setIsExpanded(!isExpanded);
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
     };
 
-    const truncatedDescription =
-        entity.description.length > 200
-            ? entity.description.slice(0, 200) + "..."
-            : entity.description;
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
 
     return (
         <aside className="w-80 ml-8 flex-shrink-0">
-            <div className="h-screen fixed top-36">
-                <div className="p-6 bg-neutral-800 shadow-lg rounded-lg">
-                    <h2 className="text-xl font-bold text-white mb-4">Planet Details</h2>
-                    <div className="mb-4">
-                        <h3 className="font-medium text-gray-300">Planet Name:</h3>
-                        <p className="text-gray-200 break-words">{entity.planetname}</p>
-                    </div>
-                    <div className="mb-4">
-                        <h3 className="font-medium text-gray-300">Nickname:</h3>
-                        <p className="text-gray-200 break-words">{entity.nickname}</p>
-                    </div>
-                    <div className="mb-4">
-                        <h3 className="font-medium text-gray-300">Description:</h3>
-                        <p className="text-gray-200 break-words">
-                            {isExpanded ? entity.description : truncatedDescription}
-                            {entity.description.length > 200 && (
-                                <button
-                                    className="text-blue-400 font-semibold ml-2 hover:underline"
-                                    onClick={handleToggleDescription}
-                                >
-                                    {isExpanded ? "Show less" : "Show more"}
-                                </button>
-                            )}
-                        </p>
-                    </div>
-                    <div className="mb-4">
-                        <h3 className="font-medium text-gray-300">Created At:</h3>
-                        <p className="text-gray-200 break-words">{new Date(entity.created_at).toLocaleDateString()}</p>
-                    </div>
+            <div className="w-64 fixed top-1/2 transform -translate-y-1/2 border-r-2 rounded-sm overflow-y-auto">
+                <div className="p-6 bg-neutral-900 shadow-lg rounded-2xl">
+                    <h2 className="text-3xl font-bold text-cyan-400 mb-2 break-words">
+                        {entity.planetname}
+                    </h2>
+
+                    <p className="text-neutral-500 text-sm mb-6 break-words">
+                        {entity.nickname}
+                    </p>
+
+                    <button
+                        className="w-10 h-10 rounded-full bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-400 hover:to-cyan-500 text-white focus:outline-none focus:ring-2 focus:ring-teal-400 flex items-center justify-center mx-auto mb-6"
+                        onClick={handleOpenModal}
+                    >
+                        ⓘ
+                    </button>
+
+                    <p className="text-neutral-500 text-sm mb-6">
+                        {new Date(entity.created_at).toLocaleDateString()}
+                    </p>
+
+                    <button className="w-full px-6 py-3 text-sm font-bold text-white rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 focus:outline-none focus:ring-2 focus:ring-purple-400">
+                        ➕
+                    </button>
                 </div>
             </div>
+
+            <DescriptionModal
+                open={isModalOpen}
+                onClose={handleCloseModal}
+                description={entity.description}
+            />
         </aside>
     );
 };

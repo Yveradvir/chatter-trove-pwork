@@ -1,11 +1,11 @@
 import SignUpPage from "@core/routes/auth/signup";
 import SignInPage from "@core/routes/auth/signin";
 import IndexPage from "@core/routes/index.page";
+import NewPlanetPage from "@core/routes/planets/new";
+import SinglePlanetPage from "@core/routes/planets/single";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AuthSigil from "./sigils/auth.sigil";
-import NewPlanetPage from "@core/routes/planets/new";
-import SinglePlanetPage from "@core/routes/planets/single";
 
 const App = () => {
 

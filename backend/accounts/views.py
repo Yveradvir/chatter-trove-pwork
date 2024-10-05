@@ -1,6 +1,6 @@
 from rest_framework import generics, status
 
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.exceptions import NotFound, PermissionDenied
@@ -23,15 +23,8 @@ class OptionsUserView(generics.RetrieveAPIView):
     """The API view that provide GET, DELETE, PATCH functional"""
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
-    def get_permissions(self):
-        """Allow GET requests for everyone, and PATCH/DELETE only for authenticated users"""
-        if self.request.method == 'GET':
-            self.permission_classes = [AllowAny]
-        else:
-            self.permission_classes = [IsAuthenticated]
-        return super().get_permissions()
-
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    
     def get_object(self, pk):
         """Retrieve a user instance by its primary key (pk)"""
         try:

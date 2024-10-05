@@ -1,5 +1,5 @@
 from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, PermissionDenied, APIException
 
@@ -37,15 +37,8 @@ class OptionsProfileImageView(generics.RetrieveUpdateAPIView):
 
     queryset = ProfileImage.objects.all()
     serializer_class = ProfileImageSerializer
-
-    def get_permissions(self):
-        """Allow GET requests for everyone, and PATCH only for authenticated users"""
-        if self.request.method == 'GET':
-            self.permission_classes = [AllowAny]
-        else:
-            self.permission_classes = [IsAuthenticated]
-        return super().get_permissions()
-
+    permission_classes = [IsAuthenticatedOrReadOnly]
+        
     def get_object(self):
         """Retrieve a ProfileImage instance by its primary key (pk)"""
         pk = self.kwargs.get('pk')

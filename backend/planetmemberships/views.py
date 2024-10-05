@@ -1,5 +1,5 @@
 from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, APIException
 
@@ -9,7 +9,7 @@ from .serializers import PlanetMembershipSerializer
 class PlanetMembershipListCreateView(generics.ListCreateAPIView):
     """API view to list all PlanetMembership records or create a new one."""
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = PlanetMembership.objects.all()
     serializer_class = PlanetMembershipSerializer
 
@@ -28,7 +28,7 @@ class OptionsPlanetMembershipView(generics.RetrieveUpdateDestroyAPIView):
     
     queryset = PlanetMembership.objects.all()
     serializer_class = PlanetMembershipSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_object(self):
         """Retrieve a PlanetMembership instance by its primary key (pk)."""

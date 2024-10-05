@@ -15,14 +15,16 @@ export const loadCurrentPlanet = createAsyncThunk<
         if (response.status === 200) {
             return response.data as CurrentPlanetEntity;
         } else {
-            return thunkAPI.rejectWithValue(Rejector.standartReject());
+            return thunkAPI.rejectWithValue(Rejector.standartAxiosReject(response));
         }
     } catch (error) {
         return thunkAPI.rejectWithValue(Rejector.standartAxiosReject(error));
     }
 });
 
-export const loadCurrentPlanet__Pending: CaseReducer<CurrentPlanetState> = (state) => {
+export const loadCurrentPlanet__Pending: CaseReducer<CurrentPlanetState> = (
+    state
+) => {
     state.loadingStatus = LoadingStatus.Loading;
 };
 

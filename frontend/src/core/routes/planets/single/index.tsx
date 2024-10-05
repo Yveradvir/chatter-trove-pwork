@@ -3,7 +3,7 @@ import { store, useAppSelector } from "@core/reducers";
 import { useEffect } from "react";
 import { loadCurrentPlanet } from "@core/reducers/slices/current_planet/thunks/load_current_planet";
 import { useParams } from "react-router-dom";
-import SinglePlanetSidebar from "./components/signlePlanetSidebar";
+import SinglePlanetSidebar from "./components/singlePlanetSidebar";
 import ErrorPage from "@core/components/errorPage";
 
 const SinglePlanetPage: React.FC = () => {

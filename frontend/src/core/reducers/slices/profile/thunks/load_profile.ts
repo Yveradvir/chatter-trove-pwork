@@ -15,7 +15,7 @@ export const loadProfile = createAsyncThunk<
         if (response.status === 200) {
             return response.data as ProfileEntity;
         } else {
-            return thunkAPI.rejectWithValue(Rejector.standartReject());
+            return thunkAPI.rejectWithValue(Rejector.standartAxiosReject(response));
         }
     } catch (error) {
         return thunkAPI.rejectWithValue(Rejector.standartAxiosReject(error));

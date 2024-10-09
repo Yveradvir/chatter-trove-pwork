@@ -5,8 +5,13 @@ from rest_framework.exceptions import NotFound, APIException
 
 from .models import Planet
 from .serializers import PlanetSerializer
+from .filters import PlanetFilter
+
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
 
 from planetmemberships.models import PlanetMembership
+
 
 class PlanetListCreateView(generics.ListCreateAPIView):
     """API view to list all planets or create a new planet."""
@@ -14,6 +19,13 @@ class PlanetListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Planet.objects.all()
     serializer_class = PlanetSerializer
+
+    filterset_class = PlanetFilter
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    
+    ordering_fields = ['created_at']
+    ordering = ['-created_at']
+
 
     def perform_create(self, serializer):
         """Ensure the planet is created with unique planetname."""

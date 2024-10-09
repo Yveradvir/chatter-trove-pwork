@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core.validators import EmailValidator
+from django.utils import timezone
 from random import randint
 
 def generate_tag(): return f"{randint(0, 9999):04}"
@@ -34,7 +35,6 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     """Custom user model supporting standard fields plus additional ones"""
-    
     username = models.CharField(max_length=40, unique=True)
     nickname = models.CharField(max_length=40, blank=True, null=True)
     email = models.EmailField(unique=True, validators=[EmailValidator()])
@@ -43,6 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     is_active = models.BooleanField(default=True)  
     is_staff = models.BooleanField(default=False)  
+    created_at = models.DateTimeField(default=timezone.now)
     
     objects = UserManager()
 

@@ -5,15 +5,26 @@ from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.exceptions import NotFound, PermissionDenied
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
+
 from .models import User
+from .filters import AccountsFilter
 from .serializers import UserSerializer
 
 class UserListCreateView(generics.ListCreateAPIView):
     """API view to list all users or create a new user."""
 
-    permission_classes = [AllowAny]
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    
+    permission_classes = [AllowAny]
+    serializer_class = UserSerializer    
+
+    filterset_class = AccountsFilter
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    
+    ordering_fields = ['created_at']
+    ordering = ['-created_at']
 
     def perform_create(self, serializer):
         """Save the new user instance."""

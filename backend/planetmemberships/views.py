@@ -3,8 +3,12 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, APIException
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
+
 from .models import PlanetMembership
 from .serializers import PlanetMembershipSerializer
+from .filters import PlanetMembershipsFilter
 
 class PlanetMembershipListCreateView(generics.ListCreateAPIView):
     """API view to list all PlanetMembership records or create a new one."""
@@ -12,6 +16,13 @@ class PlanetMembershipListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = PlanetMembership.objects.all()
     serializer_class = PlanetMembershipSerializer
+
+    filterset_class = PlanetMembershipsFilter
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    
+    ordering_fields = ['created_at']
+    ordering = ['-created_at']
+
 
     def perform_create(self, serializer):
         """Ensure the membership is created for a specific planet and user."""

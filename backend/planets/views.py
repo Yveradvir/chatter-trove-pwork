@@ -11,7 +11,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 
 from planetmemberships.models import PlanetMembership
-
+from planetmemberships.utils import check_planetmemberships_border
 
 class PlanetListCreateView(generics.ListCreateAPIView):
     """API view to list all planets or create a new planet."""
@@ -29,10 +29,13 @@ class PlanetListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         """Ensure the planet is created with unique planetname."""
+        check_planetmemberships_border(user_id=self.request.user.id)
+        
         planetname = serializer.validated_data.get('planetname')
         
         if Planet.objects.filter(planetname=planetname).exists():
             raise APIException(detail="Planet with this name already exists", code=409)
+        
         
         planet = serializer.save()
         PlanetMembership.objects.create(

@@ -1,6 +1,7 @@
 import { useAppSelector } from "@core/reducers";
 import { useState } from "react";
 import DescriptionModal from "./descriptionModal";
+import JLButton from "./JLButton";
 
 const SignlePlanetSidebar = () => {
     const { entity } = useAppSelector((state) => state.currentPlanet);
@@ -41,9 +42,7 @@ const SignlePlanetSidebar = () => {
                         {new Date(entity.created_at).toLocaleDateString()}
                     </p>
 
-                    <button className="w-full px-6 py-3 text-sm font-bold text-white rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 focus:outline-none focus:ring-2 focus:ring-purple-400">
-                        ➕
-                    </button>
+                    <JLButton id={entity.id}/>
                 </div>
             </div>
 

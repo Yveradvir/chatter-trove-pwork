@@ -9,6 +9,7 @@ from rest_framework.filters import OrderingFilter
 from .models import PlanetMembership
 from .serializers import PlanetMembershipSerializer
 from .filters import PlanetMembershipsFilter
+from .utils import check_planetmemberships_border
 
 class PlanetMembershipListCreateView(generics.ListCreateAPIView):
     """API view to list all PlanetMembership records or create a new one."""
@@ -31,6 +32,7 @@ class PlanetMembershipListCreateView(generics.ListCreateAPIView):
 
         if PlanetMembership.objects.filter(user=user, planet=planet).exists():
             raise APIException(detail="User is already a member of this planet", code=409)
+        check_planetmemberships_border(user.id)        
 
         serializer.save(user=user)
         

@@ -5,13 +5,24 @@ import NewPlanetPage from "@core/routes/planets/new";
 import SinglePlanetPage from "@core/routes/planets/single";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
 import AuthSigil from "./sigils/auth.sigil";
+import PlanetMembershipsSigil from "./sigils/planet_memberships.sigil";
+import { useAppSelector } from "@core/reducers";
 
 const App = () => {
+    const { profile } = useAppSelector((state) => state);
+
+    useEffect(() => {
+        const auth = AuthSigil()
+
+        if (auth.isAuthenticated) {
+            PlanetMembershipsSigil()
+        }
+    }, [profile.isAuthenticated])
 
     return (
         <>
-            <AuthSigil />
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<IndexPage />} index />

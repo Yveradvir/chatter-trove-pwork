@@ -5,6 +5,7 @@ import { loadCurrentPlanet } from "@core/reducers/slices/current_planet/thunks/l
 import { useParams } from "react-router-dom";
 import SinglePlanetSidebar from "./components/singlePlanetSidebar";
 import ErrorPage from "@core/components/errorPage";
+import Scroller from "./components/scroller";
 
 const SinglePlanetPage: React.FC = () => {
     const { planet_id } = useParams<{ planet_id: string }>();
@@ -32,11 +33,10 @@ const SinglePlanetPage: React.FC = () => {
             <div className="flex min-h-screen">
                 <SinglePlanetSidebar /> 
                 <main className="flex-grow p-6 mr-4">
-                    <h1 className="text-3xl font-bold">Main Page Content</h1>
-                    <p className="mt-4">
-                        This is the main content area. You can add more
-                        components or content here.
-                    </p>
+                    <h1 className="text-3xl font-bold">Search for Content here</h1>
+                    <div>
+                        <Scroller/>
+                    </div>
                 </main>
             </div>
         </Layout>

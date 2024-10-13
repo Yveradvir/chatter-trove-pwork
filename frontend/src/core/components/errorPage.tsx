@@ -1,5 +1,6 @@
 import { ApiError } from "@core/utils/const";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ErrorPage: React.FC<ApiError> = ({ detail, status_code }) => {
     return (
@@ -16,9 +17,9 @@ const ErrorPage: React.FC<ApiError> = ({ detail, status_code }) => {
                         Sorry, we couldn't find your page.
                     </p>
                     <div className="mt-5 flex flex-col justify-center items-center gap-2 sm:flex-row sm:gap-3">
-                        <a
+                        <Link
                             className="w-full sm:w-auto py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                            href="../examples.html"
+                            to={"/"}
                         >
                             <svg
                                 className="shrink-0 h-4 w-4"
@@ -34,8 +35,8 @@ const ErrorPage: React.FC<ApiError> = ({ detail, status_code }) => {
                             >
                                 <path d="m15 18-6-6 6-6" />
                             </svg>
-                            Back to examples
-                        </a>
+                            Back
+                        </Link>
                     </div>
                 </div>
             </main>

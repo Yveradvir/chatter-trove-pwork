@@ -26,21 +26,20 @@ const SignlePlanetSidebar = () => {
                     <h2 className="text-3xl font-bold text-cyan-400 mb-2 break-words">
                         {entity.planetname}
                     </h2>
-
-                    <p className="text-neutral-500 text-sm mb-6 break-words">
+                    <p className="text-neutral-500 text-xl mb-6 break-words">
                         {entity.nickname}
+                    </p>
+                    <p className="text-neutral-500 text-sm mb-8">
+                        {new Date(entity.created_at).toLocaleDateString()}
                     </p>
 
                     <button
-                        className="w-10 h-10 rounded-full bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-400 hover:to-cyan-500 text-white focus:outline-none focus:ring-2 focus:ring-teal-400 flex items-center justify-center mx-auto mb-6"
+                        className="w-full px-6 py-3 text-sm font-bold rounded-full bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-400 hover:to-cyan-500 text-white focus:outline-none focus:ring-2 focus:ring-teal-400 flex items-center justify-center mx-auto mb-6"
                         onClick={handleOpenModal}
                     >
                         ⓘ
                     </button>
 
-                    <p className="text-neutral-500 text-sm mb-6">
-                        {new Date(entity.created_at).toLocaleDateString()}
-                    </p>
 
                     <JLButton id={entity.id}/>
                 </div>

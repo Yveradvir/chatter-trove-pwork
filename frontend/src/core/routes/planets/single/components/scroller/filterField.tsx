@@ -3,6 +3,7 @@ import { Formik, Form } from "formik";
 import { FiFilter, FiArrowUp, FiArrowDown } from "react-icons/fi";
 import clsx from "clsx";
 import Switchbu from "@core/components/switchbu";
+import { ScrollerFilterInterface, scrollerFilterSchema } from "./vd";
 
 const FilterField: React.FC = () => {
     return (
@@ -11,7 +12,8 @@ const FilterField: React.FC = () => {
                 filter: "",
                 title: "",
                 ordering: "",
-            }}
+            } as ScrollerFilterInterface}
+            validationSchema={scrollerFilterSchema}
             onSubmit={(values) => console.log(values)}
         >
             {({ handleChange, handleBlur, values, touched, errors }) => (

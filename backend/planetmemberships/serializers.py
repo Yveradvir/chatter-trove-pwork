@@ -10,8 +10,8 @@ class PlanetMembershipSerializer(serializers.ModelSerializer):
             'created_at': {'read_only': True}
         }
 
-
     def create(self, validated_data):
+        
         return PlanetMembership.objects.create(**validated_data)
 
     def update(self, instance, validated_data):

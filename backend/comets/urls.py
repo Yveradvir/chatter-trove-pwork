@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import CometListCreateView
+from .views import CometListCreateView, OptionsCometView
 
 urlpatterns = [
     path('', CometListCreateView.as_view(), name='user-creation'),
-    # path('<int:pk>/', OptionsUserView.as_view(), name='user-options'),
+    path('<int:pk>/', OptionsCometView.as_view(), name='user-options'),
 ]

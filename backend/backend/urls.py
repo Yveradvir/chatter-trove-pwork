@@ -24,5 +24,6 @@ urlpatterns = [
     path('profile_images/', include('profile_images.urls')),
     path('planets/', include('planets.urls')),
     path('planetmemberships/', include('planetmemberships.urls')),
+    path('comets/', include('comets.urls')),
     path('mine/', include('mine.urls')),
 ]

@@ -12,5 +12,4 @@ class Comet(models.Model):
     title = models.CharField(max_length=80)
     description = models.TextField(null=False)
 
-
     created_at = models.DateTimeField(default=timezone.now)

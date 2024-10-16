@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-export interface CreatePlanetValues {
+export interface PlanetValues {
     planetname: string;
     nickname: string;
     password: string;

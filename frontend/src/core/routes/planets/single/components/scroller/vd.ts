@@ -2,16 +2,16 @@ import * as Yup from 'yup';
 
 export interface ScrollerFilterInterface {
     filter: string;
-    title: "" | "istartswith";
+    title: "" | "__istartswith" | "__icontains";
     ordering: "" | "-"; 
 }
 
 export const scrollerFilterSchema = Yup.object({
     filter: Yup.string()
-        .max(40, "Filter must be at most 40 characters")
+        .max(80, "Filter must be at most 80 characters")
         .required("Filter is required"),
     title: Yup.string()
-        .oneOf(["", "istartswith"])
+        .oneOf(["", "__istartswith", "__icontains"])
         .required("Title is required"),
     ordering: Yup.string()
         .oneOf(["", "-"])

@@ -10,7 +10,7 @@ import {
 } from "@headlessui/react";
 import clsx from "clsx";
 import { useState } from "react";
-import { createPlanetSchema, CreatePlanetValues } from "./vd";
+import { createPlanetSchema, PlanetValues } from "./vd";
 import onSubmit from "./fn";
 import SpinnerButton from "@core/components/spinnerButton";
 import { check_error } from "@core/utils/check_fn";
@@ -26,7 +26,7 @@ const NewPlanetPage = () => {
             nickname: "",
             password: "",
             description: "",
-        } as CreatePlanetValues,
+        } as PlanetValues,
         validationSchema: createPlanetSchema,
         onSubmit: async (values, actions) => {
             try {

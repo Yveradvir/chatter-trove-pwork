@@ -1,18 +1,22 @@
 import React from "react";
 import { Formik, Form } from "formik";
-import { FiFilter, FiArrowUp, FiArrowDown } from "react-icons/fi";
+import { FiFilter, FiArrowUp, FiArrowDown, FiInbox } from "react-icons/fi";
 import clsx from "clsx";
 import Switchbu from "@core/components/switchbu";
 import { ScrollerFilterInterface, scrollerFilterSchema } from "./vd";
+import { TbStepInto } from "react-icons/tb";
+import { FaEquals } from "react-icons/fa";
 
 const FilterField: React.FC = () => {
     return (
         <Formik
-            initialValues={{
-                filter: "",
-                title: "",
-                ordering: "",
-            } as ScrollerFilterInterface}
+            initialValues={
+                {
+                    filter: "",
+                    title: "",
+                    ordering: "",
+                } as ScrollerFilterInterface
+            }
             validationSchema={scrollerFilterSchema}
             onSubmit={(values) => console.log(values)}
         >
@@ -51,7 +55,7 @@ const FilterField: React.FC = () => {
                                         placement: "top",
                                         children: <></>,
                                     },
-                                    content: <FiFilter />,
+                                    content: <FaEquals/>,
                                     field_value: "",
                                 },
                                 {
@@ -60,8 +64,17 @@ const FilterField: React.FC = () => {
                                         placement: "top",
                                         children: <></>,
                                     },
-                                    content: <FiArrowUp />,
-                                    field_value: "istartswith",
+                                    content: <FiInbox />,
+                                    field_value: "__istartswith",
+                                },
+                                {
+                                    tooltip: {
+                                        content: "Contains in title",
+                                        placement: "top",
+                                        children: <></>,
+                                    },
+                                    content: <TbStepInto />,
+                                    field_value: "__icontains",
                                 },
                             ]}
                         />

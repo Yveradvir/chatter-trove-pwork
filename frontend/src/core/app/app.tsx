@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import AuthSigil from "./sigils/auth.sigil";
 import PlanetMembershipsSigil from "./sigils/planet_memberships.sigil";
 import { useAppSelector } from "@core/reducers";
+import NewCometPage from "@core/routes/comets/new";
 
 const App = () => {
     const { profile } = useAppSelector((state) => state);
@@ -30,6 +31,7 @@ const App = () => {
                     <Route path="/auth/signin" element={<SignInPage />} />
                     <Route path="/planets/" element={<NewPlanetPage />} />
                     <Route path="/planets/:planet_id" element={<SinglePlanetPage />} />
+                    <Route path="/planets/:planet_id/comets/" element={<NewCometPage />} />
                 </Routes>
             </BrowserRouter>
         </>

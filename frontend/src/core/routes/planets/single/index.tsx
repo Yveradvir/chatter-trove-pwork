@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import SinglePlanetSidebar from "./components/singlePlanetSidebar";
 import ErrorPage from "@core/components/errorPage";
 import Scroller from "./components/scroller";
+import CometButton from "./components/cometButton";
 
 const SinglePlanetPage: React.FC = () => {
     const { planet_id } = useParams<{ planet_id: string }>();
@@ -38,6 +39,7 @@ const SinglePlanetPage: React.FC = () => {
                         <Scroller/>
                     </div>
                 </main>
+                <CometButton/>
             </div>
         </Layout>
     );

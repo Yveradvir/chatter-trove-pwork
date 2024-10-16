@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Comet
 
-class CometSerializer(serializers.Serializer):
+class CometSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comet
         fields = '__all__'
@@ -10,7 +10,6 @@ class CometSerializer(serializers.Serializer):
             'created_at': {'read_only': True},
         }
 
-        
     def create(self, validated_data):
         return Comet.objects.create(**validated_data)
 

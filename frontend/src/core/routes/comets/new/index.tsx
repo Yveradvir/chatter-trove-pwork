@@ -31,7 +31,7 @@ const NewCometPage = () => {
     const formik = useFormik({
         initialValues: {
             title: "",
-            user: user.id,
+            user: user ? user.id : 0,
             planet: planet_id ? Number.parseInt(planet_id) : 0,
         } as CometValues,
         validationSchema: createCometSchema,

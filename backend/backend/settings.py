@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'profile_images',
     'planets',
     'planetmemberships',
+    'comets',
     'mine',
 ]
 

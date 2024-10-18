@@ -10,7 +10,7 @@ const CometButton: React.FC = () => {
     return (
         <Link to={'comets/'}>
             <button
-                className="fixed bottom-6 right-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+                className="fixed bottom-6 right-6 bg-gradient-to-t from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white font-bold py-3 px-4 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
             >
                 <span><FiPlus/></span>
             </button>

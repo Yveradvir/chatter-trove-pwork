@@ -6,8 +6,15 @@ import Switchbu from "@core/components/switchbu";
 import { ScrollerFilterInterface, scrollerFilterSchema } from "./vd";
 import { TbStepInto } from "react-icons/tb";
 import { FaEquals } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 
 const FilterField: React.FC = () => {
+    const { planet_id } = useParams<{ planet_id: string }>();
+    const planetIdNumber = parseInt(planet_id as string, 10);
+    if (!isNaN(planetIdNumber))
+        return null
+    
+
     return (
         <Formik
             initialValues={
@@ -15,6 +22,7 @@ const FilterField: React.FC = () => {
                     filter: "",
                     title: "",
                     ordering: "",
+                    planet: planetIdNumber
                 } as ScrollerFilterInterface
             }
             validationSchema={scrollerFilterSchema}

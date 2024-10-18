@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
     additionals = UserAdditionalsSerializer(source='useradditionals', read_only=True)
     password = serializers.CharField(write_only=True)
     cpassword = serializers.CharField(write_only=True, required=False)
-
+ 
     class Meta:
         model = User
         fields = '__all__'

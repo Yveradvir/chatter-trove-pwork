@@ -4,6 +4,7 @@ export interface ScrollerFilterInterface {
     filter: string;
     title: "" | "__istartswith" | "__icontains";
     ordering: "" | "-"; 
+    planet: number;
 }
 
 export const scrollerFilterSchema = Yup.object({
@@ -16,4 +17,5 @@ export const scrollerFilterSchema = Yup.object({
     ordering: Yup.string()
         .oneOf(["", "-"])
         .required("Ordering is required"),
+    planet: Yup.number()
 });

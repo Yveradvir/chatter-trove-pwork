@@ -21,7 +21,7 @@ const SignlePlanetSidebar = () => {
 
     return (
         <aside className="w-80 ml-8 flex-shrink-0">
-            <div className="w-64 fixed top-1/2 transform -translate-y-1/2 border-r-2 rounded-sm overflow-y-auto">
+            <div className="w-64 border-neutral-700 fixed top-1/2 transform -translate-y-1/2 border-r-2 rounded-sm overflow-y-auto">
                 <div className="p-6 bg-neutral-900 shadow-lg rounded-2xl">
                     <h2 className="text-3xl font-bold text-cyan-400 mb-2 break-words">
                         {entity.planetname}

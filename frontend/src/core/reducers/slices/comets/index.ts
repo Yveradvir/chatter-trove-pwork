@@ -15,11 +15,16 @@ const cometsSlice = createSlice({
     reducers: {
         reset: () => cometsInitialState,
         change_filters: (state, action) => {
+            cometsAdapter.removeAll(state)
             Object.assign(state, cometsInitialState);
             state.filter = action.payload;
         },
         change_page: (state, action) => {
             state.page = action.payload;
+        },
+        change_beReady: (state, action) => {
+            state.beReady = action.payload.new as boolean;
+            state.filter.planet = action.payload.planet as number;
         },
         addOne: cometsAdapter.addOne,
         removeOne: cometsAdapter.removeOne,

@@ -1,32 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form } from "formik";
 import { FiFilter, FiArrowUp, FiArrowDown, FiInbox } from "react-icons/fi";
 import clsx from "clsx";
 import Switchbu from "@core/components/switchbu";
-import { ScrollerFilterInterface, scrollerFilterSchema } from "./vd";
+import { scrollerFilterSchema } from "./vd";
 import { TbStepInto } from "react-icons/tb";
 import { FaEquals } from "react-icons/fa";
 import { useParams } from "react-router-dom";
+import { cometsActions } from "@core/reducers/slices/comets";
+import { useAppDispatch } from "@core/reducers";
 
 const FilterField: React.FC = () => {
+    const dispatch = useAppDispatch();
     const { planet_id } = useParams<{ planet_id: string }>();
-    const planetIdNumber = parseInt(planet_id as string, 10);
-    if (!isNaN(planetIdNumber))
-        return null
-    
+
+    useEffect(() => {
+        dispatch(
+            cometsActions.change_beReady({
+                new: true,
+                planet: parseInt(planet_id as string, 10),
+            })
+        );
+    }, [planet_id, dispatch]);
 
     return (
         <Formik
-            initialValues={
-                {
-                    filter: "",
-                    title: "",
-                    ordering: "",
-                    planet: planetIdNumber
-                } as ScrollerFilterInterface
-            }
+            initialValues={{
+                filter: "",
+                title: "",
+                ordering: "",
+                planet: parseInt(planet_id as string, 10),
+            }}
             validationSchema={scrollerFilterSchema}
-            onSubmit={(values) => console.log(values)}
+            onSubmit={() => {}}
         >
             {({ handleChange, handleBlur, values, touched, errors }) => (
                 <Form className="flex items-center gap-4">
@@ -38,19 +44,16 @@ const FilterField: React.FC = () => {
                             placeholder="Filter Text"
                             className={clsx(
                                 "block w-full rounded-lg border-none bg-neutral-800 py-2 px-3 text-sm text-neutral-100",
-                                touched.filter && errors.filter
-                                    ? "border-red-500 ring-1 ring-red-500"
-                                    : ""
+                                touched.filter && errors.filter ? "border-red-500 ring-1 ring-red-500" : ""
                             )}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.filter}
+                            aria-label="Filter Text"
                         />
-                        {touched.filter && errors.filter ? (
-                            <p className="text-red-500 text-xs mt-1">
-                                {errors.filter}
-                            </p>
-                        ) : null}
+                        {touched.filter && errors.filter && (
+                            <p className="text-red-500 text-xs mt-1">{errors.filter}</p>
+                        )}
                     </div>
 
                     <div className="flex items-center gap-4">
@@ -63,7 +66,7 @@ const FilterField: React.FC = () => {
                                         placement: "top",
                                         children: <></>,
                                     },
-                                    content: <FaEquals/>,
+                                    content: <FaEquals />,
                                     field_value: "",
                                 },
                                 {
@@ -111,10 +114,14 @@ const FilterField: React.FC = () => {
                             ]}
                         />
                     </div>
-
+                    <input type="hidden" name="planet" value={parseInt(planet_id as string, 10)} />
                     <div>
                         <button
                             type="submit"
+                            onClick={() => {
+                                console.log(values)
+                                dispatch(cometsActions.change_filters(values))
+                            }}
                             className="px-4 py-2 flex items-center space-x-2 text-white rounded-md bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700"
                         >
                             <FiFilter />

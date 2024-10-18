@@ -13,6 +13,7 @@ export interface CometsState extends EntityState<CometEntity, EntityId> {
     error: ApiError | null;
     page: number;
     filter: ScrollerFilterInterface;
+    beReady: boolean;
 }
 
 export const cometsAdapter = createEntityAdapter<CometEntity>();
@@ -20,11 +21,12 @@ export const cometsAdapter = createEntityAdapter<CometEntity>();
 export const cometsInitialState: CometsState = cometsAdapter.getInitialState({
     loadingStatus: LoadingStatus.ANotLoaded,
     error: null, 
+    beReady: false,
     page: 1,
     filter: {
         filter: "",
         ordering: "",
         title: "",
-        planet: -1
+        planet: null
     } as ScrollerFilterInterface
 });

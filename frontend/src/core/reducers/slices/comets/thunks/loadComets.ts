@@ -15,7 +15,7 @@ export const loadComets = createAsyncThunk<
             params: {
                 planet: data.filter.planet,
                 page: data.page, 
-                title: `title${data.filter.title}=${data.filter.filter}`,
+                [`title${data.filter.title}`]: data.filter.filter,
                 ordering: `${data.filter.ordering}created_at`
             },
         });

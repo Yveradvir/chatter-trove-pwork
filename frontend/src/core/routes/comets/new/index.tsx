@@ -5,7 +5,6 @@ import { ProfileEntity } from "@core/reducers/slices/profile/state";
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
 import { CometValues, createCometSchema } from "./vd";
-import ErrorPage from "@core/components/errorPage";
 import {
     Field,
     Label,
@@ -19,6 +18,7 @@ import SpinnerButton from "@core/components/spinnerButton";
 import { useState } from "react";
 import { check_error } from "@core/utils/check_fn";
 import onSubmit from "./fn";
+import InPlanet from "@core/decorators/inPlanet";
 
 const NewCometPage = () => {
     const navigate = useNavigate();
@@ -33,6 +33,7 @@ const NewCometPage = () => {
             title: "",
             user: user ? user.id : 0,
             planet: planet_id ? Number.parseInt(planet_id) : 0,
+            description: ""
         } as CometValues,
         validationSchema: createCometSchema,
         onSubmit: async (values, actions) => {
@@ -45,17 +46,9 @@ const NewCometPage = () => {
         },
     });
 
-    if (!planet_id || Number.isNaN(Number(planet_id))) {
-        return (
-            <ErrorPage
-                detail="Invalid or missing planet ID"
-                status_code={500}
-            />
-        );
-    }
-
     return (
         <>
+            <InPlanet planet_id={planet_id} strict={true} />
             <IsAuthenticated />
             <Layout>
                 <div className="mx-auto max-w-2xl py-12">

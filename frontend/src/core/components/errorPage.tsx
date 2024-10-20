@@ -1,8 +1,8 @@
 import { ApiError } from "@core/utils/const";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, To } from "react-router-dom";
 
-const ErrorPage: React.FC<ApiError> = ({ detail, status_code }) => {
+const ErrorPage: React.FC<ApiError&{to: string | number}> = ({ detail, status_code, to }) => {    
     return (
         <div className="max-w-[50rem] flex flex-col mx-auto h-screen">
             <main id="content">
@@ -18,8 +18,9 @@ const ErrorPage: React.FC<ApiError> = ({ detail, status_code }) => {
                     </p>
                     <div className="mt-5 flex flex-col justify-center items-center gap-2 sm:flex-row sm:gap-3">
                         <Link
+                            id="error-link-back"
                             className="w-full sm:w-auto py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                            to={"/"}
+                            to={to as To}
                         >
                             <svg
                                 className="shrink-0 h-4 w-4"

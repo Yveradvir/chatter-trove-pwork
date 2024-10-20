@@ -4,6 +4,7 @@ import { PROFILE_FEATURE_KEY, profileReducer } from "./slices/profile";
 import { CURRENT_PLANET_FEATURE_KEY, currentPlanetReducer } from "./slices/current_planet";
 import { PLANET_MEMBERSHIPS_FEATURE_KEY, planetMembershipsReducer } from "./slices/planet_memberships";
 import { COMETS_FEATURE_KEY, cometsReducer } from "./slices/comets";
+import { ERROR_FEATURE_KEY, errorReducer } from "./slices/error";
 
 export const store = configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
         [CURRENT_PLANET_FEATURE_KEY]: currentPlanetReducer,
         [PLANET_MEMBERSHIPS_FEATURE_KEY]: planetMembershipsReducer,
         [COMETS_FEATURE_KEY]: cometsReducer,
+        [ERROR_FEATURE_KEY]: errorReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
     devTools: import.meta.env.DEV

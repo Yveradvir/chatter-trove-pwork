@@ -6,7 +6,7 @@ import ApiService from "@core/utils/api";
 import { ScrollerFilterInterface } from "@core/routes/planets/single/components/scroller/vd";
 
 export const loadComets = createAsyncThunk<
-    CometEntity[],
+    {count: number, results: CometEntity[]},
     {filter: ScrollerFilterInterface, page: number},
     { rejectValue: ApiError }
 >("comets/load", async (data, thunkAPI) => {
@@ -21,7 +21,7 @@ export const loadComets = createAsyncThunk<
         });
 
         if (response.status === 200) {
-            return response.data.results;
+            return response.data;
         } else {
             return thunkAPI.rejectWithValue(
                 Rejector.standartAxiosReject(response)
@@ -40,11 +40,13 @@ export const loadComets__Pending: CaseReducer<CometsState> = (
 
 export const loadComets__Fulfilled: CaseReducer<
     CometsState,
-    PayloadAction<CometEntity[]>
+    PayloadAction<{count: number, results: CometEntity[]}>
 > = (state, action) => {
-    cometsAdapter.setAll(state, action.payload);
+    cometsAdapter.setAll(state, action.payload.results);
+    
     state.loadingStatus = LoadingStatus.Loaded;
     state.error = null;
+    state.maxPages = Math.floor(action.payload.count % 5);
 };
 
 export const loadComets__Rejected: CaseReducer<

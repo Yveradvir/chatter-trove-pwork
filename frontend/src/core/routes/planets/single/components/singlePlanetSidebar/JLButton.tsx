@@ -33,7 +33,7 @@ const JLButton: React.FC<JLButtonProps> = ({ id, cooldownDuration = 3000 }) => {
         }, 100);
 
         if (!receivedPlanetMembership) {
-            const response = await ApiService.post("/planetmemberships/", { planet: id, user: profile?.id });
+            const response = await ApiService.post("/planetmemberships/", { planet: id, user: profile?.id, user_role: 0 });
             if (response.status === 201) {
                 dispatch(planetMembershipsActions.addOne(response.data)); 
             }

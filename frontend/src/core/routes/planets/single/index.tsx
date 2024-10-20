@@ -1,15 +1,16 @@
 import Layout from "@core/components/layout";
-import { store, useAppSelector } from "@core/reducers";
+import { store, useAppDispatch, useAppSelector } from "@core/reducers";
 import { useEffect } from "react";
 import { loadCurrentPlanet } from "@core/reducers/slices/current_planet/thunks/load_current_planet";
 import { useParams } from "react-router-dom";
 import SinglePlanetSidebar from "./components/singlePlanetSidebar";
-import ErrorPage from "@core/components/errorPage";
 import Scroller from "./components/scroller";
 import CometButton from "./components/cometButton";
+import { errorActions } from "@core/reducers/slices/error";
 
 const SinglePlanetPage: React.FC = () => {
     const { planet_id } = useParams<{ planet_id: string }>();
+    const dispatch = useAppDispatch();
 
     const { error } = useAppSelector(
         (state) => state.currentPlanet
@@ -27,7 +28,12 @@ const SinglePlanetPage: React.FC = () => {
     }, [planet_id]);
 
     if (error) 
-        return <ErrorPage detail={error.detail} status_code={error.status_code} />
+        dispatch(
+            errorActions.setError({
+                error: error,
+                to: "/"
+            })
+        )
     
     return (
         <Layout>

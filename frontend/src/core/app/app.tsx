@@ -8,33 +8,37 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import AuthSigil from "./sigils/auth.sigil";
 import PlanetMembershipsSigil from "./sigils/planet_memberships.sigil";
-import { useAppSelector } from "@core/reducers";
 import NewCometPage from "@core/routes/comets/new";
+import ErrorPageDecorator from "@core/decorators/errorPageDecorator";
+
+const Predecorated = (Component: React.FC) => {
+    return () => (
+        <ErrorPageDecorator>
+            <Component />
+        </ErrorPageDecorator>
+    );
+};
 
 const App = () => {
-    const { profile } = useAppSelector((state) => state);
-
     useEffect(() => {
-        const auth = AuthSigil()
+        const auth = AuthSigil();
 
         if (auth.isAuthenticated) {
-            PlanetMembershipsSigil()
+            PlanetMembershipsSigil();
         }
-    }, [profile.isAuthenticated])
+    }, []);
 
     return (
-        <>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<IndexPage />} index />
-                    <Route path="/auth/signup" element={<SignUpPage />} />
-                    <Route path="/auth/signin" element={<SignInPage />} />
-                    <Route path="/planets/" element={<NewPlanetPage />} />
-                    <Route path="/planets/:planet_id" element={<SinglePlanetPage />} />
-                    <Route path="/planets/:planet_id/comets/" element={<NewCometPage />} />
-                </Routes>
-            </BrowserRouter>
-        </>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={Predecorated(IndexPage)()} index />
+                <Route path="/auth/signup" element={Predecorated(SignUpPage)()} />
+                <Route path="/auth/signin" element={Predecorated(SignInPage)()} />
+                <Route path="/planets/" element={Predecorated(NewPlanetPage)()} />
+                <Route path="/planets/:planet_id" element={Predecorated(SinglePlanetPage)()} />
+                <Route path="/planets/:planet_id/comets/" element={Predecorated(NewCometPage)()} />
+            </Routes>
+        </BrowserRouter>
     );
 };
 

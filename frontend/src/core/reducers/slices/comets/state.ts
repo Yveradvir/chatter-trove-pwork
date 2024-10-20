@@ -14,6 +14,7 @@ export interface CometsState extends EntityState<CometEntity, EntityId> {
     page: number;
     filter: ScrollerFilterInterface;
     beReady: boolean;
+    maxPages: number;
 }
 
 export const cometsAdapter = createEntityAdapter<CometEntity>();
@@ -23,6 +24,7 @@ export const cometsInitialState: CometsState = cometsAdapter.getInitialState({
     error: null, 
     beReady: false,
     page: 1,
+    maxPages: 1,
     filter: {
         filter: "",
         ordering: "",

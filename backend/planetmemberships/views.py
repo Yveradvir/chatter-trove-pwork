@@ -32,8 +32,11 @@ class PlanetMembershipListCreateView(generics.ListCreateAPIView):
 
         if PlanetMembership.objects.filter(user=user, planet=planet).exists():
             raise APIException(detail="User is already a member of this planet", code=409)
-        check_planetmemberships_border(user.id)        
-        check_before_create(self.request, planet, serializer.validated_data.get('user_role'))
+        
+        print(serializer.validated_data)
+        check_planetmemberships_border(user.id)    
+        if serializer.validated_data.get('user_role') != 0:
+            check_before_create(self.request, planet, serializer.validated_data.get('user_role'))
         
         serializer.save(user=user)
         

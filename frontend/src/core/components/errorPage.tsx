@@ -1,47 +1,68 @@
 import { ApiError } from "@core/utils/const";
 import React from "react";
-import { Link, To } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Transition } from "@headlessui/react";
+import ReactDOM from "react-dom";
 
-const ErrorPage: React.FC<ApiError&{to: string | number}> = ({ detail, status_code, to }) => {    
-    return (
-        <div className="max-w-[50rem] flex flex-col mx-auto h-screen">
-            <main id="content">
-                <div className="text-center py-10 px-4 sm:px-6 lg:px-8">
-                    <h1 className="block text-7xl font-bold text-gray-800 sm:text-9xl">
-                        {status_code}
-                    </h1>
-                    <p className="mt-3 text-gray-600">
+interface ErrorPageModalProps extends ApiError {
+    open: boolean;
+    onClose: () => void;
+}
+
+const ErrorPage: React.FC<ErrorPageModalProps> = ({
+    detail,
+    status_code,
+    open,
+    onClose,
+}) => {
+    const navigate = useNavigate();
+
+    const goBack = () => {
+        const currentPath = window.location.pathname;
+        const trimmedPath = currentPath.replace(/\/[^/]+\/?$/, '/');
+        navigate(trimmedPath);
+        onClose();
+    };
+
+    const goToMain = () => {
+        navigate("/");
+        onClose();
+    };
+
+    return ReactDOM.createPortal(
+        <Transition
+            show={open}
+            enter="transition-opacity duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+        >
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60">
+                <div className="bg-neutral-900 p-8 rounded-2xl shadow-2xl w-full max-w-3xl">
+                    <h2 className="text-4xl font-bold text-neutral-50 mb-6">
+                        Error {status_code}
+                    </h2>
+                    <p className="text-gray-400 text-lg">
                         {detail || "Oops, something went wrong."}
                     </p>
-                    <p className="text-gray-600">
-                        Sorry, we couldn't find your page.
-                    </p>
-                    <div className="mt-5 flex flex-col justify-center items-center gap-2 sm:flex-row sm:gap-3">
-                        <Link
-                            id="error-link-back"
-                            className="w-full sm:w-auto py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                            to={to as To}
-                        >
-                            <svg
-                                className="shrink-0 h-4 w-4"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            >
-                                <path d="m15 18-6-6 6-6" />
-                            </svg>
-                            Back
-                        </Link>
+                    <div className="mt-8 flex flex-col gap-6">
+                        <button
+                            onClick={goBack}
+                            children="Go Back"
+                            className="w-full py-4 px-5 inline-flex justify-center items-center gap-x-2 text-lg font-medium rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:bg-red-700"
+                        />
+                        <button
+                            onClick={goToMain}
+                            children="Go to Main Page"
+                            className="w-full py-4 px-5 inline-flex justify-center items-center gap-x-2 text-lg font-medium rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:bg-red-700"
+                        />
                     </div>
                 </div>
-            </main>
-        </div>
+            </div>
+        </Transition>,
+        document.body
     );
 };
 

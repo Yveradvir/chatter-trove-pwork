@@ -5,12 +5,11 @@ export const ERROR_FEATURE_KEY = "error";
 export interface ErrorState {
     show: boolean
     error: ApiError | null
-    to: string | number
 }
+
 const initialState = {
     show: false,
-    error: null,
-    to: "/"
+    error: null
 } as ErrorState
 
 export const errorSlice = createSlice({
@@ -20,7 +19,6 @@ export const errorSlice = createSlice({
         reset: () => initialState,
         setError: (state, action) => {
             state.error = action.payload.error
-            state.to = action.payload.to
             state.show = true
         }
 

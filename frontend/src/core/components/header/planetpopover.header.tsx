@@ -54,7 +54,7 @@ const PlanetPopover = () => {
                                                 {
                                                     title: "Search planets",
                                                     description: "Discover and explore various planets (forums) created by the community. Use filters to find topics that interest you and join the conversation.",
-                                                    to: "/search?q=planets",                                                    
+                                                    to: "/search?find=planets",                                                    
                                                 },
                                             ].map(
                                                 ({

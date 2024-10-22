@@ -10,6 +10,7 @@ import AuthSigil from "./sigils/auth.sigil";
 import PlanetMembershipsSigil from "./sigils/planet_memberships.sigil";
 import NewCometPage from "@core/routes/comets/new";
 import ErrorPageDecorator from "@core/decorators/errorPageDecorator";
+import SearchPage from "@core/routes/search";
 
 const Predecorated = (Component: React.FC) => {
     return () => (
@@ -32,6 +33,7 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={Predecorated(IndexPage)()} index />
+                <Route path="/search" element={Predecorated(SearchPage)()} index />
                 <Route path="/auth/signup" element={Predecorated(SignUpPage)()} />
                 <Route path="/auth/signin" element={Predecorated(SignInPage)()} />
                 <Route path="/planets/" element={Predecorated(NewPlanetPage)()} />

@@ -34,7 +34,8 @@ const Tooltip: React.FC<TooltipProps> = ({ content, placement, children }) => {
                 {children}
             </div>
             <div
-                className={`absolute z-10 px-2 py-1 text-xs font-medium text-slate-900 bg-gray-100 rounded shadow-sm transition-all duration-300 ease-in-out transform ${visible ? 'opacity-100 visible scale-100' : 'opacity-0 invisible scale-90'} ${getTooltipClasses()}`}
+                className={`absolute z-10 px-3 py-2 text-xs font-medium border border-neutral-700 bg-neutral-800 rounded shadow-lg transition-all duration-300 ease-in-out transform ${visible ? 'opacity-100 visible scale-100' : 'opacity-0 invisible scale-90'} ${getTooltipClasses()}`}
+                style={{ userSelect: "none", maxWidth: '200px', whiteSpace: 'normal', wordWrap: 'normal' }}
                 role="tooltip"
             >
                 {content}

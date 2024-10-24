@@ -6,6 +6,7 @@ import { PlanetFilterInterface } from "@core/routes/search/components/planets/vd
 
 export interface PlanetEntity extends PlanetValues {
     id: EntityId;
+    isPrivate: boolean;
 }
 
 export interface PlanetsState extends EntityState<PlanetEntity, EntityId> {
@@ -30,5 +31,6 @@ export const planetsInitialState: PlanetsState = planetsAdapter.getInitialState(
         ordering: "",
         planetname: "",
         isPrivate: null,
+        for_what: "planetname"
     } as PlanetFilterInterface
 });

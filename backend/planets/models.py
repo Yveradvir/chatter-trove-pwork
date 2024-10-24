@@ -9,9 +9,5 @@ class Planet(models.Model):
     password = models.CharField(max_length=128, blank=True, null=True)
     description = models.TextField(null=False)
 
-    @property
-    def is_private(self):
-        return bool(self.password)
-
     def set_password(self, raw_password):
         self.password = make_password(raw_password)

@@ -5,6 +5,7 @@ export interface PlanetFilterInterface {
     planetname: "" | "__istartswith" | "__icontains";
     ordering: "" | "-"; 
     isPrivate: boolean | null; //null means all
+    for_what: "planetname" | "nickname" | "description";
 }
 
 export const planetFilterSchema = Yup.object({
@@ -14,6 +15,9 @@ export const planetFilterSchema = Yup.object({
     planetname: Yup.string()
         .oneOf(["", "__istartswith", "__icontains"])
         .required("Title is required"),
+    for_what: Yup.string()
+        .oneOf(["planetname", "nickname", "description"])
+        .required("Select one of it"),
     ordering: Yup.string()
         .oneOf(["", "-"])
         .required("Ordering is required"),

@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import Planet
 
 class PlanetSerializer(serializers.ModelSerializer):
+    is_private = serializers.SerializerMethodField()
+
     class Meta:
         model = Planet
         fields = '__all__'
@@ -10,6 +12,9 @@ class PlanetSerializer(serializers.ModelSerializer):
             'created_at': {'read_only': True},
             'password': {'write_only': True},
         }
+
+    def get_is_private(self, obj):
+        return bool(obj.password)
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)

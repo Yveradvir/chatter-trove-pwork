@@ -3,6 +3,7 @@ import Layout from "@core/components/layout";
 import { useLocation } from "react-router-dom";
 import PlanetsSearchField from "./components/planets/field";
 import UsersSearchField from "./components/users/field";
+import PlanetsSearchScroller from "./components/planets/scroller";
 
 const SearchPage = () => {
     const location = useLocation();
@@ -27,7 +28,12 @@ const SearchPage = () => {
     const renderInputField = () => {
         return ["planets", "users"].includes(searchType!) ? 
         {
-            planets: <PlanetsSearchField />,
+            planets: (
+                <>
+                    <PlanetsSearchField />
+                    <PlanetsSearchScroller/>
+                </>
+            ),
             users: <UsersSearchField />
         }[searchType!] : <></>
     };

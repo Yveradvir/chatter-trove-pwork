@@ -8,6 +8,9 @@ import { FaDotCircle, FaEquals, FaLock, FaUnlock } from "react-icons/fa";
 import { FiArrowDown, FiArrowUp, FiFilter, FiInbox } from "react-icons/fi";
 import { TbStepInto } from "react-icons/tb";
 import { PlanetFilterInterface, planetFilterSchema } from "./vd";
+import { IoPlanetSharp } from "react-icons/io5";
+import { GiPlanetCore } from "react-icons/gi";
+import { RiPlanetLine } from "react-icons/ri";
 
 const PlanetsSearchField = () => {
     const dispatch = useAppDispatch();
@@ -86,6 +89,38 @@ const PlanetsSearchField = () => {
                                 },
                             ]}
                         />
+                        <Switchbu
+                            field_name="for_what"
+                            states={[
+                                {
+                                    tooltip: {
+                                        content: "For PlanetName (uniqual name)",
+                                        placement: "top",
+                                        children: <></>,
+                                    },
+                                    content: <IoPlanetSharp />,
+                                    field_value: "planetname",
+                                },
+                                {
+                                    tooltip: {
+                                        content: "For planet nickname (non uniqual name)",
+                                        placement: "top",
+                                        children: <></>,
+                                    },
+                                    content: <RiPlanetLine />,
+                                    field_value: "nickname",
+                                },
+                                {
+                                    tooltip: {
+                                        content: "For description",
+                                        placement: "top",
+                                        children: <></>,
+                                    },
+                                    content: <GiPlanetCore />,
+                                    field_value: "description",
+                                },
+                            ]}
+                        />
 
                         <Switchbu
                             field_name="ordering"
@@ -148,7 +183,9 @@ const PlanetsSearchField = () => {
                             type="submit"
                             onClick={() => {
                                 console.log(values)
+                                dispatch(planetsActions.change_beReady({new: false}))
                                 dispatch(planetsActions.change_filters(values))
+                                dispatch(planetsActions.change_beReady({new: true}))
                             }}
                             className="px-4 py-2 flex items-center space-x-2 text-white rounded-md bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700"
                         >

@@ -1,7 +1,11 @@
 from rest_framework import serializers
 from .models import Comet
 
+from profile_images.models import ProfileImage
+
 class CometSerializer(serializers.ModelSerializer):
+    additionals = serializers.SerializerMethodField()
+    
     class Meta:
         model = Comet
         fields = '__all__'
@@ -9,6 +13,21 @@ class CometSerializer(serializers.ModelSerializer):
             'id': {'read_only': True},
             'created_at': {'read_only': True},
         }
+        
+    def get_additionals(self, obj):
+        obj: Comet = obj
+        pfp = ProfileImage.objects.filter(user=obj.user).first()
+        
+        data = {
+            "user": {
+                "id": obj.user.id,
+                "username": obj.user.username,
+                "nickname": obj.user.nickname,
+            },
+            "pfp": bool(pfp)
+        }
+        
+        return data
 
     def create(self, validated_data):
         return Comet.objects.create(**validated_data)

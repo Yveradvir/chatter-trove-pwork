@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "@core/reducers";
 import { errorActions } from "@core/reducers/slices/error";
 import { ProfileEntity } from "@core/reducers/slices/profile/state";
 import { ApiError } from "@core/utils/const";
+import { PlanetMembershipEntity } from "@core/reducers/slices/planet_memberships/state";
 
 interface InPlanetI {
     planet_id: string | undefined;
@@ -26,7 +27,13 @@ const InPlanet: React.FC<InPlanetI> = ({ planet_id, strict, children = null }) =
                     to: "/",
                 })
             );
-        } else if (!planetmemberships.ids.includes(user.id) && strict) {
+        } 
+        
+        const isMember = Object.values(planetmemberships.entities).some(
+            (membership: PlanetMembershipEntity) => membership.planet === parseInt(planet_id!, 10)
+        );
+
+        if (!isMember && strict) {
             dispatch(
                 errorActions.setError({
                     error: {
@@ -37,7 +44,7 @@ const InPlanet: React.FC<InPlanetI> = ({ planet_id, strict, children = null }) =
                 })
             );
         }
-    }, [planet_id, user.id, planetmemberships.ids, strict, dispatch]);
+    }, [planet_id, user.id, planetmemberships, strict, dispatch]);
 
     return <>{children}</>;
 };

@@ -1,17 +1,21 @@
 from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, PermissionDenied, APIException
 
 from .models import ProfileImage
 from .serializers import ProfileImageSerializer
+from .filters import ProfileImagesFilter
 
-class CreateProfileImageView(generics.CreateAPIView):
+class ProfileImageListCreateView(generics.ListCreateAPIView):
     """API view to create a ProfileImage record."""
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = ProfileImage.objects.all()
     serializer_class = ProfileImageSerializer
+
+    filterset_class = ProfileImagesFilter
+        
 
     def perform_create(self, serializer):
         """Ensure the image is associated with the correct user"""

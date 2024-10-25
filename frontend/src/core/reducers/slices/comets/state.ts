@@ -6,6 +6,14 @@ import { ScrollerFilterInterface } from "@core/routes/planets/single/components/
 
 export interface CometEntity extends CometValues {
     id: EntityId;
+    additionals: {
+        pfp: boolean;
+        user: {
+            id: number;
+            username: string;
+            nickname: string;
+        }
+    }
 }
 
 export interface CometsState extends EntityState<CometEntity, EntityId> {

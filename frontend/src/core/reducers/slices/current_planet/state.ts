@@ -1,20 +1,11 @@
 import { ApiError, LoadingStatus } from "@core/utils/const";
-import { EntityId } from "@reduxjs/toolkit";
-
-export interface CurrentPlanetEntity {
-    id: EntityId;
-    planetname: string;
-    nickname: string;
-    description: string;
-    created_at: string;
-}
+import { PlanetEntity } from "../planets/state";
 
 export interface CurrentPlanetState {    
     loadingStatus: LoadingStatus;
-    entity: CurrentPlanetEntity | null;
+    entity: PlanetEntity | null;
     error: ApiError | null;
 }
-
 
 export const currentPlanetInitialState = {
     loadingStatus: LoadingStatus.ANotLoaded,

@@ -8,9 +8,10 @@ import { ApiError, LoadingStatus } from "@core/utils/const";
 import { Rejector } from "@core/utils/rejector";
 import ApiService from "@core/utils/api";
 import { store } from "@core/reducers";
+import { PlanetEntity } from "../../planets/state";
 
 export const loadPlanetMemberships = createAsyncThunk<
-    PlanetMembershipEntity[],
+    PlanetEntity[],
     void,
     { rejectValue: ApiError }
 >("planetMemberships/load", async (_, thunkAPI) => {

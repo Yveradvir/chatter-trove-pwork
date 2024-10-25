@@ -1,7 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from rest_framework.exceptions import NotFound, APIException
+from rest_framework.exceptions import NotFound, APIException, PermissionDenied
 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
@@ -33,10 +33,19 @@ class PlanetMembershipListCreateView(generics.ListCreateAPIView):
         if PlanetMembership.objects.filter(user=user, planet=planet).exists():
             raise APIException(detail="User is already a member of this planet", code=409)
         
-        print(serializer.validated_data)
         check_planetmemberships_border(user.id)    
         if serializer.validated_data.get('user_role') != 0:
             check_before_create(self.request, planet, serializer.validated_data.get('user_role'))
+        
+        if bool(planet.password):
+            password = serializer.validated_data.get('password', None)
+            
+            if password:
+                if not planet.check_password(password):
+                    raise PermissionDenied(detail="Incorect password")
+            else:
+                raise APIException(detail="Password is required", code=400) 
+            
         
         serializer.save(user=user)
         

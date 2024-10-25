@@ -42,7 +42,7 @@ export const loadComets__Fulfilled: CaseReducer<
     CometsState,
     PayloadAction<{count: number, results: CometEntity[]}>
 > = (state, action) => {
-    cometsAdapter.setAll(state, action.payload.results);
+    cometsAdapter.addMany(state, action.payload.results);
     
     state.loadingStatus = LoadingStatus.Loaded;
     state.error = null;

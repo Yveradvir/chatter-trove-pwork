@@ -1,11 +1,12 @@
 import { createAsyncThunk, PayloadAction, CaseReducer } from "@reduxjs/toolkit";
-import { CurrentPlanetEntity, CurrentPlanetState } from "../state";
+import { CurrentPlanetState } from "../state";
 import { ApiError, LoadingStatus } from "@core/utils/const";
 import { Rejector } from "@core/utils/rejector";
 import ApiService from "@core/utils/api";
+import { PlanetEntity } from "../../planets/state";
 
 export const loadCurrentPlanet = createAsyncThunk<
-    CurrentPlanetEntity,
+    PlanetEntity,
     number,
     { rejectValue: ApiError }
 >("currentPlanetId/load", async (currentPlanetId, thunkAPI) => {
@@ -13,7 +14,7 @@ export const loadCurrentPlanet = createAsyncThunk<
         const response = await ApiService.get(`/planets/${currentPlanetId}`);
 
         if (response.status === 200) {
-            return response.data as CurrentPlanetEntity;
+            return response.data as PlanetEntity;
         } else {
             return thunkAPI.rejectWithValue(Rejector.standartAxiosReject(response));
         }
@@ -30,7 +31,7 @@ export const loadCurrentPlanet__Pending: CaseReducer<CurrentPlanetState> = (
 
 export const loadCurrentPlanet__Fulfilled: CaseReducer<
     CurrentPlanetState,
-    PayloadAction<CurrentPlanetEntity>
+    PayloadAction<PlanetEntity>
 > = (state, action) => {
     state.entity = action.payload;
     state.loadingStatus = LoadingStatus.Loaded;

@@ -20,8 +20,6 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def validate(self, attrs):
-        if attrs.get('password') != attrs.get('cpassword'):
-            raise serializers.ValidationError({"cpassword": "Passwords do not match."})
         return attrs
 
     def create(self, validated_data):

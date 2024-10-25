@@ -42,7 +42,7 @@ export const loadPlanets__Fulfilled: CaseReducer<
     PlanetsState,
     PayloadAction<{count: number, results: PlanetEntity[]}>
 > = (state, action) => {
-    planetsAdapter.setAll(state, action.payload.results);
+    planetsAdapter.addMany(state, action.payload.results);
     
     state.loadingStatus = LoadingStatus.Loaded;
     state.error = null;

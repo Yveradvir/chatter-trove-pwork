@@ -11,7 +11,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const Scroller = () => {
     const dispatch = useAppDispatch();
-    const { beReady, filter, page, loadingStatus, ids, entities, error } = useAppSelector((state) => state.comets);
+    const { beReady, filter, page, loadingStatus, ids, entities, error, maxPages } = useAppSelector((state) => state.comets);
 
     useEffect(() => {
         if (beReady) {
@@ -33,7 +33,11 @@ const Scroller = () => {
             <InfiniteScroll
                 dataLength={ids.length}
                 next={loadMoreComets}
-                hasMore={loadingStatus !== LoadingStatus.Loading && ids.length > 0}
+                hasMore={
+                    loadingStatus !== LoadingStatus.Loading 
+                    && ids.length > 0
+                    && page === maxPages
+                }
                 loader={<p>Loading comets...</p>}
             >
                 <div className="mt-4 space-y-4">

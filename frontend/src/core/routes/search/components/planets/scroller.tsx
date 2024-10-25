@@ -10,7 +10,7 @@ import PlanetCard from "./card";
 
 const PlanetsSearchScroller = () => {
     const dispatch = useAppDispatch();
-    const { beReady, filter, page, loadingStatus, ids, entities } = useAppSelector((state) => state.planets);
+    const { beReady, filter, page, loadingStatus, ids, entities, maxPages } = useAppSelector((state) => state.planets);
 
     useEffect(() => {
         if (beReady) {
@@ -30,8 +30,15 @@ const PlanetsSearchScroller = () => {
             <InfiniteScroll
                 dataLength={ids.length}
                 next={loadMorePlanets}
-                hasMore={loadingStatus !== LoadingStatus.Loading && ids.length > 0}
+                hasMore={
+                    loadingStatus !== LoadingStatus.Loading 
+                    && ids.length > 0 
+                    && page === maxPages
+                }
                 loader={<p>Loading planets...</p>}
+                endMessage={<p className="text-3xl mt-4 font-bold tracking-tight text-cyan-300">
+                    Congrats! It's finish.
+                </p>}
             >
                 <div className="mt-4 space-y-4">
                     {ids.map((id: EntityId) => {

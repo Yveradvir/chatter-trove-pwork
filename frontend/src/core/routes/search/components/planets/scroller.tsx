@@ -43,7 +43,7 @@ const PlanetsSearchScroller = () => {
                 <div className="mt-4 space-y-4">
                     {ids.map((id: EntityId) => {
                         const planet = entities[id] as PlanetEntity;
-                        return <PlanetCard planet={planet} />
+                        return <PlanetCard key={id as string} planet={planet} />
                     })}
                 </div>
             </InfiniteScroll>

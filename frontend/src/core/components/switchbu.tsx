@@ -19,7 +19,8 @@ const Switchbu: FC<SwitchbuProps> = ({ field_name, states }) => {
     const handleSwitch = () => {
         const nextIndex = (currentStateIndex + 1) % states.length;
         setCurrentStateIndex(nextIndex);
-        helpers.setValue(states[currentStateIndex].field_value);
+        helpers.setValue(states[nextIndex].field_value);
+        console.log(states[nextIndex].field_value);
     };
 
     const currentState = states[currentStateIndex];

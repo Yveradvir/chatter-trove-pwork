@@ -16,10 +16,11 @@ class PlanetFilter(filters.FilterSet):
 
     def filter_is_private(self, queryset, name, value):
         if value is None:
-            return queryset  
+            return queryset
+        
         return queryset.annotate(
             is_private=Case(
-                When(password__isnull=False, password__gt='', then=True),  
+                When(password__isnull=False, password__gt='', then=True), 
                 default=False,
                 output_field=BooleanField()
             )

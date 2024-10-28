@@ -3,6 +3,7 @@ from .models import Planet
 
 class PlanetSerializer(serializers.ModelSerializer):
     is_private = serializers.SerializerMethodField()
+    additionals = serializers.SerializerMethodField()
 
     class Meta:
         model = Planet
@@ -15,6 +16,15 @@ class PlanetSerializer(serializers.ModelSerializer):
 
     def get_is_private(self, obj):
         return bool(obj.password)
+
+    def get_additionals(self, obj):
+        obj: Planet = obj
+        
+        data = {
+            "popularity": getattr(obj, 'popularity', 0)  
+        }
+        
+        return data
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)

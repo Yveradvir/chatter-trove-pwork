@@ -16,47 +16,70 @@ const PlanetsSearchField = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(
-            planetsActions.change_beReady({
-                new: true
-            })
-        );
+        dispatch(planetsActions.change_beReady({ new: true }));
     }, [dispatch]);
 
     return (
         <Formik
-            initialValues={{
-                filter: "",
-                planetname: "",
-                ordering: "",
-                isPrivate: null,
-            } as PlanetFilterInterface}
+            initialValues={
+                {
+                    for_what: "planetname",
+                    filter: "",
+                    planetname: "",
+                    ordering: "-created_at",
+                    isPrivate: null,
+                } as PlanetFilterInterface
+            }
             validationSchema={planetFilterSchema}
             onSubmit={() => {}}
         >
             {({ handleChange, handleBlur, values, touched, errors }) => (
-                <Form className="flex items-center gap-4">
-                    <div className="flex-1">
-                        <input
-                            type="text"
-                            id="filter"
-                            name="filter"
-                            placeholder="Filter Text"
-                            className={clsx(
-                                "block w-full rounded-lg border-none bg-neutral-800 py-2 px-3 text-sm text-neutral-100",
-                                touched.filter && errors.filter ? "border-red-500 ring-1 ring-red-500" : ""
+                <Form className="space-y-4">
+                    <div className="flex items-center gap-4">
+                        <div className="flex-1">
+                            <input
+                                type="text"
+                                id="filter"
+                                name="filter"
+                                placeholder="Filter Text"
+                                className={clsx(
+                                    "block w-full rounded-lg border-none bg-neutral-800 py-2 px-3 text-sm text-neutral-100",
+                                    touched.filter && errors.filter
+                                        ? "border-red-500 ring-1 ring-red-500"
+                                        : ""
+                                )}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.filter}
+                                aria-label="Filter Text"
+                            />
+                            {touched.filter && errors.filter && (
+                                <p className="text-red-500 text-xs mt-1">
+                                    {errors.filter}
+                                </p>
                             )}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.filter}
-                            aria-label="Filter Text"
-                        />
-                        {touched.filter && errors.filter && (
-                            <p className="text-red-500 text-xs mt-1">{errors.filter}</p>
-                        )}
+                        </div>
+                        <button
+                            type="submit"
+                            onClick={() => {                                
+                                dispatch(
+                                    planetsActions.change_beReady({
+                                        new: false,
+                                    })
+                                );
+                                dispatch(planetsActions.change_filters(values));
+                                dispatch(
+                                    planetsActions.change_beReady({ new: true })
+                                );
+                            }}
+                            className="px-4 py-2 flex items-center space-x-2 text-white rounded-md bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700"
+                        >
+                            <FiFilter />
+                            <span>Apply</span>
+                        </button>
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-wrap gap-2 mt-4 items-center">
                         <Switchbu
                             field_name="planetname"
                             states={[
@@ -94,7 +117,7 @@ const PlanetsSearchField = () => {
                             states={[
                                 {
                                     tooltip: {
-                                        content: "For PlanetName (uniqual name)",
+                                        content: "For PlanetName (unique name)",
                                         placement: "top",
                                         children: <></>,
                                     },
@@ -103,7 +126,8 @@ const PlanetsSearchField = () => {
                                 },
                                 {
                                     tooltip: {
-                                        content: "For planet nickname (non uniqual name)",
+                                        content:
+                                            "For planet nickname (non-unique name)",
                                         placement: "top",
                                         children: <></>,
                                     },
@@ -121,27 +145,44 @@ const PlanetsSearchField = () => {
                                 },
                             ]}
                         />
-
                         <Switchbu
                             field_name="ordering"
                             states={[
                                 {
                                     tooltip: {
-                                        content: "Ascending order",
-                                        placement: "top",
-                                        children: <></>,
-                                    },
-                                    content: <FiArrowUp />,
-                                    field_value: "",
-                                },
-                                {
-                                    tooltip: {
-                                        content: "Descending order",
+                                        content: "Newest",
                                         placement: "top",
                                         children: <></>,
                                     },
                                     content: <FiArrowDown />,
-                                    field_value: "-",
+                                    field_value: "-created_at",
+                                },
+                                {
+                                    tooltip: {
+                                        content: "Oldest",
+                                        placement: "top",
+                                        children: <></>,
+                                    },
+                                    content: <FiArrowUp />,
+                                    field_value: "created_at",
+                                },
+                                {
+                                    tooltip: {
+                                        content: "More Popularity",
+                                        placement: "top",
+                                        children: <></>,
+                                    },
+                                    content: <FiArrowDown />,
+                                    field_value: "-popularity",
+                                },
+                                {
+                                    tooltip: {
+                                        content: "Less popularity",
+                                        placement: "top",
+                                        children: <></>,
+                                    },
+                                    content: <FiArrowUp />,
+                                    field_value: "popularity",
                                 },
                             ]}
                         />
@@ -165,7 +206,7 @@ const PlanetsSearchField = () => {
                                     },
                                     content: <FaLock />,
                                     field_value: true,
-                                },                                
+                                },
                                 {
                                     tooltip: {
                                         content: "Only public",
@@ -177,21 +218,6 @@ const PlanetsSearchField = () => {
                                 },
                             ]}
                         />
-                    </div>
-                    <div>
-                        <button
-                            type="submit"
-                            onClick={() => {
-                                console.log(values)
-                                dispatch(planetsActions.change_beReady({new: false}))
-                                dispatch(planetsActions.change_filters(values))
-                                dispatch(planetsActions.change_beReady({new: true}))
-                            }}
-                            className="px-4 py-2 flex items-center space-x-2 text-white rounded-md bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700"
-                        >
-                            <FiFilter />
-                            <span>Apply</span>
-                        </button>
                     </div>
                 </Form>
             )}

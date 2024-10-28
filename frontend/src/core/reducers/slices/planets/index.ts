@@ -15,6 +15,8 @@ const planetsSlice = createSlice({
     reducers: {
         reset: () => planetsInitialState,
         change_filters: (state, action) => {
+            console.log(action);
+            
             planetsAdapter.removeAll(state)
             Object.assign(state, planetsInitialState);
             state.filter = action.payload;

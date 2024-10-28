@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 export interface PlanetFilterInterface {
     filter: string;
     planetname: "" | "__istartswith" | "__icontains";
-    ordering: "" | "-"; 
+    ordering: string; 
     isPrivate: boolean | null; //null means all
     for_what: "planetname" | "nickname" | "description";
 }

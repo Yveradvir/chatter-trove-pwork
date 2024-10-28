@@ -16,7 +16,7 @@ export const loadPlanets = createAsyncThunk<
                 isPrivate: data.filter.isPrivate,
                 page: data.page, 
                 [`${data.filter.for_what}${data.filter.planetname}`]: data.filter.filter,
-                ordering: `${data.filter.ordering}created_at`
+                ordering: data.filter.ordering
             },
         });
 

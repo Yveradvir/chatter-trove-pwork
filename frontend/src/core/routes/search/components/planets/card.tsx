@@ -12,7 +12,7 @@ const truncateText = (text: string, maxLength: number) => {
     return text;
 };
 
-const PlanetCard = ({ planet }: PlanetCardProps) => {
+const PlanetCard: React.FC<PlanetCardProps> = ({ planet }) => {
     const navigate = useNavigate();
 
     return (

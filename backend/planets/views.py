@@ -6,6 +6,7 @@ from rest_framework.exceptions import NotFound, APIException
 from .models import Planet
 from .serializers import PlanetSerializer
 from .filters import PlanetFilter
+from django.db.models import Count
 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
@@ -23,8 +24,13 @@ class PlanetListCreateView(generics.ListCreateAPIView):
     filterset_class = PlanetFilter
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     
-    ordering_fields = ['created_at']
-    ordering = ['-created_at']
+    def get_queryset(self):
+        return Planet.objects.annotate(
+            popularity=Count('planetmembership')
+        )
+    
+    ordering_fields = ['created_at', 'popularity']
+    ordering = ['-created_at', '-popularity']
 
 
     def perform_create(self, serializer):

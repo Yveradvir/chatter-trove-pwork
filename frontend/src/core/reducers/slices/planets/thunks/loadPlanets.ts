@@ -13,7 +13,7 @@ export const loadPlanets = createAsyncThunk<
     try {
         const response = await ApiService.get(`/planets/`, {
             params: {
-                isPrivate: data.filter.isPrivate,
+                is_private: data.filter.isPrivate,
                 page: data.page, 
                 [`${data.filter.for_what}${data.filter.planetname}`]: data.filter.filter,
                 ordering: data.filter.ordering

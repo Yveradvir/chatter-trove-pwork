@@ -16,25 +16,25 @@ const SinglePlanetPage: React.FC = () => {
     const { planet_id } = useParams<{ planet_id: string }>();
     const dispatch = useAppDispatch();
 
-    const { error, entity } = useAppSelector(
-        (state) => state.currentPlanet
-    );
-    const planetmemberships = useAppSelector(
-        (state) => state.planet_memberships
-    )
-    
+    const { error, entity } = useAppSelector((state) => state.currentPlanet);
+    const planetmemberships = useAppSelector((state) => state.planet_memberships);
+
     useEffect(() => {
+
+        
         if (entity?.isPrivate) {
             setIsOpen(true);
         }
-
+        
         if (planetmemberships.loadingStatus === LoadingStatus.ANotLoaded) {
-            dispatch(loadPlanetMemberships())
+            dispatch(loadPlanetMemberships());
         }
 
         const fetchData = async () => {
             const planetIdNumber = parseInt(planet_id as string, 10);
+            
             if (!isNaN(planetIdNumber)) {
+
                 await store.dispatch(loadCurrentPlanet(planetIdNumber));
             }
         };
@@ -48,7 +48,7 @@ const SinglePlanetPage: React.FC = () => {
                 error: error,
                 to: "/"
             })
-        )
+        );
 
     return (
         <>
@@ -67,8 +67,8 @@ const SinglePlanetPage: React.FC = () => {
             {entity?.isPrivate && (
                 <JoinToPrivateModal 
                     onClose={() => {setIsOpen(false)}}
-                    open={isOpen as boolean}
-                    planet_id={(parseInt(planet_id!, 10) as number)}
+                    open={isOpen}
+                    planet_id={parseInt(planet_id!, 10)}
                 />
             )}
         </>

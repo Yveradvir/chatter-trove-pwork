@@ -7,6 +7,9 @@ import { PlanetFilterInterface } from "@core/routes/search/components/planets/vd
 export interface PlanetEntity extends PlanetValues {
     id: EntityId;
     isPrivate: boolean;
+    additionals: {
+        popularity: number
+    }
 }
 
 export interface PlanetsState extends EntityState<PlanetEntity, EntityId> {

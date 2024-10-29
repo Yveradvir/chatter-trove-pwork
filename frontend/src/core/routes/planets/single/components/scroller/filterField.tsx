@@ -15,14 +15,12 @@ const FilterField: React.FC = () => {
     const { planet_id } = useParams<{ planet_id: string }>();
 
     useEffect(() => {
-        dispatch(
-            cometsActions.change_beReady({
-                new: true,
-                planet: parseInt(planet_id as string, 10),
-            })
-        );
+        const planetIdNumber = parseInt(planet_id as string, 10);
+        if (!isNaN(planetIdNumber)) {
+            dispatch(cometsActions.change_beReady({ new: true, planet: planetIdNumber })); // Обновляем статус готовности
+        }
     }, [planet_id, dispatch]);
-
+    
     return (
         <Formik
             initialValues={{
@@ -44,7 +42,9 @@ const FilterField: React.FC = () => {
                             placeholder="Filter Text"
                             className={clsx(
                                 "block w-full rounded-lg border-none bg-neutral-800 py-2 px-3 text-sm text-neutral-100",
-                                touched.filter && errors.filter ? "border-red-500 ring-1 ring-red-500" : ""
+                                touched.filter && errors.filter
+                                    ? "border-red-500 ring-1 ring-red-500"
+                                    : ""
                             )}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -52,7 +52,9 @@ const FilterField: React.FC = () => {
                             aria-label="Filter Text"
                         />
                         {touched.filter && errors.filter && (
-                            <p className="text-red-500 text-xs mt-1">{errors.filter}</p>
+                            <p className="text-red-500 text-xs mt-1">
+                                {errors.filter}
+                            </p>
                         )}
                     </div>
 
@@ -119,9 +121,13 @@ const FilterField: React.FC = () => {
                         <button
                             type="submit"
                             onClick={() => {
-                                dispatch(cometsActions.change_beReady({new: false}))
-                                dispatch(cometsActions.change_filters(values))
-                                dispatch(cometsActions.change_beReady({new: true}))
+                                dispatch(
+                                    cometsActions.change_beReady({ new: false })
+                                );
+                                dispatch(cometsActions.change_filters(values));
+                                dispatch(
+                                    cometsActions.change_beReady({ new: true })
+                                );
                             }}
                             className="px-4 py-2 flex items-center space-x-2 text-white rounded-md bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700"
                         >

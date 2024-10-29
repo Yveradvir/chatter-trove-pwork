@@ -13,6 +13,7 @@ import ErrorPageDecorator from "@core/decorators/errorPageDecorator";
 import SearchPage from "@core/routes/search";
 
 const Predecorated = (Component: React.FC) => {
+
     return () => (
         <ErrorPageDecorator>
             <Component />

@@ -9,7 +9,6 @@ class PlanetMembership(models.Model):
         (0, 'User'),
         (1, 'Admin'),
         (2, 'Owner'),
-        (3, 'Banned'),
     ]
     
     id = models.AutoField(primary_key=True)

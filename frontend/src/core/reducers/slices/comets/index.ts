@@ -24,10 +24,13 @@ const cometsSlice = createSlice({
         },
         change_beReady: (state, action) => {
             state.beReady = action.payload.new as boolean;
-            state.filter.planet = action.payload.planet as number;
+            if (action.payload.planet) {                
+                state.filter.planet = action.payload.planet as number;
+            }
         },
         addOne: cometsAdapter.addOne,
         removeOne: cometsAdapter.removeOne,
+        removeAll: cometsAdapter.removeAll
     },
     extraReducers: (builder) => {
         builder

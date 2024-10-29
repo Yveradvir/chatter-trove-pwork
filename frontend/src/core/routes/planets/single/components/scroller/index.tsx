@@ -8,16 +8,18 @@ import CometCard from "./cometCard";
 import { loadComets } from "@core/reducers/slices/comets/thunks/loadComets";
 import { cometsActions } from "@core/reducers/slices/comets";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useParams } from "react-router-dom";
 
 const Scroller = () => {
     const dispatch = useAppDispatch();
+    const { planet_id } = useParams<{ planet_id: string }>();
     const { beReady, filter, page, loadingStatus, ids, entities, error, maxPages } = useAppSelector((state) => state.comets);
 
     useEffect(() => {
         if (beReady) {
             dispatch(loadComets({ filter, page }));
         }
-    }, [dispatch, beReady, filter, page]);
+    }, [dispatch, beReady, filter, page, planet_id]);
 
     const loadMoreComets = () => {
         if (loadingStatus !== LoadingStatus.Loading) {

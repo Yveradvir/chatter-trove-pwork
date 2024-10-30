@@ -1,5 +1,6 @@
 import Layout from "@core/components/layout";
 import ActuallyMembershipsField from "./components/filterField";
+import ActuallyMembershipsScroller from "./components/scroller";
 
 const ActuallyMembershipsPage = () => {
     return (
@@ -12,7 +13,7 @@ const ActuallyMembershipsPage = () => {
                     <div className="my-6">
                         <div className="mt-6">
                             <ActuallyMembershipsField />
-                            
+                            <ActuallyMembershipsScroller/>
                         </div>
                     </div>
                 </div>

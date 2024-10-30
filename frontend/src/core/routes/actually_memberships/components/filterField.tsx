@@ -9,15 +9,20 @@ import { TbStepInto } from "react-icons/tb";
 import { IoPlanetSharp } from "react-icons/io5";
 import { RiPlanetLine } from "react-icons/ri";
 import { actuallyMembershipsActions } from "@core/reducers/slices/actually_memberships";
-import { ActuallyMembershipsFilterInterface } from "./vd";
-import ActuallyMembershipsPage from "..";
+import { ActuallyMembershipsFilterInterface, actuallyMembershipsFilterSchema } from "./vd";
+import { useParams } from "react-router-dom";
 
 const ActuallyMembershipsField = () => {
     const dispatch = useAppDispatch();
+    const { planet_id } = useParams<{ planet_id: string }>();
 
     useEffect(() => {
-        dispatch(actuallyMembershipsActions.change_beReady({ new: true }));
-    }, [dispatch]);
+        const planetIdNumber = parseInt(planet_id as string, 10);
+        if (!isNaN(planetIdNumber)) {
+            dispatch(actuallyMembershipsActions.change_beReady({ new: true, planet: planetIdNumber })); // Обновляем статус готовности
+        }
+    }, [planet_id, dispatch]);
+    
 
     return (
         <Formik
@@ -28,9 +33,10 @@ const ActuallyMembershipsField = () => {
                     username: "",
                     ordering: "-created_at",
                     isActive: null,
+                    planet: planet_id ? Number.parseInt(planet_id) : 0,
                 } as ActuallyMembershipsFilterInterface
             }
-            validationSchema={ActuallyMembershipsPage}
+            validationSchema={actuallyMembershipsFilterSchema}
             onSubmit={() => {}}
         >
             {({ handleChange, handleBlur, values, touched, errors }) => (
@@ -61,7 +67,9 @@ const ActuallyMembershipsField = () => {
                         </div>
                         <button
                             type="submit"
-                            onClick={() => {                                
+                            onClick={() => {       
+                                console.log(values);
+                                                         
                                 dispatch(
                                     actuallyMembershipsActions.change_beReady({
                                         new: false,
@@ -81,7 +89,7 @@ const ActuallyMembershipsField = () => {
 
                     <div className="flex flex-wrap gap-2 mt-4 items-center">
                         <Switchbu
-                            field_name="planetname"
+                            field_name="username"
                             states={[
                                 {
                                     tooltip: {

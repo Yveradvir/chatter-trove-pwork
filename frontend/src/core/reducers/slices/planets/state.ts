@@ -34,6 +34,7 @@ export const planetsInitialState: PlanetsState = planetsAdapter.getInitialState(
         ordering: "",
         planetname: "",
         isPrivate: null,
-        for_what: "planetname"
+        for_what: "planetname",
+        planet: 0
     } as PlanetFilterInterface
 });

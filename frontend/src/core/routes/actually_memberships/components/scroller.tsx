@@ -8,7 +8,7 @@ import MembershipCard from "./membershipCard";
 import { ActuallyMembershipsEntity } from "@core/reducers/slices/actually_memberships/state";
 import { loadActuallyMemberships } from "@core/reducers/slices/actually_memberships/thunks/loadMemberships";
 
-const PlanetsSearchScroller = () => {
+const ActuallyMembershipsScroller = () => {
     const dispatch = useAppDispatch();
     const { beReady, filter, page, loadingStatus, ids, entities, maxPages } = useAppSelector((state) => state.actually_memberships);
 
@@ -51,4 +51,4 @@ const PlanetsSearchScroller = () => {
     );
 };
 
-export default PlanetsSearchScroller;
+export default ActuallyMembershipsScroller;

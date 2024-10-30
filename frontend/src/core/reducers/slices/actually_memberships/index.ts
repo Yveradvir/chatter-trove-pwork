@@ -27,6 +27,9 @@ const actuallyMembershipsSlice = createSlice({
         },
         change_beReady: (state, action) => {
             state.beReady = action.payload.new as boolean;
+            if (action.payload.planet) {
+                state.filter.planet = action.payload.planet as number;
+            }
         },
         addOne: actuallyMembershipsAdapter.addOne,
         removeOne: actuallyMembershipsAdapter.removeOne,

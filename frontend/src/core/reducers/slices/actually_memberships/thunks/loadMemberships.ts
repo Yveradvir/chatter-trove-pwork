@@ -2,7 +2,6 @@ import { CaseReducer, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { ApiError, LoadingStatus } from "@core/utils/const";
 import { Rejector } from "@core/utils/rejector";
 import ApiService from "@core/utils/api";
-import { store } from "@core/reducers";
 import { actuallyMembershipsAdapter, ActuallyMembershipsEntity, ActuallyMembershipsState } from "../state";
 import { ActuallyMembershipsFilterInterface } from "@core/routes/actually_memberships/components/vd";
 
@@ -14,7 +13,7 @@ export const loadActuallyMemberships = createAsyncThunk<
     try {
         const response = await ApiService.get(`/planetmemberships/`, {
             params: {
-                planet: store.getState().currentPlanet.entity?.id,
+                planet: data.filter.planet,
                 page: data.page,
                 [`${data.filter.for_what}${data.filter.username}`]:
                     data.filter.filter,

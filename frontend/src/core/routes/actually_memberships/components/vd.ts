@@ -6,9 +6,10 @@ export interface ActuallyMembershipsFilterInterface {
     ordering: string; 
     isActive: boolean | null; 
     for_what: "username" | "nickname";
+    planet: number;
 }
 
-export const planetFilterSchema = Yup.object({
+export const actuallyMembershipsFilterSchema = Yup.object({
     filter: Yup.string()
         .max(80, "Filter must be at most 80 characters")
         .nullable(),
@@ -21,5 +22,6 @@ export const planetFilterSchema = Yup.object({
     ordering: Yup.string()
         .required("Ordering is required"),
     isActive: Yup.boolean()
-        .nullable()
+        .nullable(),
+    planet: Yup.number()
 });

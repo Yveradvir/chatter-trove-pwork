@@ -11,6 +11,7 @@ import PlanetMembershipsSigil from "./sigils/planet_memberships.sigil";
 import NewCometPage from "@core/routes/comets/new";
 import ErrorPageDecorator from "@core/decorators/errorPageDecorator";
 import SearchPage from "@core/routes/search";
+import ActuallyMembershipsPage from "@core/routes/actually_memberships";
 
 const Predecorated = (Component: React.FC) => {
 
@@ -39,6 +40,7 @@ const App = () => {
                 <Route path="/auth/signin" element={Predecorated(SignInPage)()} />
                 <Route path="/planets/" element={Predecorated(NewPlanetPage)()} />
                 <Route path="/planets/:planet_id" element={Predecorated(SinglePlanetPage)()} />
+                <Route path="/planets/:planet_id/memberships" element={Predecorated(ActuallyMembershipsPage)()} />
                 <Route path="/planets/:planet_id/comets/" element={Predecorated(NewCometPage)()} />
             </Routes>
         </BrowserRouter>

@@ -1,25 +1,25 @@
 import * as Yup from 'yup';
 
-export interface PlanetFilterInterface {
+export interface ActuallyMembershipsFilterInterface {
     filter: string;
-    planetname: "" | "__istartswith" | "__icontains";
+    username: "" | "__istartswith" | "__icontains";
     ordering: string; 
-    isPrivate: boolean | null; //null means all
-    for_what: "planetname" | "nickname" | "description";
+    isActive: boolean | null; 
+    for_what: "username" | "nickname";
 }
 
 export const planetFilterSchema = Yup.object({
     filter: Yup.string()
         .max(80, "Filter must be at most 80 characters")
         .nullable(),
-    planetname: Yup.string()
+    username: Yup.string()
         .oneOf(["", "__istartswith", "__icontains"])
         .required("Title is required"),
     for_what: Yup.string()
+        .oneOf(["planetname", "nickname"])
         .required("Select one of it"),
     ordering: Yup.string()
-        .oneOf(["", "-"])
         .required("Ordering is required"),
-    isPrivate: Yup.boolean()
+    isActive: Yup.boolean()
         .nullable()
 });

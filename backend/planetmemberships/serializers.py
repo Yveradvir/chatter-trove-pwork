@@ -2,11 +2,13 @@ from rest_framework import serializers
 from .models import PlanetMembership
 
 class PlanetMembershipSerializer(serializers.ModelSerializer):
+    additionals = serializers.SerializerMethodField()
     password = serializers.CharField(
         write_only=True,
         required=False,
         style={'input_type': 'password', 'placeholder': 'Password'}
     )
+
 
     class Meta:
         model = PlanetMembership
@@ -15,6 +17,24 @@ class PlanetMembershipSerializer(serializers.ModelSerializer):
             'id': {'read_only': True},
             'created_at': {'read_only': True}
         }
+
+
+    def get_additionals(self, obj):
+        request = self.context.get('request')
+        if request and request.query_params.get('extended') == 'true':
+            obj: PlanetMembership = obj
+            
+            data = {
+                "user": {
+                    "id": obj.user.id,
+                    "is_active": obj.user.is_active,
+                    "nickname": obj.user.nickname,
+                    "username": obj.user.username
+                }
+            }
+            
+            return data
+        return None
 
     def create(self, validated_data):
         validated_data.pop("password", None)

@@ -21,8 +21,8 @@ class PlanetMembershipListCreateView(generics.ListCreateAPIView):
     filterset_class = PlanetMembershipsFilter
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     
-    ordering_fields = ['created_at']
-    ordering = ['-created_at']
+    ordering_fields = ['created_at', 'user_role']
+    ordering = ['-created_at', '-user_role']
 
 
     def perform_create(self, serializer):

@@ -19,7 +19,8 @@ export const loadActuallyMemberships = createAsyncThunk<
                 [`${data.filter.for_what}${data.filter.username}`]:
                     data.filter.filter,
                 ordering: data.filter.ordering,
-                isActive: data.filter.isActive
+                isActive: data.filter.isActive,
+                extended: true
             },
         });
 

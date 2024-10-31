@@ -11,6 +11,11 @@ from profile_images.models import ProfileImage
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
+def get_my_access(request):
+    return Response({"token": request.COOKIES["access"]}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_me_as_user_view(request):
     user_data = UserSerializer(request.user).data
     return Response(user_data, status=status.HTTP_200_OK)

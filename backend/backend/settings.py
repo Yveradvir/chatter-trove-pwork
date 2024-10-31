@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'planetmemberships',
     'comets',
     'mine',
+    'base_ws'
 ]
 
 MIDDLEWARE = [
@@ -116,7 +117,11 @@ TEMPLATES = [
 
 ASGI_APPLICATION = 'backend.asgi.application'
 # WSGI_APPLICATION = 'backend.wsgi.application'
-
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 DATABASES = {
     'default': {

@@ -25,7 +25,7 @@ const SingInPage = () => {
             try {
                 console.log(values);
                 await onSubmit(values, actions);
-                navigate("/home");
+                navigate("/");
             } catch (e) {
                 setGlobalError(check_error(e));
             }

@@ -9,7 +9,12 @@ export const profileSlice = createSlice({
     name: PROFILE_FEATURE_KEY,
     initialState: profileInitialState,
     reducers: {
-        reset: () => profileInitialState
+        reset: () => profileInitialState,
+        turnOnline: (state) => {
+            if (state.isAuthenticated && state.entity) {
+                state.entity.is_online = true;
+            }
+        }
     },
     extraReducers: (builder) => {
         builder

@@ -42,6 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     tag = models.CharField(max_length=4, unique=True, default=generate_tag)
 
     is_active = models.BooleanField(default=True)  
+    is_online = models.BooleanField(default=True)  
     is_staff = models.BooleanField(default=False)  
     created_at = models.DateTimeField(default=timezone.now)
     

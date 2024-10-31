@@ -13,6 +13,9 @@ export interface ProfileEntity {
     nickname: string;
     email: string;
     tag: string;
+    is_active: boolean;
+    is_staff: boolean;
+    is_online: boolean;
     additionals: AdditionalsEntity
 }
 

@@ -1,5 +1,6 @@
 from rest_framework import generics
 from rest_framework.request import Request
+from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import NotFound, APIException
 
@@ -46,13 +47,18 @@ class OptionsCometView(generics.RetrieveAPIView):
             obj - the django model object that will be checked with user.
         """
         user = request.user
-        planetmembership = PlanetMembership.objects.get(user=user.id, planet=obj.planet)
+        planetmembership = PlanetMembership.objects.filter(user=user.id, planet=obj.planet).first()
+        
         isntu = obj.user != user
+        
+        if bool(obj.planet.password) and not planetmembership:
+            raise APIException(detail="You have to be a member of planet to see this comet")
+
         if request.method == "DELETE":
-            if isntu or planetmembership.user_role not in [1, 2]:
+            if not planetmembership or isntu or planetmembership.user_role not in [1, 2]:
                 raise APIException(detail="You do not have permission for deleting it. You're not author of comet or not admin/owner of the planet", code=403)
         elif request.method == "PATCH":
-            if isntu:
+            if not planetmembership or isntu:
                 raise APIException(detail="You do not have permission for changing it. You're not author of comet", code=403)
                 
     def get_object(self):

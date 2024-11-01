@@ -11,7 +11,7 @@ const SetOnlineDecorator: React.FC<{children: React.ReactNode}> = ({children}) =
             console.group("Websocket Activity decorator")
             console.log("Connection is starting...")
             const token = (await ApiService.get("/mine/access/")).data.token
-            const socket = new WebSocket(`ws://localhost:4300/ws/activity/?token=${token}`);
+            const socket = new WebSocket(`ws://localhost:4300/ws/online/?token=${token}`);
             console.log("Connection has started...")
             
             console.groupEnd()

@@ -1,6 +1,5 @@
 _backend/
 meta/
-images/
 
 __pycache__/
 *.py[cod]

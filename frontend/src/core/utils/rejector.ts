@@ -3,10 +3,10 @@ import { ApiError } from "./const";
 import { check_error } from "./check_fn";
 
 export class Rejector {        
-    static standartReject(status_code: number = 500): ApiError {
+    static standartReject(status_code: number = 500, detail: string = "Something went wrong..."): ApiError {
         return {
             status_code: status_code,
-            detail: "Something went wrong..."
+            detail: detail
         }
     }
 

@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'planetmemberships',
     'comets',
     'mine',
-    'base_ws'
+    'base_ws',
+    'images'
 ]
 
 MIDDLEWARE = [

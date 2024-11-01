@@ -9,12 +9,12 @@ export interface CometValues {
 
 export const createCometSchema = Yup.object({
     title: Yup.string()
-        .max(80, "Planet name should be no longer than 80 characters")
-        .min(3, "Planet name must be at least 3 characters")
-        .required("Planet name is required"),
+        .max(80, "Comet's name should be no longer than 80 characters")
+        .min(3, "Comet's name must be at least 3 characters")
+        .required("Comet's name is required"),
     description: Yup.string()
-        .max(6000, "Description of the planet should be no longer thab 6000 symbols")
-        .min(20, "Description of the planet should be at least 20 symbols"),
+        .max(40000, "Description of the comet should be no longer thab 40 000 symbols")
+        .min(20, "Description of the comet should be at least 20 symbols"),
     user: Yup.number(),
     planet: Yup.number()
 })

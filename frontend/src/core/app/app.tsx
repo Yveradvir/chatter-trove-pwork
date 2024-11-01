@@ -13,6 +13,7 @@ import ErrorPageDecorator from "@core/decorators/errorPageDecorator";
 import SearchPage from "@core/routes/search";
 import ActuallyMembershipsPage from "@core/routes/actually_memberships";
 import SetOnlineDecorator from "@core/decorators/setOnlineDecorator";
+import SingleCometPage from "@core/routes/comets/single";
 
 const Predecorated = (Component: React.FC) => {
 
@@ -44,6 +45,7 @@ const App = () => {
                     <Route path="/planets/:planet_id" element={Predecorated(SinglePlanetPage)()} />
                     <Route path="/planets/:planet_id/memberships" element={Predecorated(ActuallyMembershipsPage)()} />
                     <Route path="/planets/:planet_id/comets/" element={Predecorated(NewCometPage)()} />
+                    <Route path="/planets/:planet_id/comets/:comet_id/" element={Predecorated(SingleCometPage)()} />
                 </Routes>
             </BrowserRouter>
         </SetOnlineDecorator>

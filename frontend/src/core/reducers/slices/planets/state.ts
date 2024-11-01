@@ -10,6 +10,7 @@ export interface PlanetEntity extends PlanetValues {
     additionals: {
         popularity: number
     }
+    created_at: string;
 }
 
 export interface PlanetsState extends EntityState<PlanetEntity, EntityId> {

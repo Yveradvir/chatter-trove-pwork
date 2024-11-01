@@ -14,6 +14,7 @@ export interface CometEntity extends CometValues {
             nickname: string;
         }
     }
+    created_at: string;
 }
 
 export interface CometsState extends EntityState<CometEntity, EntityId> {

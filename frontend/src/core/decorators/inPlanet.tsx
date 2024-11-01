@@ -28,7 +28,7 @@ const InPlanet: React.FC<InPlanetI> = ({ planet_id, strict, children = null }) =
                 })
             );
         } 
-        
+
         const isMember = Object.values(planetmemberships.entities).some(
             (membership: PlanetMembershipEntity) => membership.planet === parseInt(planet_id!, 10)
         );
@@ -44,7 +44,7 @@ const InPlanet: React.FC<InPlanetI> = ({ planet_id, strict, children = null }) =
                 })
             );
         }
-    }, [planet_id, user.id, planetmemberships, strict, dispatch]);
+    }, [planet_id, user, planetmemberships, strict, dispatch]);
 
     return <>{children}</>;
 };

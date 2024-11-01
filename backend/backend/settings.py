@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'comets',
     'mine',
     'base_ws',
-    'images'
+    'images',
+    'asteroids',
 ]
 
 MIDDLEWARE = [

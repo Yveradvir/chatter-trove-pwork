@@ -26,4 +26,5 @@ urlpatterns = [
     path('planetmemberships/', include('planetmemberships.urls')),
     path('comets/', include('comets.urls')),
     path('mine/', include('mine.urls')),
+    path('asteroids/', include('asteroids.urls')),
 ]

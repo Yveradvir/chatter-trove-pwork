@@ -5,6 +5,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import NotFound, APIException
 
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Count
+
 from rest_framework.filters import OrderingFilter
 
 from .models import Comet
@@ -23,6 +25,11 @@ class CometListCreateView(generics.ListCreateAPIView):
 
     filterset_class = CometsFilter
     filter_backends = [DjangoFilterBackend, OrderingFilter]
+
+    def get_queryset(self):
+        return Comet.objects.annotate(
+            asteroids=Count('asteroid')
+        )
     
     ordering_fields = ['created_at']
     ordering = ['-created_at']

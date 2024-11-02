@@ -7,6 +7,7 @@ import { Rejector } from "@core/utils/rejector";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import UserBlock from "./components/userBlock";
+import AsteroidsScroller from "./components/asteroids";
 
 const SingleCometPage: React.FC = () => {
     const { comet_id } = useParams<{ comet_id: string }>();
@@ -61,6 +62,8 @@ const SingleCometPage: React.FC = () => {
                 <p className="mt-4 break-words">
                     {comet.description}
                 </p>
+                <hr className="border-neutral-600 mt-3" />
+                <AsteroidsScroller />
             </div>
         </Layout>
     );

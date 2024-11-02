@@ -12,7 +12,7 @@ from .filters import AsteroidFilter
 
 from planetmemberships.models import PlanetMembership
 
-class AsteroidsListCreateRoute(generics.ListCreateAPIView):
+class AsteroidsListCreateView(generics.ListCreateAPIView):
     """API view to list all Asteroids records or create a new one."""
 
     permission_classes = [IsAuthenticatedOrReadOnly]

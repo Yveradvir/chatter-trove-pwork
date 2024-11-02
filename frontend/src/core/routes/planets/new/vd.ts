@@ -14,9 +14,11 @@ export const createPlanetSchema = Yup.object({
         .required("Planet name is required"),
     nickname: Yup.string()
         .max(80, "Nickname should be no longer than 80 characters")
+        .min(3, "Nickname name must be at least 3 characters")
         .required("Nickname is required"),
     password: Yup.string()
         .min(8, "Password must be at least 8 characters")
+        .max(40, "Planet password should be no longer than 40 characters")
         .notRequired(),
     description: Yup.string()
         .max(2000, "Description of the planet should be no longer thab 2000 symbols")

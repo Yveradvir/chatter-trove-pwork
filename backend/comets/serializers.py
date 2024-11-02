@@ -25,7 +25,7 @@ class CometSerializer(serializers.ModelSerializer):
                 "nickname": obj.user.nickname,
             },
             "pfp": bool(pfp),
-            "asteroids": getattr(obj, 'asteroids', )
+            "asteroids": getattr(obj, 'asteroids', 0)
         }
         
         return data

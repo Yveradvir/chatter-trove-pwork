@@ -63,7 +63,7 @@ const SingleCometPage: React.FC = () => {
                     {comet.description}
                 </p>
                 <hr className="border-neutral-600 mt-3" />
-                <AsteroidsScroller />
+                <AsteroidsScroller comet_id={cometId} />
             </div>
         </Layout>
     );

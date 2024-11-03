@@ -15,20 +15,24 @@ const asteroidsSlice = createSlice({
     reducers: {
         reset: () => asteroidsInitialState,
         reply: (state, action) => {
-            if (typeof action.payload === 'number') {
+            if (typeof action.payload === "number") {
                 state.reply = `reply: ${action.payload}.`;
             } else {
                 state.reply = "";
             }
-        },        
+        },
         change_filters: (state, action) => {
-            asteroidsAdapter.removeAll(state)
+            asteroidsAdapter.removeAll(state);
             Object.assign(state, asteroidsInitialState);
             state.filter = action.payload;
         },
         change_page: (state, action) => {
-            state.page = action.payload;
+            const newPage = state.page + action.payload;
+            if (newPage >= 1 && newPage <= state.maxPages) {
+                state.page = newPage;
+            }
         },
+
         change_beReady: (state, action) => {
             state.beReady = action.payload.new as boolean;
             if (action.payload.comet) {
@@ -37,7 +41,7 @@ const asteroidsSlice = createSlice({
         },
         addOne: asteroidsAdapter.addOne,
         removeOne: asteroidsAdapter.removeOne,
-        removeAll: asteroidsAdapter.removeAll
+        removeAll: asteroidsAdapter.removeAll,
     },
     extraReducers: (builder) => {
         builder

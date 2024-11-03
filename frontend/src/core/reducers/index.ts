@@ -16,7 +16,7 @@ import {
     ACTUALLY_MEMBERSHIPS_FEATURE_KEY,
     actuallyMembershipsReducer,
 } from "./slices/actually_memberships";
-import { ASTEROIDS_FEATURE_KEY, asteroidsReducer } from "./slices/comets copy";
+import { ASTEROIDS_FEATURE_KEY, asteroidsReducer } from "./slices/asteroids";
 
 export const store = configureStore({
     reducer: {

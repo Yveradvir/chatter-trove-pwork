@@ -11,3 +11,11 @@ export const createAsteroidSchema = Yup.object({
         .min(3, "Content name must be at least 3 characters")
         .required("Content is required")
 })
+
+export const asteroidFilterSchema = Yup.object({
+    reply: Yup.number()
+        .nullable(),
+    ordering: Yup.string()
+        .oneOf(["", "-"])
+        .required("Ordering is required"),
+})

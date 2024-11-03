@@ -5,6 +5,13 @@ import { AsteroidValues } from "@core/routes/comets/single/components/asteroids/
 
 export interface AsteroidEntity extends AsteroidValues {
     id: EntityId;
+    additionals: {
+        user: {
+            id: number;
+            username: string;
+            nickname: string;
+        }
+    }
     user: number;
     reply_at: number | null; 
     created_at: string;
@@ -12,7 +19,7 @@ export interface AsteroidEntity extends AsteroidValues {
 
 export interface AsteroidFilters {
     comet: number;
-    reply: number | null;
+    reply: number | null | string;
     ordering: "" | "-";
 }
 

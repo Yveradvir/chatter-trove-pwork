@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.db.models import Q
 
 from rest_framework import generics, exceptions
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -24,8 +24,8 @@ class AsteroidsListCreateView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, OrderingFilter]
 
     ordering_fields = ['created_at']
-    ordering = ['-created_at']
-
+    ordering = ['created_at']
+    
     def perform_create(self, serializer):
         user = self.request.user
         comet = serializer.validated_data.get('comet')

@@ -6,12 +6,14 @@ import { check_error } from "@core/utils/check_fn";
 import ApiService from "@core/utils/api";
 import { Description, Textarea, Field, Label } from "@headlessui/react";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { useAppSelector } from "@core/reducers";
+import { useAppDispatch, useAppSelector } from "@core/reducers";
+import { asteroidsActions } from "@core/reducers/slices/asteroids";
 
 const NewAsteroid: React.FC<{ comet_id: number }> = ({ comet_id }) => {
+    const dispatch = useAppDispatch();
     const [globalError, setGlobalError] = useState("");
     const [visibleLabel, setVisibleLabel] = useState(false);
-    const reply = useAppSelector((state) => state.asteroids.reply);
+    const {reply, filter} = useAppSelector((state) => state.asteroids);
 
     const formik = useFormik({
         initialValues: {
@@ -26,6 +28,10 @@ const NewAsteroid: React.FC<{ comet_id: number }> = ({ comet_id }) => {
             try {
                 await ApiService.post("/asteroids/", values);
                 actions.resetForm();
+
+                dispatch(asteroidsActions.change_beReady({new: false}))
+                dispatch(asteroidsActions.change_filters(filter))
+                dispatch(asteroidsActions.change_beReady({new: true}))
             } catch (error) {
                 setGlobalError(check_error(error));
             } finally {

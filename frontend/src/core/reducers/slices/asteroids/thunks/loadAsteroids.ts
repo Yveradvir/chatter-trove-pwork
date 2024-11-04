@@ -5,7 +5,7 @@ import ApiService from "@core/utils/api";
 import { AsteroidEntity, AsteroidFilters, asteroidsAdapter, AsteroidsState } from "../state";
 
 export const loadAsteroids = createAsyncThunk<
-    {count: number, results: AsteroidEntity[]},
+    {count: number, results: AsteroidEntity[], next: string | null},
     {filter: AsteroidFilters, page: number},
     { rejectValue: ApiError }
 >("asteroids/load", async (data, thunkAPI) => {
@@ -14,6 +14,7 @@ export const loadAsteroids = createAsyncThunk<
             params: {
                 comet: data.filter.comet,
                 page: data.page, 
+                reply_at: data.filter.reply,
                 ordering: `${data.filter.ordering}created_at`
             },
         });
@@ -38,13 +39,13 @@ export const loadAsteroids__Pending: CaseReducer<AsteroidsState> = (
 
 export const loadAsteroids__Fulfilled: CaseReducer<
     AsteroidsState,
-    PayloadAction<{count: number, results: AsteroidEntity[]}>
+    PayloadAction<{count: number, results: AsteroidEntity[], next: string | null}>
 > = (state, action) => {    
     asteroidsAdapter.addMany(state, action.payload.results);
     
     state.loadingStatus = LoadingStatus.Loaded;
     state.error = null;
-    state.maxPages = Math.floor(action.payload.count % 5);
+    state.maxPages = action.payload.next ? state.page + 1 : state.page;
 };
 
 export const loadAsteroids__Rejected: CaseReducer<

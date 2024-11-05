@@ -8,6 +8,8 @@ export interface ActuallyMembershipsEntity extends PlanetMembershipEntity {
         user: {
             nickname: string;
             username: string;
+            id: number;
+            is_online: boolean;
         }
     }
 } 

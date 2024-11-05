@@ -27,7 +27,7 @@ class PlanetMembershipSerializer(serializers.ModelSerializer):
             data = {
                 "user": {
                     "id": obj.user.id,
-                    "is_active": obj.user.is_active,
+                    "is_online": obj.user.is_online,
                     "nickname": obj.user.nickname,
                     "username": obj.user.username
                 }

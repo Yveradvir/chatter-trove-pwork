@@ -11,11 +11,11 @@ export interface ProfileEntity {
     id: EntityId;
     username: string;
     nickname: string;
-    email: string;
     tag: string;
     is_active: boolean;
     is_staff: boolean;
     is_online: boolean;
+    created_at: string;
     additionals: AdditionalsEntity
 }
 

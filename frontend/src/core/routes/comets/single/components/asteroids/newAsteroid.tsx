@@ -52,7 +52,7 @@ const NewAsteroid: React.FC<{ comet_id: number }> = ({ comet_id }) => {
     }, [reply])
 
     return (
-        <div className="mt-4">
+        <div className="mt-4 scroll-snaper">
             <h1 className="text-3xl font-extrabold text-neutral-50">
                 Create an Asteroid
             </h1>

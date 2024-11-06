@@ -1,3 +1,4 @@
+from django.db.models import Count
 from rest_framework import serializers
 from .models import Comet
 
@@ -18,6 +19,10 @@ class CometSerializer(serializers.ModelSerializer):
         obj: Comet = obj
         pfp = ProfileImage.objects.filter(user=obj.user).first()
         
+        asteroids = Comet.objects.filter(id=obj.id).annotate(
+            asteroids=Count('asteroid')
+        ).values('asteroids').first()
+        
         data = {
             "user": {
                 "id": obj.user.id,
@@ -25,7 +30,7 @@ class CometSerializer(serializers.ModelSerializer):
                 "nickname": obj.user.nickname,
             },
             "pfp": bool(pfp),
-            "asteroids": getattr(obj, 'asteroids', 0)
+            **asteroids
         }
         
         return data

@@ -21,7 +21,8 @@ class AsteroidSerializer(serializers.ModelSerializer):
                 "id": obj.user.id,
                 "username": obj.user.username,
                 "nickname": obj.user.nickname,
-            }
+            },
+            "planet": obj.comet.planet.id
         }
         
         return data

@@ -1,3 +1,5 @@
+from django.db.models import Count
+
 from rest_framework import serializers
 from .models import Planet
 
@@ -20,8 +22,12 @@ class PlanetSerializer(serializers.ModelSerializer):
     def get_additionals(self, obj):
         obj: Planet = obj
         
+        popularity = Planet.objects.filter(id=obj.id).annotate(
+            popularity=Count('planetmembership')
+        ).values('popularity').first()
+        
         data = {
-            "popularity": getattr(obj, 'popularity', 0)  
+            **popularity
         }
         
         return data

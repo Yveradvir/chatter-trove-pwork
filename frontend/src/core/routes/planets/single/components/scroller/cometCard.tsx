@@ -42,7 +42,7 @@ const CometCard: FC<{ comet: CometEntity }> = ({ comet }) => {
             </div>
             <h2 className="text-lg font-bold text-white">{comet.title}</h2>
             <p className="text-sm text-neutral-400">{truncateDescription(comet.description)}</p>
-            <Link to={`comets/${comet.id}`}>
+            <Link to={`/planets/${comet.planet}/comets/${comet.id}`}>
                 <button
                     className="bottom-6 right-6 bg-gradient-to-t from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white font-bold py-3 px-4 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
                 >

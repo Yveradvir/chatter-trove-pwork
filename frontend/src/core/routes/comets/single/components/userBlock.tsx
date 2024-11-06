@@ -11,6 +11,23 @@ interface UserBlockI {
 const UserBlock: React.FC<UserBlockI> = ({ comet }) => {
     const [pfp, setPfp] = useState<string | null>(null);
 
+    const swipeTo = () => {
+        const element = document.body.getElementsByClassName('scroll-snaper')[0];
+        if (element) {
+            element.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
+    };
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('swipe')) {
+            swipeTo();
+        }
+    }, []); 
+    
     useEffect(() => {
         if (comet.additionals.pfp) {
             (async () => {
@@ -53,12 +70,7 @@ const UserBlock: React.FC<UserBlockI> = ({ comet }) => {
                 <Tooltip content="Go to asteroids" placement="top">
                     <div
                         className="flex items-center hover:text-cyan-400"
-                        onClick={() => {
-                            window.scrollTo({
-                                top: document.body.scrollHeight,
-                                behavior: "smooth",
-                            });
-                        }}
+                        onClick={swipeTo}
                     >
                         {comet.additionals.asteroids}
                         <GiAsteroid size={32} />

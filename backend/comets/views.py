@@ -25,11 +25,6 @@ class CometListCreateView(generics.ListCreateAPIView):
 
     filterset_class = CometsFilter
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-
-    def get_queryset(self):
-        return Comet.objects.annotate(
-            asteroids=Count('asteroid')
-        )
     
     ordering_fields = ['created_at']
     ordering = ['-created_at']
@@ -45,11 +40,6 @@ class OptionsCometView(generics.RetrieveAPIView):
     serializer_class = CometSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def get_queryset(self):
-        return Comet.objects.annotate(
-            asteroids=Count('asteroid')
-        )
-        
     def check_object_permissions(self, request: Request, obj: Comet):
         """
         Ensure that the current user has the right to change or delete something.

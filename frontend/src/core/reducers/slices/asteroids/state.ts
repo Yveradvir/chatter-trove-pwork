@@ -10,7 +10,8 @@ export interface AsteroidEntity extends AsteroidValues {
             id: number;
             username: string;
             nickname: string;
-        }
+        },
+        planet: number;
     }
     user: number;
     reply_at: number | null; 

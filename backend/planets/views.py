@@ -24,11 +24,6 @@ class PlanetListCreateView(generics.ListCreateAPIView):
     filterset_class = PlanetFilter
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     
-    def get_queryset(self):
-        return Planet.objects.annotate(
-            popularity=Count('planetmembership')
-        )
-    
     ordering_fields = ['created_at', 'popularity']
     ordering = ['-created_at', '-popularity']
 

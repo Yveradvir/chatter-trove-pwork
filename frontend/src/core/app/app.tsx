@@ -28,11 +28,8 @@ const Predecorated = (Component: React.FC) => {
 
 const App = () => {
     useEffect(() => {
-        const auth = AuthSigil();
-
-        if (auth.isAuthenticated) {
-            PlanetMembershipsSigil();
-        }
+        AuthSigil();
+        PlanetMembershipsSigil();
     }, []);
 
     return (

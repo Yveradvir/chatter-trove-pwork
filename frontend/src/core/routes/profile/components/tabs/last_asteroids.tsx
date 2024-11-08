@@ -18,7 +18,7 @@ const LastAsteroidsTab: React.FC<UserIdRequired> = ({ user_id }) => {
         setLoading(true);
         try {
             const response = await ApiService.get(
-                `/asteroids/?user=${user_id}&page=${page}`
+                `/asteroids/?ordering=-created_at&user=${user_id}&page=${page}`
             );
 
             if (response.data.results.length === 0) {

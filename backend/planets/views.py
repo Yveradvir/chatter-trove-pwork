@@ -21,6 +21,13 @@ class PlanetListCreateView(generics.ListCreateAPIView):
     queryset = Planet.objects.all()
     serializer_class = PlanetSerializer
 
+    def get_queryset(self):
+        queryset = Planet.objects.all()
+
+        queryset = queryset.annotate(popularity=Count('planetmembership'))
+
+        return queryset
+
     filterset_class = PlanetFilter
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     

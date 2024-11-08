@@ -12,7 +12,9 @@ export interface CometEntity extends CometValues {
             id: number;
             username: string;
             nickname: string;
+            is_online: boolean;
         }
+        is_private: boolean;
         asteroids: number;
     }
     created_at: string;

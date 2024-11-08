@@ -27,6 +27,7 @@ class PlanetSerializer(serializers.ModelSerializer):
         ).values('popularity').first()
         
         data = {
+            "is_private": bool(obj.password),
             **popularity
         }
         

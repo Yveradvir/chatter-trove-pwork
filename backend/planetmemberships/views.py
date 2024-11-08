@@ -105,7 +105,7 @@ def get_membersiped_planets(request):
     except ValueError:
         return Response({"detail": "Invalid user ID format"}, status=status.HTTP_400_BAD_REQUEST)
 
-    memberships = PlanetMembership.objects.filter(user__id=user_id).select_related('planet')
+    memberships = PlanetMembership.objects.filter(user__id=user_id).select_related('planet').order_by('-planet__created_at')
     data = [PlanetSerializer(membership.planet).data for membership in memberships]
 
     return Response(data, status=status.HTTP_200_OK)

@@ -28,7 +28,9 @@ class CometSerializer(serializers.ModelSerializer):
                 "id": obj.user.id,
                 "username": obj.user.username,
                 "nickname": obj.user.nickname,
+                "is_online": obj.user.is_online,
             },
+            "is_private": bool(obj.planet.password),
             "pfp": bool(pfp),
             **asteroids
         }

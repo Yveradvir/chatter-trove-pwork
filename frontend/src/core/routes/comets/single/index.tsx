@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import UserBlock from "./components/userBlock";
 import AsteroidsScroller from "./components/asteroids";
+import IsPrivatePlanet from "@core/decorators/isPrivatePlanet";
 
 const SingleCometPage: React.FC = () => {
     const { comet_id } = useParams<{ comet_id: string }>();
@@ -37,7 +38,7 @@ const SingleCometPage: React.FC = () => {
                 errorActions.setError({
                     error: {
                         status_code: 400,
-                        detail: "Incorrect comet's id"
+                        detail: "Incorrect comet's id",
                     },
                     to: "/",
                 })
@@ -54,17 +55,17 @@ const SingleCometPage: React.FC = () => {
 
     return (
         <Layout>
-            <div className="mx-auto max-w-4xl py-20 px-4">
-                <h1 className="text-5xl font-extrabold text-cyan-400 tracking-tight">
-                    {comet.title}
-                </h1>
-                <UserBlock comet={comet}/>
-                <p className="mt-4 break-words">
-                    {comet.description}
-                </p>
-                <hr className="border-neutral-600 mt-3" />
-                <AsteroidsScroller comet_id={cometId} />
-            </div>
+            <IsPrivatePlanet is_private={comet.additionals.is_private} planet_id={comet.planet}>
+                <div className="mx-auto max-w-4xl py-20 px-4">
+                    <h1 className="text-5xl font-extrabold text-cyan-400 tracking-tight">
+                        {comet.title}
+                    </h1>
+                    <UserBlock comet={comet} />
+                    <p className="mt-4 break-words">{comet.description}</p>
+                    <hr className="border-neutral-600 mt-3" />
+                    <AsteroidsScroller comet_id={cometId} />
+                </div>
+            </IsPrivatePlanet>
         </Layout>
     );
 };

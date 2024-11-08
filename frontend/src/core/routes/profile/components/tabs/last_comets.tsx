@@ -18,7 +18,7 @@ const LastCometsTab: React.FC<UserIdRequired> = ({ user_id }) => {
         setLoading(true);
         try {
             const response = await ApiService.get(
-                `/comets/?user=${user_id}&page=${page}`
+                `/comets/?ordering=-created_at&user=${user_id}&page=${page}`
             );
 
             if (response.data.results.length === 0) {
@@ -91,7 +91,7 @@ const LastCometsTab: React.FC<UserIdRequired> = ({ user_id }) => {
             >
                 <div className="space-y-4">
                     {Object.values(comets).map((comet) => (
-                        <CometCard key={comet.id} comet={comet} />
+                        <CometCard key={comet.id} comet={comet} profile_view={true} />
                     ))}
                 </div>
             </InfiniteScroll>

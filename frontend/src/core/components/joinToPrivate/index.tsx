@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { check_error } from "@core/utils/check_fn";
 import ReactDOM from "react-dom";
 import ApiService from "@core/utils/api";
+import { useAppSelector } from "@core/reducers";
+import PlanetMembershipsSigil from "@core/app/sigils/planet_memberships.sigil";
 
 interface JoinToPrivateModalI {
     open: boolean;
@@ -22,6 +24,7 @@ const JoinToPrivateModal: React.FC<JoinToPrivateModalI> = ({
     planet_id,
 }) => {
     const [globalError, setGlobalError] = useState("");
+    const user_id = useAppSelector((state) => state.profile.entity?.id)
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,17 +44,25 @@ const JoinToPrivateModal: React.FC<JoinToPrivateModalI> = ({
         ) => {
             actions.setSubmitting(true);
             try {
-                await ApiService.post("/planetmemberships/", {
+                const response = await ApiService.post("/planetmemberships/", {
                     password: values.password,
                     user_role: 0,
+                    planet: planet_id,
+                    user: user_id
                 });
-                await actions.resetForm();
-                navigate(`/planets/${planet_id}`);
+
+                if (response.status !== 201) {
+                    await actions.resetForm();
+                    PlanetMembershipsSigil()
+                    onClose();
+                    navigate(`/planets/${planet_id}`)
+                } else {
+                    navigate(-1)
+                }
             } catch (error) {
                 setGlobalError(check_error(error));
             } finally {
                 actions.setSubmitting(false);
-                onClose();
             }
         },
     });
@@ -107,7 +118,10 @@ const JoinToPrivateModal: React.FC<JoinToPrivateModalI> = ({
                         <div className="mt-6 flex justify-end space-x-3">
                             <button
                                 type="button"
-                                onClick={onClose}
+                                onClick={() => {
+                                    onClose()
+                                    navigate(-1);
+                                }}
                                 className="px-4 py-2 rounded-md text-sm bg-neutral-700 text-neutral-300 hover:bg-neutral-600"
                             >
                                 Cancel
@@ -118,7 +132,7 @@ const JoinToPrivateModal: React.FC<JoinToPrivateModalI> = ({
                                 text="Confirm"
                             />
                             {globalError && (
-                                <p className="text-red-500 text-xs mt-1">
+                                <p className="flex text-red-500 text-xs mt-1">
                                     {globalError}
                                 </p>
                             )}

@@ -13,7 +13,10 @@ import ReactDOM from "react-dom";
 interface ConfModalI {
     open: boolean;
     onClose: () => void;
-    handler: (data: { password: string; [key: string]: unknown }) => void;
+    handler: (data: {
+        password: string;
+        [key: string]: unknown;
+    }) => Promise<boolean>;
     after_success_url?: string;
     neverCheckbox?: {
         checkbox_api_key: string;
@@ -46,17 +49,23 @@ const ConfModal: React.FC<ConfModalI> = ({
                 const data: { password: string } = {
                     password: values.password,
                 };
-                handler(data);
+
+                const res = await handler(data);
+
                 if (neverCheckbox && isNeverChecked)
                     neverCheckboxFunction(
                         neverCheckbox.checkbox_api_key,
                         neverCheckbox.checkbox_api_value
                     );
-
+                
                 actions.setSubmitting(false);
-                onClose();
-                actions.resetForm();
-                if (after_success_url) navigate(after_success_url);
+                    
+                if (res) {
+                    onClose();
+                    actions.resetForm();
+    
+                    if (after_success_url) navigate(after_success_url);
+                } 
             } catch (error) {
                 setGlobalError(check_error(error));
             }
@@ -88,7 +97,8 @@ const ConfModal: React.FC<ConfModalI> = ({
                                     Password
                                 </Label>
                                 <Description className="text-xs text-neutral-400">
-                                    Your account password (minimum 8 characters).
+                                    Your account password (minimum 8
+                                    characters).
                                 </Description>
                                 <Input
                                     type="password"
@@ -105,11 +115,12 @@ const ConfModal: React.FC<ConfModalI> = ({
                                     onBlur={formik.handleBlur}
                                     value={formik.values.password}
                                 />
-                                {formik.touched.password && formik.errors.password && (
-                                    <Description className="text-red-500 text-xs mt-1">
-                                        {formik.errors.password}
-                                    </Description>
-                                )}
+                                {formik.touched.password &&
+                                    formik.errors.password && (
+                                        <Description className="text-red-500 text-xs mt-1">
+                                            {formik.errors.password}
+                                        </Description>
+                                    )}
                             </Field>
 
                             <Field>
@@ -137,11 +148,12 @@ const ConfModal: React.FC<ConfModalI> = ({
                                     onBlur={formik.handleBlur}
                                     value={formik.values.cpassword}
                                 />
-                                {formik.touched.cpassword && formik.errors.cpassword && (
-                                    <Description className="text-red-500 text-xs mt-1">
-                                        {formik.errors.cpassword}
-                                    </Description>
-                                )}
+                                {formik.touched.cpassword &&
+                                    formik.errors.cpassword && (
+                                        <Description className="text-red-500 text-xs mt-1">
+                                            {formik.errors.cpassword}
+                                        </Description>
+                                    )}
                             </Field>
 
                             {neverCheckbox && (
@@ -188,7 +200,7 @@ const ConfModal: React.FC<ConfModalI> = ({
                 </div>
             </div>
         </Transition>,
-        document.body 
+        document.body
     );
 };
 

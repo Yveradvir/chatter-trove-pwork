@@ -82,6 +82,7 @@ const JLButton: React.FC<JLButtonProps> = ({ id, cooldownDuration = 3000 }) => {
                         className={`w-full px-6 py-3 text-sm font-bold text-white rounded-full bg-gradient-to-r from-neutral-500 to-gray-600 hover:from-neutral-600 hover:to-gray-700`}
                     >
                         <span>
+                            Settings
                             <FiSettings width={32} height={32} />
                         </span>
                     </button>
@@ -113,6 +114,16 @@ const JLButton: React.FC<JLButtonProps> = ({ id, cooldownDuration = 3000 }) => {
                     </span>
                 )}
             </button>
+            <div className="text-center">
+                <Link
+                    className="bg-gradient-to-t from-teal-400 to-cyan-400 bg-clip-text text-transparent hover:underline"
+                    to="settings/"
+                >
+                    <span>
+                        Settings
+                    </span>
+                </Link>
+            </div>
             {isCooldown && (
                 <div
                     className="absolute left-0 bottom-0 h-1 bg-purple-400"

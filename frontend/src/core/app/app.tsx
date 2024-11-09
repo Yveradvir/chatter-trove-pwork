@@ -16,6 +16,7 @@ import SetOnlineDecorator from "@core/decorators/setOnlineDecorator";
 import SingleCometPage from "@core/routes/comets/single";
 import NoneIdProfilePage from "@core/routes/profile/nonIdProfilePage";
 import ProfilePage from "@core/routes/profile";
+import PlanetSettingPage from "@core/routes/planets/settings";
 
 const Predecorated = (Component: React.FC) => {
 
@@ -42,6 +43,7 @@ const App = () => {
                     <Route path="/auth/signin" element={Predecorated(SignInPage)()} />
                     <Route path="/planets/" element={Predecorated(NewPlanetPage)()} />
                     <Route path="/planets/:planet_id" element={Predecorated(SinglePlanetPage)()} />
+                    <Route path="/planets/:planet_id/settings" element={Predecorated(PlanetSettingPage)()} />
                     <Route path="/planets/:planet_id/memberships" element={Predecorated(ActuallyMembershipsPage)()} />
                     <Route path="/planets/:planet_id/comets/" element={Predecorated(NewCometPage)()} />
                     <Route path="/planets/:planet_id/comets/:comet_id/" element={Predecorated(SingleCometPage)()} />

@@ -6,6 +6,7 @@ import loadUser from "./fn";
 import { errorActions } from "@core/reducers/slices/error";
 import { ApiError } from "@core/utils/const";
 import { check_error } from "@core/utils/check_fn";
+import Tooltip from "@core/components/tooltip";
 
 const UserInfo: React.FC<UserIdRequired> = ({ user_id }) => {
     const dispatch = useAppDispatch();
@@ -43,14 +44,24 @@ const UserInfo: React.FC<UserIdRequired> = ({ user_id }) => {
         <aside className="w-72 ml-4 flex-shrink-0">
             <div className="w-64 border-neutral-700 fixed top-1/2 transform -translate-y-1/2 border-r-2 rounded-sm overflow-y-auto">
                 <div className="p-6 bg-neutral-900 shadow-lg rounded-2xl">
-                    <img
-                        src={
-                            pfp ||
-                            "https://i.pinimg.com/474x/81/8a/1b/818a1b89a57c2ee0fb7619b95e11aebd.jpg"
-                        }
-                        alt={`${user.username}'s avatar`}
-                        className="w-12 h-12 rounded-full"
-                    />
+                    <div>
+                        <img
+                            src={
+                                pfp ||
+                                "https://i.pinimg.com/474x/81/8a/1b/818a1b89a57c2ee0fb7619b95e11aebd.jpg"
+                            }
+                            alt={`${user.username}'s avatar`}
+                            className="w-12 h-12 rounded-full"
+                        />
+                        {user.is_online && (
+                            <Tooltip content="Online" placement="top">
+                                <div
+                                    className="absolute bottom-5 left-2 border-2 border-cyan-600 rounded-full p-1 cursor-pointer"
+                                ></div>
+                            </Tooltip>
+                        )}
+                    </div>
+
                     <h2 className="text-3xl font-bold text-cyan-400 mb-2 break-words">
                         {user.username}
                     </h2>

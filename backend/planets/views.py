@@ -1,7 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from rest_framework.exceptions import NotFound, APIException
+from rest_framework.exceptions import NotFound, APIException, PermissionDenied
 
 from .models import Planet
 from .serializers import PlanetSerializer
@@ -85,3 +85,21 @@ class OptionsPlanetView(generics.RetrieveAPIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, *args, **kwargs):
+        planet = self.get_object()
+        
+        try:
+            membership = PlanetMembership.objects.get(planet=planet, user=request.user)
+            if membership.user_role != 2:
+                raise PermissionDenied("Insufficient role to delete this planet.")
+            
+            password = request.data.get("password")
+            if not password or not request.user.check_password(password):
+                raise PermissionDenied("Invalid password.")
+
+            planet.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        
+        except PlanetMembership.DoesNotExist:
+            raise PermissionDenied("No membership found for this planet.")

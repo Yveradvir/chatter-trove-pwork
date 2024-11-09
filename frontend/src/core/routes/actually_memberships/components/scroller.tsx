@@ -35,7 +35,7 @@ const ActuallyMembershipsScroller = () => {
                     && ids.length > 0 
                     && page === maxPages
                 }
-                loader={<p>Loading planets...</p>}
+                loader={<p>Loading memberships...</p>}
                 endMessage={<p className="text-3xl mt-4 font-bold tracking-tight text-cyan-300">
                     Congrats! It's finish.
                 </p>}

@@ -3,8 +3,8 @@ import { EntityId } from "@reduxjs/toolkit";
 
 export interface AdditionalsEntity {
     user: EntityId;
-    is_verified: boolean;
     password_for_pfp_changing: boolean;
+    password_for_comet_deleting: boolean;
 }
 
 export interface ProfileEntity {

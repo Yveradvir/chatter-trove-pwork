@@ -1,8 +1,8 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
-from rest_framework.exceptions import NotFound, APIException
+from rest_framework.exceptions import NotFound, APIException, PermissionDenied
 
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Count
@@ -14,6 +14,7 @@ from .filters import CometsFilter
 from .serializers import CometSerializer
 
 from planetmemberships.models import PlanetMembership
+from accounts.models import UserAdditionals
 
 class CometListCreateView(generics.ListCreateAPIView):
     """API view to list all comets or create a new comet."""
@@ -88,3 +89,29 @@ class OptionsCometView(generics.RetrieveAPIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, *args, **kwargs):
+        comet = self.get_object()
+
+        try:
+            membership = PlanetMembership.objects.get(planet=comet.planet, user=request.user)
+            
+            is_author = request.user == comet.user
+            has_privileges = membership.user_role in [1, 2]
+
+            if is_author or has_privileges:
+                if is_author:
+                    user_additionals = UserAdditionals.objects.get(user=comet.user)
+                    
+                    if user_additionals.password_for_comet_deleting:
+                        password = request.data.get("password")
+                        if not password or not request.user.check_password(password):
+                            raise PermissionDenied("Invalid password.")
+
+                comet.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            
+            raise PermissionDenied("Insufficient permissions to delete this comet.")
+        
+        except PlanetMembership.DoesNotExist:
+            raise PermissionDenied("No membership found for this planet.")

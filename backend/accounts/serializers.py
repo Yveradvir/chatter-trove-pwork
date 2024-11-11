@@ -5,6 +5,14 @@ class UserAdditionalsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAdditionals
         fields = '__all__'
+    
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            if attr not in ["user"]:
+                setattr(instance, attr, value)
+        
+        instance.save()  
+        return instance
 
 class UserSerializer(serializers.ModelSerializer):
     additionals = UserAdditionalsSerializer(source='useradditionals', read_only=True)

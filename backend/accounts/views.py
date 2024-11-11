@@ -8,9 +8,9 @@ from rest_framework.exceptions import NotFound, PermissionDenied
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 
-from .models import User
+from .models import User, UserAdditionals
 from .filters import AccountsFilter
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserAdditionalsSerializer
 
 class UserListCreateView(generics.ListCreateAPIView):
     """API view to list all users or create a new user."""
@@ -109,4 +109,35 @@ class OptionsUserView(generics.RetrieveAPIView):
 
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
+
+class OptionsUserAdditionalsView(generics.RetrieveAPIView):
+    queryset = UserAdditionals.objects.all()
+    serializer_class = UserAdditionalsSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_object(self, pk):
+        """Retrieve the UserAdditionals instance for the authenticated user"""
+        try:
+            return UserAdditionals.objects.get(user=pk)
+        except UserAdditionals.DoesNotExist:
+            raise NotFound(detail="UserAdditionals not found")
+
+    def get(self, request, pk, *args, **kwargs):
+        """Retrieve a user additionals by ID. Available for everyone"""
+        additionals = self.get_object(pk)
+        serializer = UserAdditionalsSerializer(additionals)
+        
+        return Response(serializer.data)
+
+    def patch(self, request, pk, *args, **kwargs):
+        additionals = self.get_object(pk)
+        
+        if additionals.user == request.user:
+            serializer = self.get_serializer(additionals, data=request.data, partial=True)
+            serializer.is_valid()
+            
+            serializer.save()
+            
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        raise PermissionDenied("You don't have permission to update this resource.")

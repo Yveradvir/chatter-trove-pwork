@@ -70,7 +70,6 @@ class UserAdditionals(models.Model):
     """Model to store additional user details"""
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    is_verified = models.BooleanField(default=False)  # Indicates if the user email is verified
     password_for_pfp_changing = models.BooleanField(default=True) # requires password for pfp changing if it's true
-    
+    password_for_comet_deleting = models.BooleanField(default=True) # requires password for comet deleting if it's true
     

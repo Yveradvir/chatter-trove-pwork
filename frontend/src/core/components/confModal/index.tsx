@@ -18,7 +18,9 @@ interface ConfModalI {
         [key: string]: unknown;
     }) => Promise<boolean>;
     after_success_url?: string;
+    step_back?: boolean;
     neverCheckbox?: {
+        user: number;
         checkbox_api_key: string;
         checkbox_api_value: unknown;
         checkbox_text: string;
@@ -31,6 +33,7 @@ const ConfModal: React.FC<ConfModalI> = ({
     handler,
     after_success_url,
     neverCheckbox,
+    step_back = false,
 }) => {
     const [globalError, setGlobalError] = useState("");
     const [isNeverChecked, setIsNeverChecked] = useState(false);
@@ -51,20 +54,20 @@ const ConfModal: React.FC<ConfModalI> = ({
                 };
 
                 const res = await handler(data);
-
-                if (neverCheckbox && isNeverChecked)
-                    neverCheckboxFunction(
-                        neverCheckbox.checkbox_api_key,
-                        neverCheckbox.checkbox_api_value
-                    );
-                
                 actions.setSubmitting(false);
-                    
+                actions.resetForm();
+                
                 if (res) {
+                    if (neverCheckbox && isNeverChecked)
+                        neverCheckboxFunction(
+                            neverCheckbox.user,
+                            neverCheckbox.checkbox_api_key,
+                            neverCheckbox.checkbox_api_value
+                    );
                     onClose();
-                    actions.resetForm();
     
                     if (after_success_url) navigate(after_success_url);
+                    if (step_back) navigate(-1);
                 } 
             } catch (error) {
                 setGlobalError(check_error(error));

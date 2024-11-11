@@ -3,6 +3,7 @@ import { CometEntity } from "@core/reducers/slices/comets/state";
 import ApiService from "@core/utils/api";
 import { useEffect, useState } from "react";
 import { GiAsteroid } from "react-icons/gi";
+import DeleteCometButton from "./deleteButton";
 
 interface UserBlockI {
     comet: CometEntity;
@@ -12,22 +13,23 @@ const UserBlock: React.FC<UserBlockI> = ({ comet }) => {
     const [pfp, setPfp] = useState<string | null>(null);
 
     const swipeTo = () => {
-        const element = document.body.getElementsByClassName('scroll-snaper')[0];
+        const element =
+            document.body.getElementsByClassName("scroll-snaper")[0];
         if (element) {
             element.scrollIntoView({
                 behavior: "smooth",
-                block: "center"
+                block: "center",
             });
         }
     };
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('swipe')) {
+        if (urlParams.has("swipe")) {
             swipeTo();
         }
-    }, []); 
-    
+    }, []);
+
     useEffect(() => {
         if (comet.additionals.pfp) {
             (async () => {
@@ -76,6 +78,11 @@ const UserBlock: React.FC<UserBlockI> = ({ comet }) => {
                         <GiAsteroid size={32} />
                     </div>
                 </Tooltip>
+                <DeleteCometButton
+                    author_id={comet.user}
+                    comet_id={parseInt(comet.id as string, 10)}
+                    planet_id={comet.planet}
+                />
             </div>
             <hr className="border-neutral-600 mt-3" />
         </div>

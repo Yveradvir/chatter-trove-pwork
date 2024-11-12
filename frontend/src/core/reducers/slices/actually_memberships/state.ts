@@ -36,6 +36,6 @@ export const actuallyMembershipsInitialState: ActuallyMembershipsState = actuall
         for_what: "username",
         username: "",
         isActive: null,
-        ordering: "-created_at"
+        ordering: "-user_role"
     } as ActuallyMembershipsFilterInterface
 });

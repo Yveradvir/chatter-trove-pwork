@@ -19,7 +19,7 @@ const ActuallyMembershipsField = () => {
     useEffect(() => {
         const planetIdNumber = parseInt(planet_id as string, 10);
         if (!isNaN(planetIdNumber)) {
-            dispatch(actuallyMembershipsActions.change_beReady({ new: true, planet: planetIdNumber })); // Обновляем статус готовности
+            dispatch(actuallyMembershipsActions.change_beReady({ new: true, planet: planetIdNumber })); 
         }
     }, [planet_id, dispatch]);
     
@@ -31,7 +31,7 @@ const ActuallyMembershipsField = () => {
                     for_what: "username",
                     filter: "",
                     username: "",
-                    ordering: "-created_at",
+                    ordering: "-user_role",
                     isActive: null,
                     planet: planet_id ? Number.parseInt(planet_id) : 0,
                 } as ActuallyMembershipsFilterInterface
@@ -149,24 +149,6 @@ const ActuallyMembershipsField = () => {
                             states={[
                                 {
                                     tooltip: {
-                                        content: "Newest",
-                                        placement: "top",
-                                        children: <></>,
-                                    },
-                                    content: <FiArrowDown />,
-                                    field_value: "-created_at",
-                                },
-                                {
-                                    tooltip: {
-                                        content: "Oldest",
-                                        placement: "top",
-                                        children: <></>,
-                                    },
-                                    content: <FiArrowUp />,
-                                    field_value: "created_at",
-                                },
-                                {
-                                    tooltip: {
                                         content: "More role-prestige",
                                         placement: "top",
                                         children: <></>,
@@ -182,6 +164,24 @@ const ActuallyMembershipsField = () => {
                                     },
                                     content: <FiArrowUp />,
                                     field_value: "user_role",
+                                },
+                                {
+                                    tooltip: {
+                                        content: "Newest",
+                                        placement: "top",
+                                        children: <></>,
+                                    },
+                                    content: <FiArrowDown />,
+                                    field_value: "-created_at",
+                                },
+                                {
+                                    tooltip: {
+                                        content: "Oldest",
+                                        placement: "top",
+                                        children: <></>,
+                                    },
+                                    content: <FiArrowUp />,
+                                    field_value: "created_at",
                                 },
                             ]}
                         />

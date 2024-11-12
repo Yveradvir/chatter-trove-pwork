@@ -1,5 +1,7 @@
 import Tooltip from "@core/components/tooltip";
 import { ActuallyMembershipsEntity } from "@core/reducers/slices/actually_memberships/state";
+import { CgCrown } from "react-icons/cg";
+import { FaCrown, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 interface MembershipCardProps {
@@ -7,6 +9,24 @@ interface MembershipCardProps {
 }
 
 const MembershipCard: React.FC<MembershipCardProps> = ({ membership }) => {
+    const roles: { [key: number]: JSX.Element } = {
+        0: (
+            <Tooltip placement="top" content="User">
+                <FaUser size={16}/>
+            </Tooltip>
+        ),
+        1: (
+            <Tooltip placement="top" content="Admin">
+                <CgCrown size={16}/>
+            </Tooltip>
+        ),
+        2: (
+            <Tooltip placement="top" content="Owner">
+                <FaCrown size={16}/>
+            </Tooltip>
+        ),
+    };
+
     return (
         <div className="border border-neutral-800 p-4 rounded-md shadow-md hover:shadow-lg transition-shadow">
             <h1 className="flex items-center">
@@ -18,6 +38,10 @@ const MembershipCard: React.FC<MembershipCardProps> = ({ membership }) => {
                         #{membership.additionals.user.nickname}
                     </span>
                 </Link>
+
+                <div>
+                    {roles[membership.user_role as keyof typeof roles]}
+                </div>
 
                 {membership.additionals.user.is_online ? (
                     <Tooltip content="Online" placement="top">

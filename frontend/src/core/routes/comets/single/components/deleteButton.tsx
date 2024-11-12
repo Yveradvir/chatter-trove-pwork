@@ -31,9 +31,12 @@ const DeleteCometButton: React.FC<DeleteCometButtonProps> = ({
     ).find((entity) => entity.planet === planet_id);
     
     const deleteComet = async (data?: { password?: string }) => {
-        store.dispatch(cometsActions.removeOne(comet_id));
-        const response = await ApiService.delete(`/comets/${comet_id}/`, { data });
-        return response.status === 204;
+        const res = (await ApiService.delete(`/comets/${comet_id}/`, { data })).status === 204;
+        
+        if (res)
+            store.dispatch(cometsActions.removeOne(comet_id));
+        
+        return res;
     };
 
     const onClick = async () => {

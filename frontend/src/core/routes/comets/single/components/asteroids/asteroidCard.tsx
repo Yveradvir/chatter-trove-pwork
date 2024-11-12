@@ -3,6 +3,7 @@ import { AsteroidEntity } from "@core/reducers/slices/asteroids/state";
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import DeleteAsteroidButton from "./deleteAsteroidButton";
 
 interface AsteroidCardProps {
     asteroid: AsteroidEntity;
@@ -43,6 +44,13 @@ const AsteroidCard: React.FC<AsteroidCardProps> = ({
                     <ChatBubbleLeftIcon className="h-5 w-5 mr-1" />
                     <span className="text-sm">Reply</span>
                 </button>
+                <div>
+                    <DeleteAsteroidButton 
+                        asteroid_id={asteroid.id as number}
+                        author_id={asteroid.user}
+                        planet_id={asteroid.additionals.planet}
+                    />
+                </div>
             </div>
         </div>
     );

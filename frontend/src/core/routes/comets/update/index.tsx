@@ -1,10 +1,10 @@
 import Layout from "@core/components/layout";
 import IsAuthenticated from "@core/decorators/isAuthenticated";
-import { useAppSelector } from "@core/reducers";
+import { useAppDispatch, useAppSelector } from "@core/reducers";
 import { ProfileEntity } from "@core/reducers/slices/profile/state";
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
-import { CometValues, createCometSchema } from "./vd";
+import { CometUpdateValues, updateCometSchema } from "./vd";
 import {
     Field,
     Label,
@@ -15,14 +15,25 @@ import {
 } from "@headlessui/react";
 import clsx from "clsx";
 import SpinnerButton from "@core/components/spinnerButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { check_error } from "@core/utils/check_fn";
-import onSubmit from "./fn";
+import { loadComet, onSubmit } from "./fn";
 import InPlanet from "@core/decorators/inPlanet";
+import { CometEntity } from "@core/reducers/slices/comets/state";
+import { errorActions } from "@core/reducers/slices/error";
+import { ApiError } from "@core/utils/const";
+import { Rejector } from "@core/utils/rejector";
 
-const NewCometPage = () => {
+const UpdateCometPage = () => {
     const navigate = useNavigate();
-    const { planet_id } = useParams<{ planet_id: string }>();
+    const dispatch = useAppDispatch();
+    const { planet_id, comet_id } = useParams<{
+        planet_id: string;
+        comet_id: string;
+    }>();
+    const cometId = parseInt(comet_id!, 10);
+
+    const [comet, setComet] = useState<CometEntity | null>(null);
     const [globalError, setGlobalError] = useState("");
     const user = useAppSelector(
         (state) => state.profile.entity
@@ -31,11 +42,10 @@ const NewCometPage = () => {
     const formik = useFormik({
         initialValues: {
             title: "",
-            user: user ? user.id : 0,
-            planet: planet_id ? Number.parseInt(planet_id) : 0,
-            description: ""
-        } as CometValues,
-        validationSchema: createCometSchema,
+            description: "",
+            comet: cometId,
+        } as CometUpdateValues,
+        validationSchema: updateCometSchema,
         onSubmit: async (values, actions) => {
             try {
                 const comet_id = await onSubmit(values, actions);
@@ -45,6 +55,44 @@ const NewCometPage = () => {
             }
         },
     });
+
+    useEffect(() => {
+        try {
+            (async () => {
+                const comet = await loadComet(cometId);
+                setComet(comet);
+            })();
+        } catch (error) {
+            dispatch(
+                errorActions.setError({
+                    error: Rejector.standartAxiosReject(error),
+                })
+            );
+        }
+
+        if (comet) {
+            
+            if (comet.user !== user.id) {
+                dispatch(
+                    errorActions.setError({
+                        error: {
+                            detail: "You're not an author",
+                            status_code: 403,
+                        } as ApiError,
+                        to: `/planets/${planet_id}/comets/${comet_id}`,
+                    })
+                );
+            } else {
+                if (formik.values.title === "") {
+                    formik.setFieldValue("title", comet.title);
+                }
+    
+                if (formik.values.description === "") {
+                    formik.setFieldValue("description", comet.description);
+                }
+            }
+        }
+    }, [comet, cometId, comet_id, dispatch, planet_id, user.id, formik]);
 
     return (
         <>
@@ -145,7 +193,7 @@ const NewCometPage = () => {
                                     </div>
 
                                     <SpinnerButton
-                                        text="Create Comet"
+                                        text="Update Comet"
                                         isValid={formik.isValid}
                                         isSubmitting={formik.isSubmitting}
                                     />
@@ -164,4 +212,4 @@ const NewCometPage = () => {
     );
 };
 
-export default NewCometPage;
+export default UpdateCometPage;

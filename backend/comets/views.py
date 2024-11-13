@@ -61,7 +61,7 @@ class OptionsCometView(generics.RetrieveAPIView):
             if not planetmembership or isntu or planetmembership.user_role not in [1, 2]:
                 raise APIException(detail="You do not have permission for deleting it. You're not author of comet or not admin/owner of the planet", code=403)
         elif request.method == "PATCH":
-            if not planetmembership or isntu:
+            if isntu:
                 raise APIException(detail="You do not have permission for changing it. You're not author of comet", code=403)
                 
     def get_object(self):

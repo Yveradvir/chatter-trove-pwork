@@ -4,6 +4,7 @@ import ApiService from "@core/utils/api";
 import { useEffect, useState } from "react";
 import { GiAsteroid } from "react-icons/gi";
 import DeleteCometButton from "./deleteButton";
+import UpdateCometButton from "./updateButton";
 
 interface UserBlockI {
     comet: CometEntity;
@@ -79,6 +80,11 @@ const UserBlock: React.FC<UserBlockI> = ({ comet }) => {
                     </div>
                 </Tooltip>
                 <DeleteCometButton
+                    author_id={comet.user}
+                    comet_id={parseInt(comet.id as string, 10)}
+                    planet_id={comet.planet}
+                />
+                <UpdateCometButton
                     author_id={comet.user}
                     comet_id={parseInt(comet.id as string, 10)}
                     planet_id={comet.planet}

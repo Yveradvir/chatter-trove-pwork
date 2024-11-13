@@ -53,6 +53,10 @@ const DeleteCometButton: React.FC<DeleteCometButtonProps> = ({
         return res;
     };
 
+    if (!receivedPlanetMembership) {
+        return null
+    }
+
     if (user?.id === author_id || [1, 2].includes(receivedPlanetMembership!.user_role)) {
         return (
             <>

@@ -80,6 +80,10 @@ class OptionsPlanetView(generics.RetrieveAPIView):
         self.check_object_permissions(request, planet)
 
         serializer = self.get_serializer(planet, data=request.data, partial=True)
+        pm = PlanetMembership.objects.filter(planet=planet, user=request.user).first()
+
+        if pm.user_role != 2:
+            raise PermissionDenied("You're not an admin")
 
         if serializer.is_valid():
             serializer.save()

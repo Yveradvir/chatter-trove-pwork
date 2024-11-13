@@ -7,12 +7,14 @@ import { errorActions } from "@core/reducers/slices/error";
 import { planetMembershipsActions } from "@core/reducers/slices/planet_memberships";
 import ApiService from "@core/utils/api";
 import { ApiError } from "@core/utils/const";
+import { PencilIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { MdGroups } from "react-icons/md";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const PlanetSettingPage = () => {
     const [isDeleteCometModalOpen, setIsDeleteCometModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     const dispatch = useAppDispatch();
     const { planet_id } = useParams<{ planet_id: string }>();
@@ -113,6 +115,19 @@ const PlanetSettingPage = () => {
                                     <MdGroups size={32} />
                                     <span className="mt-2 text-base">
                                         Delete Planet
+                                    </span>
+                                </span>
+                            </button>
+                            <button
+                                className="w-full max-w-lg px-10 py-3 font-semibold text-cyan-200 bg-gradient-to-r from-cyan-600 to-cyan-800 rounded-lg shadow-lg hover:from-cyan-700 hover:to-cyan-900 focus:outline-none focus:ring-4 focus:ring-gray-400 transition-all transform hover:scale-105"
+                                onClick={() => {
+                                    navigate(`/planets/${planet_id}/update`)
+                                }}
+                            >
+                                <span className="flex flex-col items-center">
+                                    <PencilIcon size={32} />
+                                    <span className="mt-2 text-base">
+                                        Update Planet
                                     </span>
                                 </span>
                             </button>

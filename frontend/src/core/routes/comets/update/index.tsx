@@ -111,7 +111,7 @@ const UpdateCometPage = () => {
                             <div className="p-6">
                                 <div className="text-center">
                                     <h1 className="text-3xl font-extrabold text-neutral-50">
-                                        Create New Comet
+                                        Update the Comet
                                     </h1>
                                 </div>
                                 <form

@@ -18,7 +18,14 @@ export const errorSlice = createSlice({
     reducers: {
         reset: () => initialState,
         setError: (state, action) => {
-            state.error = action.payload.error
+            if (action.payload.status_code && action.payload.detail) {
+                state.error = {
+                    status_code: action.payload.status_code,
+                    detail: action.payload.detail
+                } as ApiError
+            } else {
+                state.error = action.payload.error
+            }
             state.show = true
         }
 

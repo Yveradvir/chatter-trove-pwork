@@ -30,7 +30,9 @@ const DeleteAsteroidButton: React.FC<DeleteAsteroidButtonProps> = ({
         const res = (await ApiService.delete(`/asteroids/${asteroid_id}/`)).status === 204;
         
         if (res)
-            store.dispatch(asteroidsActions.removeOne(asteroid_id));
+            store.dispatch(asteroidsActions.removeAll());
+            store.dispatch(asteroidsActions.change_beReady({new: false}));
+            store.dispatch(asteroidsActions.change_beReady({new: true}));
     
         return res;
     };
@@ -42,7 +44,6 @@ const DeleteAsteroidButton: React.FC<DeleteAsteroidButtonProps> = ({
                     open={isWarnModalOpen}
                     onClose={() => setIsWarnModalOpen(false)}
                     handler={deleteAsteroid}
-                    step_back={true}
                 />
                 <button
                     onClick={() => {setIsWarnModalOpen(true)}}

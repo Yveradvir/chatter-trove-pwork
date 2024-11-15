@@ -50,31 +50,23 @@ class AsteroidsListCreateView(generics.ListCreateAPIView):
                 raise ValidationError("Your reply asteroid must be on the same comet.")
         
         serializer.save(user=user, reply_at=reply_at)
+       
         
-
 class OptionsAsteroidView(generics.RetrieveAPIView):
-    """API view that provides GET, PATCH functionality for Asteroid records."""
+    """API view that provides GET, PATCH, DELETE functionality for Asteroid records."""
 
     queryset = Asteroid.objects.all()
     serializer_class = AsteroidSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def check_object_permissions(self, request, obj: Asteroid):
-        """
-        Ensure that the current user has the right to change or delete something.
-        
-        Args:
-            request - request from django.
-            obj - the django model object that will be checked with user.
-        """
         user = request.user
         planetmembership = PlanetMembership.objects.filter(user=user.id, planet=obj.comet.planet).first()
-        
-        if bool(obj.planet.password) and not planetmembership:
-            raise APIException(detail="You have to be a member of planet to see this asteroid")
+
+        if bool(obj.comet.planet.password) and not planetmembership:
+            raise APIException(detail="You have to be a member of the planet to see this asteroid")
 
     def get_object(self):
-        """Retrieve an Asteroid instance by its primary key (pk)."""
         pk = self.kwargs.get('pk')
         try:
             return Asteroid.objects.get(id=pk)
@@ -82,25 +74,29 @@ class OptionsAsteroidView(generics.RetrieveAPIView):
             raise NotFound(detail="Asteroid not found")
 
     def get(self, request, *args, **kwargs):
-        """Retrieve an Asteroid by ID. Available for everyone."""
-        comet = self.get_object()
-        serializer = self.get_serializer(comet)
+        asteroid = self.get_object()
+        serializer = self.get_serializer(asteroid)
         return Response(serializer.data)
-    
+
     def delete(self, request, *args, **kwargs):
         asteroid = self.get_object()
 
         try:
             membership = PlanetMembership.objects.get(planet=asteroid.comet.planet, user=request.user)
-            
             is_author = request.user == asteroid.user
             has_privileges = membership.user_role in [1, 2]
 
-            if is_author or has_privileges:
+            if not (is_author or has_privileges):
+                raise PermissionDenied("Insufficient permissions to delete this asteroid.")
+
+            def delete_replies(asteroid):
+                replies = asteroid.replies.all()
+                for reply in replies:
+                    delete_replies(reply)
                 asteroid.delete()
-                return Response(status=status.HTTP_204_NO_CONTENT)
-            
-            raise PermissionDenied("Insufficient permissions to delete this asteroid.")
-        
+
+            delete_replies(asteroid)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
         except PlanetMembership.DoesNotExist:
             raise PermissionDenied("No membership found for this planet.")

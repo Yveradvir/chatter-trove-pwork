@@ -17,6 +17,7 @@ import {
     actuallyMembershipsReducer,
 } from "./slices/actually_memberships";
 import { ASTEROIDS_FEATURE_KEY, asteroidsReducer } from "./slices/asteroids";
+import { USERS_FEATURE_KEY, usersReducer } from "./slices/users";
 
 export const store = configureStore({
     reducer: {
@@ -28,6 +29,7 @@ export const store = configureStore({
         [PLANETS_FEATURE_KEY]: planetsReducer,
         [ACTUALLY_MEMBERSHIPS_FEATURE_KEY]: actuallyMembershipsReducer,
         [ASTEROIDS_FEATURE_KEY]: asteroidsReducer,
+        [USERS_FEATURE_KEY]: usersReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
     devTools: import.meta.env.DEV,

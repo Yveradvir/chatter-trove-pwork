@@ -72,6 +72,12 @@ const ProfilePopover = () => {
                                                         "Create a new account if you're new here.",
                                                     to: "/auth/signup",
                                                 },
+                                                {
+                                                    title: "Search Profiles",
+                                                    description: 
+                                                        "Discover and explore various profiles.",
+                                                    to: "/search?find=users"
+                                                }
                                             ].map(
                                                 ({
                                                     title,

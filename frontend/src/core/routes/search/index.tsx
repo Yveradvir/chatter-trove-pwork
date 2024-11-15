@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import PlanetsSearchField from "./components/planets/field";
 import UsersSearchField from "./components/users/field";
 import PlanetsSearchScroller from "./components/planets/scroller";
+import UsersSearchScroller from "./components/users/scroller";
 
 const SearchPage = () => {
     const location = useLocation();
@@ -34,7 +35,12 @@ const SearchPage = () => {
                     <PlanetsSearchScroller/>
                 </>
             ),
-            users: <UsersSearchField />
+            users: (
+                <>
+                    <UsersSearchField />
+                    <UsersSearchScroller />
+                </>
+            )
         }[searchType!] : <></>
     };
 
